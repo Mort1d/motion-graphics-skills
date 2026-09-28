@@ -134,7 +134,8 @@ node <skill>/scripts/ref-sheet.mjs <files and links…> --out <brand>-video/refs
   moving: a fast ease-out, a slam, a whip landing) and how it **leaves** (an accelerating move, a blur ramp, a match
   cut) — no shot starts or ends on a still frame. Then the palette as roles with hexes (page, surface, ink, accent),
   the type (family, weights, sizes), the hard cuts on their exact beats, a banned list for this video (the
-  anti-generic list plus what the brand rules out), and the **sound brief** with its cue list.
+  anti-generic list — a scene counter and HUD always on it — plus what the brand rules out), and the **sound
+  brief** with its cue list.
 - A user who pastes a detailed direction of their own (shots, frames, colours, a banned list) gets it to the frame;
   the skill's defaults fill only what it leaves open.
 
@@ -255,6 +256,7 @@ The video is done when all of these hold:
   the end, and passes `audio-check` (≈ target LUFS, true peak ≤ -1 dBTP, `unique` under 0.75, no FAIL)
 - none of the anti-generic list (`references/story-and-motion.md` §9): no slideshow fades, no HUD overlays, no stock
   look, no generic music bed
+- no scene counter or chapter label anywhere ("01 / 06", "SCENE 03", progress dots): the video never numbers itself
 
 ## Rules that protect the client
 
@@ -291,6 +293,9 @@ The video is done when all of these hold:
 - **Saying you watched a reference you could not open.** ref-sheet fetches public X and Telegram posts; when it
   lists a link as NOT FETCHED (a private post, Instagram or TikTok without yt-dlp), say so and work from the user's
   description or files.
+- **A scene counter in the corner** ("01 / 06", "02 / 06"…) — the detail every model adds to look designed; the
+  people this skill was built for asked for it gone from every video. Numbers on screen are facts about the brand,
+  never the index of a scene. `main.js` names one in the capture log, and QA fails it.
 - **Brand colours and fonts guessed from memory.** A site's real hexes, its button colour and its typeface are one
   command away (`site-kit.mjs`); a video in the wrong green reads as someone else's brand.
 - **Killing browser processes by name** on a shared machine stops other people's work. The tools start and stop their

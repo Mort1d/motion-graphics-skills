@@ -64,6 +64,21 @@ function checkGlyphs() {
   }
 }
 
+// The video never numbers itself: a scene counter or a chapter label ("01 / 06", "SCENE 03", "step 1 of 4") reads as
+// a template. Found at the same moments, warned below and failed by tools/qa.mjs (it reads window.__lint).
+const COUNTER = /^(?:(?:scene|chapter|part|step|shot|ch\.?|сцена|глава|часть|шаг|кадр)\s*)?(\d{1,2})\s*(?:\/|\||⁄|∕|of|из|—|–)\s*(\d{1,2})$/iu;
+const LABEL = /^(?:scene|chapter|part|shot|сцена|глава|часть|кадр)\s*№?\s*\d{1,2}$/iu;
+window.__lint = [];
+function checkCounters(t) {
+  for (const e of stage.querySelectorAll('*')) {
+    const text = e.textContent.replace(/\s+/g, ' ').trim();
+    if (!text || text.length > 24) continue;
+    const m = COUNTER.exec(text);
+    const counter = (m && Number(m[1]) <= Number(m[2]) && Number(m[2]) <= 24) || LABEL.test(text);
+    if (counter && !window.__lint.some((l) => l.text === text)) window.__lint.push({ kind: 'counter', text, t: Math.round(t * 100) / 100 });
+  }
+}
+
 window.__samples = (t) => (WHIPS.some(([a, z]) => t >= a && t <= z) ? 16 : 8);
 
 window.__render = (t, f) => {
@@ -87,15 +102,17 @@ await Promise.all([...document.querySelectorAll('image')].map((im) => new Promis
   i.src = im.getAttribute('href');
 })));
 
-// the glyph check at the start, the middle and the end of every scene (frames are functions of t), then frame 0
+// the glyph and counter checks at the start, the middle and the end of every scene (frames are functions of t),
+// then back to frame 0
 const moments = new Set([0]);
 for (const [a, z] of Object.values(S ?? {})) for (const k of [0.15, 0.5, 0.85]) moments.add(a + (z - a) * k);
-for (const t of [...moments].sort((x, y) => x - y)) { nextFrame(); renderFn(t, Math.round(t * FPS)); checkGlyphs(); }
+for (const t of [...moments].sort((x, y) => x - y)) { nextFrame(); renderFn(t, Math.round(t * FPS)); checkGlyphs(); checkCounters(t); }
 for (const [family, chars] of glyphGaps) {
   const show = (c) => (/[\p{L}\p{N}\p{P}\p{S}]/u.test(c) ? `"${c}"` : `U+${c.codePointAt(0).toString(16).toUpperCase().padStart(4, '0')}`);
   const list = [...chars].slice(0, 12).map(show).join(' ') + (chars.size > 12 ? ' …' : '');
   console.warn(`[fonts] ${family} has no glyph for ${list} — another font draws it, or a box; use a font that has it, or another character`);
 }
+for (const l of window.__lint) console.warn(`[template] a scene counter "${l.text}" at ${l.t} s — the video never numbers its own scenes: remove it (story-and-motion.md §9)`);
 nextFrame();
 renderFn(0, 0);
 window.__ready = true;

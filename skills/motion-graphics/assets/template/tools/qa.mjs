@@ -141,6 +141,14 @@ const scenesDir = path.join(ROOT, 'js', 'scenes');
 const unused = fs.existsSync(scenesDir) ? fs.readdirSync(scenesDir).map((n) => path.join(scenesDir, n)).filter((f) => !used.has(f) && hasDemo(f)) : [];
 if (unused.length) add('INFO', 'template', `unused demo scenes: ${unused.map((f) => path.relative(ROOT, f)).join(', ')} — delete them`);
 
+// ---- the video never numbers itself: js/main.js lints the built scenes into window.__lint ------------------------------
+const lint = spawnSync(process.execPath, [path.join(HERE, 'capture.mjs'), 'eval', 'window.__lint || []', '--quiet'], { cwd: ROOT, encoding: 'utf8', timeout: 180000 });
+let found = null;
+try { found = JSON.parse((lint.stdout || '').slice((lint.stdout || '').indexOf('['))); } catch { found = null; }
+if (!Array.isArray(found)) add('INFO', 'counters', 'could not read the page lint (tools/capture.mjs eval) — look for a scene counter by eye');
+else if (found.length) add('FAIL', 'counters', `${found.map((l) => `"${l.text}" at ${l.t} s`).join(', ')} — a scene counter reads as a template: the video never numbers its own scenes`);
+else add('PASS', 'counters', 'no scene counter or chapter label on screen');
+
 // ---- is the soundtrack new? the demo score and the promos next to this project (tools/sound-print.mjs) -------------------
 if (a) {
   try {

@@ -60,7 +60,7 @@ references and `sound-print --suggest`.
 Palette as roles: page #FFF8EE, surface #F2E3CC, ink #2B1A10, accent #E4572E — the accent marks only the key word
 of each line. Type: the site's display face at 900 for statements (120–160 px), its text face at 500 for UI labels
 (≥ 28 px). Hard cuts on beats 4, 32 and 48; everything else is a match cut or a whip. Banned here: cross-fades, a logo
-on black first, stock bread photos, HUD corners, emoji, a kick on every beat. Sound brief — not `--suggest`'s first
+on black first, a scene counter, stock bread photos, HUD corners, emoji, a kick on every beat. Sound brief — not `--suggest`'s first
 card (lo-fi at 78 BPM), because the brief asked for energy and the references cut fast: UK garage 2-step, 132 BPM,
 D♭ major, shuffled hats, organ stabs, a subby kick; brand-world sounds — crust crackle, oven door, paper bag; −14 LUFS.
 
@@ -160,7 +160,8 @@ What trending motion reels (product launches, "made with code" reels) do — rec
   displacement filter on still layers.
 - **Grids**: 2×2 or 3×3 panels moving in sync, each a mini scene.
 - **Kinetic type**: one word per beat, huge, slamming, with shakes; decoding text; split-flap boards.
-- **Counters and maps**: odometers, rolling prices, routes drawing across a map with stops lighting up.
+- **Counters and maps**: odometers and rolling prices of real facts, routes drawing across a map with stops
+  lighting up — a number on screen is always a fact about the brand, never an index of the video.
 - **Photo walls**: real photos flying into a 3D wall (CSS perspective), cards fanning out.
 - **Particles**: sparks from a grinder, confetti, dust, light streaks — canvas, deterministic.
 - **Logo moments**: traced logo letters slam one by one, a cut sweeps through with sparks, headlights ignite,
@@ -174,7 +175,12 @@ These make a promo look cheap or AI-made — avoid unless the brand really calls
 - everything easing the same way, everything moving at once, linear motion;
 - stock-looking icons, emoji, rainbow gradients, neon on everything, lens-flare spam;
 - default system fonts, more than two typefaces, text under 26 px;
-- HUD overlays (timecodes, frame counters, corner brackets, "REC") — unless the brand's world is literally a HUD;
+- **a scene counter or chapter label** — "01 / 06", "02/06", "SCENE 03", "CH. 2", "step 1 of 4" in a corner, a row of
+  progress dots. Every model adds one to look "designed", and viewers read it as a template: it numbers the edit
+  instead of selling the brand. No exceptions — the video never numbers its own scenes. `main.js` warns about one in
+  the capture log and `qa.mjs` fails it;
+- HUD overlays (timecodes, frame counters, BPM readouts, corner brackets, "REC", coordinates) — unless the brand's
+  world is literally a HUD;
 - invented numbers, fake reviews, fake client logos;
 - a generic "corporate" music bed; the same track as the last video.
 

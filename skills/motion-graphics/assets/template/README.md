@@ -11,6 +11,14 @@ and every sound effect are synthesised in Node on the same timeline. Facts and t
 |---|---|---|---|
 | 0–… s | 1–2 | hook: … | … |
 
+## Direction
+
+- Palette (roles → hex):
+- Type (families, weights, sizes):
+- Hard cuts (beats):
+- Banned in this video: a scene counter or chapter label ("01 / 06"), HUD (timecodes, BPM, corner brackets),
+  cross-fades, a logo alone on black first, …
+
 ## Sound brief
 
 - Feel / genre:
