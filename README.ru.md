@@ -11,7 +11,7 @@
 [![npm dependencies](https://img.shields.io/badge/npm_dependencies-0-2EA043?style=flat-square)](#что-нужно)
 [![License: MIT](https://img.shields.io/badge/license-MIT-3B82F6?style=flat-square)](LICENSE)
 
-<img src="media/demo.gif" alt="Демо-ролик на 13 секунд, отрендеренный скиллом" width="760">
+<img src="media/demo.gif" alt="Демо-ролик на 13 секунд, отрендеренный скиллом" width="640">
 
 <sub>Демо из шаблона для выдуманного бренда, отрендерено инструментами скилла · <a href="media/demo.mp4">MP4 в полном качестве</a></sub>
 

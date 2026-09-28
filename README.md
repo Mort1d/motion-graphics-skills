@@ -11,7 +11,7 @@
 [![npm dependencies](https://img.shields.io/badge/npm_dependencies-0-2EA043?style=flat-square)](#requirements)
 [![License: MIT](https://img.shields.io/badge/license-MIT-3B82F6?style=flat-square)](LICENSE)
 
-<img src="media/demo.gif" alt="A 13-second demo reel rendered by the skill" width="760">
+<img src="media/demo.gif" alt="A 13-second demo reel rendered by the skill" width="640">
 
 <sub>The template's demo for a fictional brand, rendered by the skill's own tools · <a href="media/demo.mp4">full-quality MP4</a></sub>
 
