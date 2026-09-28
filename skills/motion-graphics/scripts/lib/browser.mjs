@@ -34,7 +34,8 @@ export function findBrowser() {
  * Starts the browser. Resolves to { exe, send(method, params, opts), open(onEvent), close(), kill() }.
  * `profileDir` (default: the system temp folder) holds the throwaway profile.
  */
-export async function launch({ width = 1440, height = 900, profileDir = os.tmpdir() } = {}) {
+// profiles live in a folder of their own, so the clean-up below can never touch another program's temp files
+export async function launch({ width = 1440, height = 900, profileDir = path.join(os.tmpdir(), 'motion-graphics-browser') } = {}) {
   const exe = findBrowser();
   if (!exe) throw new Error('No Chromium-based browser found. Install Chrome, Edge or Chromium, or set CHROME_PATH=<path to the executable>.');
   fs.mkdirSync(profileDir, { recursive: true });

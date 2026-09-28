@@ -20,7 +20,7 @@ export const COPY = {
     cta: 'Your brand, in motion',
     contacts: [
       { icon: 'link', text: 'nova.example' },
-      { icon: 'send', text: '@nova' },
+      { icon: 'send', text: '@nova_example' },
       { icon: 'phone', text: '+1 (555) 010-0199' },
     ],
   },
@@ -37,7 +37,7 @@ export const COPY = {
     cta: 'Ваш бренд в движении',
     contacts: [
       { icon: 'link', text: 'nova.example' },
-      { icon: 'send', text: '@nova' },
+      { icon: 'send', text: '@nova_example' },
       { icon: 'phone', text: '+1 (555) 010-0199' },
     ],
   },

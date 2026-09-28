@@ -493,7 +493,10 @@ try {
   await page.send('Network.enable');
   mainFrame = (await page.send('Page.getFrameTree')).frameTree.frame.id;
   await b.send('Browser.setDownloadBehavior', { behavior: 'deny' }).catch((e) => kit.notes.push(`downloads could not be blocked: ${e.message}`));
-  await page.send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'reduce' }] });
+  // the light scheme, whatever the machine's own theme: a site that follows the viewer's theme gives everyone the same
+  // kit (its dark scheme, if any, is probed below)
+  const media = (scheme) => page.send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'reduce' }, { name: 'prefers-color-scheme', value: scheme }] });
+  await media('light');
   await page.send('Emulation.setFocusEmulationEnabled', { enabled: true });
 
   // desktop
@@ -512,6 +515,20 @@ try {
   const unrolled = await inPage(unroll).catch(() => 0);
   if (unrolled) { kit.notes.push(`The page scrolls inside a container; it was unrolled (${unrolled} px) for the full-page and section shots.`); await settle(4000); }
   home = await inPage(pageFacts);
+  // does the site have a dark scheme too? the same page with the viewer's theme set to dark
+  if (!TG) {
+    await step('dark scheme probe', async () => {
+      await media('dark');
+      await settle(2500);
+      const dark = await inPage(pageFacts);
+      await media('light');
+      await settle(2500);
+      if (dark.pageBackground !== home.pageBackground) {
+        home.darkScheme = { pageBackground: dark.pageBackground, text: dark.colours.text.slice(0, 3), ctas: dark.ctas.slice(0, 3) };
+        kit.notes.push(`The site follows the viewer's theme: light page ${home.pageBackground} (this kit), dark page ${dark.pageBackground}. Pick the one the brand's own materials use (logo, socials, app).`);
+      }
+    });
+  }
   if (TG) {
     kit.notes.unshift(`This is Telegram's public page for ${home.meta.ogTitle || START}: only the avatar (logo/og.*) and the description are the brand's. The page's logo, colours and fonts are Telegram's — never use them as the brand's.`);
     Object.assign(home, { logos: [], icons: [], sections: [], ctas: [], images: [], nav: [] });
@@ -613,6 +630,7 @@ const freeName = (f) => { // two icons of one kind never overwrite each other
   return out;
 };
 async function fetchTo(u, file, maxMb = 25) {
+  if (/^data:[^,]*,$/.test(String(u))) return null; // an empty data: URL (a site with no favicon writes href="data:,")
   const tmp = `${file}.download`;
   try {
     await download(u, tmp, { maxMb, referer: home.url, allowPrivate: ALLOW_PRIVATE, idleMs: 30000 });
@@ -837,6 +855,12 @@ home.colours.links.slice(0, 2).forEach((c) => p(`| links | ${c.hex} | ${Math.rou
 home.colours.gradients.slice(0, 4).forEach((c) => p(`| gradient stop | ${c.hex} | ${Math.round(c.share * 100)} % of gradient area |`));
 home.colours.vars.slice(0, 16).forEach((v) => p(`| token ${v.name} | ${v.hex} | ${v.scope} |`));
 if (home.meta.themeColor) p(`| theme-color | ${one(home.meta.themeColor, 30)} | <meta name="theme-color"> |`);
+if (home.darkScheme) {
+  p(`| dark scheme: page | ${home.darkScheme.pageBackground} | the site with the viewer's theme set to dark |`);
+  if (home.darkScheme.text[0]) p(`| dark scheme: text | ${home.darkScheme.text[0].hex} | the most used text colour there |`);
+  const b0 = home.darkScheme.ctas.find((c) => c.bg);
+  if (b0) p(`| dark scheme: button | ${b0.bg} | «${one(b0.text, 40).replace(/\|/g, '/')}» |`);
+}
 }
 if (pagePalette) { p(); p('Pixels of the whole page (palette.mjs, photos included):'); p('```'); p(pagePalette); p('```'); }
 if (logoPalette) { p(TG ? 'Pixels of the avatar:' : 'Pixels of the logo screenshot:'); p('```'); p(logoPalette); p('```'); }
