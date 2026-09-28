@@ -60,9 +60,11 @@ references and `sound-print --suggest`.
 Palette as roles: page #FFF8EE, surface #F2E3CC, ink #2B1A10, accent #E4572E — the accent marks only the key word
 of each line. Type: the site's display face at 900 for statements (120–160 px), its text face at 500 for UI labels
 (≥ 28 px). Hard cuts on beats 4, 32 and 48; everything else is a match cut or a whip. Banned here: cross-fades, a logo
-on black first, a scene counter, stock bread photos, HUD corners, emoji, a kick on every beat. Sound brief — not `--suggest`'s first
-card (lo-fi at 78 BPM), because the brief asked for energy and the references cut fast: UK garage 2-step, 132 BPM,
-D♭ major, shuffled hats, organ stabs, a subby kick; brand-world sounds — crust crackle, oven door, paper bag; −14 LUFS.
+on black first, a scene counter, stock bread photos, HUD corners, emoji, a kick on every beat. Energy: the brief asked
+for energy, so `ENERGY = { hook: 'mid', reveal: 'high', app: 'high', proof: 'high', lockup: 'high' }` — the groove is
+under the words from bar 1. Sound brief (`--suggest … --energy high` offered rock-ish first; the references' shuffle
+decided): UK garage 2-step, 132 BPM, D♭ major, shuffled hats, organ stabs, a subby kick; brand-world sounds — crust
+crackle, oven door, paper bag; −14 LUFS.
 
 **The pace in numbers.** The motion references this skill was measured on move in 75–90 % of their frames, land 55–80
 visual hits a minute, and put most of them on the beat (or at one constant offset — cuts a frame or two early on

@@ -29,7 +29,8 @@ Give your agent a link to a site, a few reference posts from X or Telegram, or j
 - **Renders real motion graphics** — HTML scenes captured frame by frame in headless Chrome, with sub-frame motion
   blur.
 - **Composes an original score** — a built-in synth with 80 voices and 22 genre cards, sound design on every cut,
-  and a fingerprint check so no two videos sound alike.
+  energy that follows your words and the topic (dynamic from the first bars when you ask for it, calm when you ask
+  for that), and a fingerprint check so no two videos sound alike.
 - **Checks everything** — loudness and true peak of every file, fps, gaps between scenes, missing glyphs, leftover
   template code.
 

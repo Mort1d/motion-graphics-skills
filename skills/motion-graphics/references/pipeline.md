@@ -17,7 +17,7 @@
 
 ```
 index.html, css/fonts.css, css/style.css    the page (brand tokens in style.css)
-js/timeline.mjs    W, H, FPS, BPM, b(), DURATION, S (scene windows), CUE, WHIPS, COVERS — shared with the score
+js/timeline.mjs    W, H, FPS, BPM, b(), DURATION, S (scene windows), ENERGY (per scene), CUE, WHIPS, COVERS — shared with the score
 js/copy.mjs        every word and contact, per language — shared with the score
 js/engine.js, js/kit.js, js/main.js, js/reel.js, js/i18n.js
 js/scenes/*.js     one file per scene: build(ctx) → (t) => void; SCENES in reel.js lists them in order

@@ -37,6 +37,8 @@ Write this into the project README before touching `audio/score.mjs`. It forces 
 Sound brief
 - Feel / genre:   <genre> — because <brand personality, audience, pace of the edit>
 - Tempo & key:    <BPM> (one bar = 240 / BPM s), <root> <mode> — chosen, not A minor by habit
+- Energy:         <low | mid | high per scene = ENERGY in js/timeline.mjs> — from <the person's words | the references'
+                  music arc | the topic>
 - Groove:         <family: four on the floor | backbeat | half-time | broken | no kick> — why this one;
                   kick <16 steps>, snare/clap <16 steps>, hats <16 steps>, straight or swung
 - Kit:            kick <type, tune Hz, decay>, snare <type, tone, bright>, hats <metal, tone>, drums bus <colour>
@@ -45,7 +47,7 @@ Sound brief
 - Harmony:        <progression> — <mood it gives>
 - Hook:           <voice>, motif <notes, rhythm> — where it plays (always on the logo)
 - Brand world:    <2–4 sounds from the product's world> — where each lands
-- Energy map:     <scene → intro / build / drop / break / outro, what enters and leaves>
+- Energy map:     <scene → intro / build / drop / break / outro at its ENERGY, what enters and leaves>
 - Transitions:    <risers, holes, tape stops, reverse cymbals — at which cues>
 - Mix:            <LUFS target>, reverb <room|hall|plate|huge|dark>, what ducks under what
 - Not like the last one because: <genre / tempo / key / kit / lead that differ>
@@ -70,16 +72,24 @@ and a kit character for each. It is a start, not a verdict: the user's words, th
 |---|---|---|---|
 | Four on the floor | a kick — or a bass note — on every beat (the fingerprint hears kick and bass together, as a listener does) | house 3, deep house 4, nu-disco 5, afro house 9, corporate 4/4 14 | club, drive — and what almost every generated promo already is |
 | Backbeat | kick on 1 and 3 with pickups, snare on 2 and 4 | funk / boogie 5, lo-fi 8, kids pop 15, rock-ish 18, synthwave 7 | human, groovy, warm |
-| Half-time | kick on 1, snare on 3, fast hats over a slow body | trap 2, future bass 6, phonk 1, hyperpop 22, cinematic 13 | big, modern, heavy |
+| Half-time | kick on 1, snare on 3, fast hats over a slow body | trap 2, future bass 6, phonk 1, hyperpop 22, cinematic 13 | big, modern, heavy — and it feels like half its BPM (141 → ~70) |
 | Broken | syncopated kicks off the grid | breakbeat 19, UK garage 12, drum & bass 11, jersey club 20, baile funk 21 | fast, nervous, street, young |
 | No kick | ticks, plucks, a heartbeat, swells | luxury ambient 17, cinematic pulse 13, minimal pulse 14 without its kick | calm, premium, precise |
 
 **Four on the floor is the trap.** Asked for "dynamic, more energy" — and shown a showreel at 128 BPM — every model
 reaches for it: house at 128, or its neighbours nu-disco at 116 and corporate 4/4 at 110, for a coffee shop, a
 school and a garage alike. That is how one person's promos ended up "about the same everywhere", and in this skill's
-own test runs "not house at 128" alone only moved the videos to nu-disco at 116. Energy is not a genre: take four on
-the floor only for a brand that lives in clubs or when the user asks for it — everything else starts in another row.
-A reference sets the energy and the pace of the cuts, never the genre or the tempo of your score.
+own test runs "not house at 128" alone only moved the videos to nu-disco at 116. Energy is a level, not a genre:
+"dynamic" decides how early and how constantly the groove drives (`ENERGY` high from the first bars), while the brand
+still picks the genre — four on the floor stays for a brand that lives in clubs or when the user asks for it. A
+reference sets the energy and the pace of the cuts, never the genre or the tempo of your score.
+
+**Energy comes from the person.** Their words decide it, in any language: dynamic / drive / hype / hard / rock-n-roll /
+«динамично», «драйв», «мощно», «побольше динамики» → high from the first bars (a full-time groove, or a half-time one
+driven by busy hats and rolls); calm / soft / premium / cozy / «спокойно», «нежно», «премиально», «уютно» → low–mid (no
+kick or a gentle groove, space, long tails); "quiet, then a blast" → low → high where they said. Without such words the
+references' music arc decides (`ref-sheet` prints "music by second"), then the topic (`sound-print --suggest` without
+`--energy` uses the row's own). Write the choice down as `ENERGY` before composing.
 
 Then the genre from the brand — the first options of each row are outside four on the floor:
 
@@ -134,21 +144,26 @@ so use their fifth (key of D → `hz('A1')` = 55 Hz). A tuned kick and bass soun
 
 ## 5. The energy map
 
-The track follows the story, scene by scene (bars = 240 / BPM seconds each; plan scenes in whole bars):
+The track follows the story, scene by scene (bars = 240 / BPM seconds each; plan scenes in whole bars), at the
+energy `ENERGY` gives each scene. The parts below are the contrast shape — a low or mid opening that builds to the
+drops. In a high plan the groove is in from bar 1–2 (a drumless hook of up to 2 bars at most), no scene is thinned
+below the full groove, and contrast comes from adding: a new layer, a fill, a filter opening, a second drop that
+adds what the first one didn't have.
 
 | Part | Where | What happens |
 |---|---|---|
-| Intro / hook | first 2–8 bars, the hook | no or filtered drums (`automate(bus, 'lp', …)` opening), hits on the words, a pad or a riff hinting the hook |
+| Intro / hook | first 2–8 bars (at most 2 in a high plan), the hook | no or filtered drums (`automate(bus, 'lp', …)` opening), hits on the words, a pad or a riff hinting the hook — in a high plan the beat is already under the words |
 | Build | into the first reveal | riser, snare/hat roll (`roll()`), filter opening, a reverse cymbal ending on the reveal |
 | Hole | ⅛–½ beat before the biggest hits | `gap()` — silence makes the next hit twice as big |
 | Drop 1 | the brand reveal / core promise | full groove, impact + crash, the bass enters |
-| Verse | information-dense scenes | thinner: fewer layers, lower hats, so text reads |
+| Verse | information-dense scenes | at a mid plan thinner: fewer layers, lower hats, so text reads; at a high plan the drums and bass stay — clear room by lowering pads and leads instead |
 | Break | before the payoff | pad + motif, no kick; a tape stop or stutter into it for a jolt |
 | Drop 2 | the payoff (proof, offer) | the fullest section — add a layer the first drop didn't have |
 | Outro | the lockup / CTA | the sonic logo, a last hit, then a tail ≥ 1.5 s (reverb, last chord); nothing new after it |
 
 Keep something changing every 2–4 bars (a layer in or out, a fill, a new bass rhythm, a filter move) — a one-bar
-loop repeated for 8 bars sounds like a template. Start the drums on the first reveal, not before.
+loop repeated for 8 bars sounds like a template. Start the drums where `ENERGY` says: on the first reveal in a
+contrast plan, within the first 2 bars in a high one.
 
 ## 6. The hook and the sonic logo
 
@@ -228,7 +243,8 @@ element, the quieter and shorter its sound.
 ## 11. Checking
 
 1. `node audio/score.mjs --report` — per-bus RMS for every scene window. In drops the drums bus is the loudest; music
-   sits 4–10 dB under; the intro is quieter than the drop (by 3+ LU in the master column).
+   sits 4–10 dB under; the levels follow `ENERGY` — a low scene sits 3+ LU under the drops, a high scene within about
+   2 LU of the loudest one (`audio-check` checks this against the plan and FAILs a high scene 2.5+ LU down).
 2. `node tools/audio-check.mjs` — must show no FAIL. Read the band balance: typical for bass-driven genres sub -8…-4,
    bass -7…-3, low-mid -16…-10, mid -20…-14, presence -26…-18, air -30…-18 dB; ambient and lo-fi sit lower in sub
    and air. It warns about mud, dullness, harshness, a flat energy arc, an abrupt ending.

@@ -20,6 +20,11 @@ export const S = {
   lockup: [b(15.8), DURATION],
 };
 
+/** How hard each scene hits, from the person's words, then the references, then the topic (SKILL.md step 3):
+ *  'low' no or filtered drums · 'mid' the groove with fewer layers · 'high' the full groove (drums and bass).
+ *  The score follows it; tools/audio-check.mjs and tools/qa.mjs check the mix against it. */
+export const ENERGY = { hook: 'low', proof: 'high', lockup: 'high' };
+
 /** Named moments shared by the picture and the score (seconds). */
 export const CUE = {
   line: b(0.25), // a light line draws across the black

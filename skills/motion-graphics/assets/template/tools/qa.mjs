@@ -8,6 +8,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { curveOf, perScene, planVerdict } from './energy.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..');
@@ -51,7 +52,7 @@ add('INFO', 'file', `${(probe.format.size / 1048576).toFixed(1)} MB, ${Math.roun
 
 // ---- one decoding pass: black, frozen, loudness, silence ------------------------------------------------------------
 const fc = [`[0:v]blackdetect=d=0.5:pix_th=0.08,freezedetect=n=-60dB:d=2[vo]`];
-if (a) fc.push(`[0:a]ebur128=peak=true:framelog=verbose,silencedetect=n=-50dB:d=1.5[ao]`);
+if (a) fc.push(`[0:a]ebur128=peak=true:framelog=info,silencedetect=n=-50dB:d=1.5[ao]`);
 const r = spawnSync('ffmpeg', ['-hide_banner', '-nostats', '-i', file, '-filter_complex', fc.join(';'), '-map', '[vo]', ...(a ? ['-map', '[ao]'] : []), '-f', 'null', '-'],
   { encoding: 'utf8', maxBuffer: 1 << 26 });
 const log = r.stderr || '';
@@ -77,6 +78,8 @@ if (a) {
     const [s, e] = [Number(m[1]), Number(m[2])];
     add(s > dur - 2 ? 'INFO' : 'WARN', 'silence', `${s.toFixed(2)}–${e.toFixed(2)} s below -50 dB`);
   }
+  // the energy plan of js/timeline.mjs, on the delivered sound (a cutdown has its own order of scenes: skipped)
+  if (!isCut && TL.S) for (const r of planVerdict(perScene(curveOf(log), TL.S), TL.ENERGY ?? null)) if (r.what === 'energy' || TL.ENERGY) add(r.level, r.what, r.detail);
 }
 
 // ---- dead frames: a few flat frames between scenes (a wipe ends, the next slam has not started) ----------------------------

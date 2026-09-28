@@ -11,6 +11,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { curveOf, perScene, planVerdict } from './energy.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..');
@@ -31,7 +32,7 @@ const db = (x) => (x > 0 ? 20 * Math.log10(x) : -Infinity);
 // ---- loudness: summary + the short-term curve (every 100 ms) ------------------------------------------------------------
 const lr = spawnSync('ffmpeg', ['-hide_banner', '-nostats', '-i', file, '-af', 'ebur128=peak=true:framelog=info', '-f', 'null', '-'], { encoding: 'utf8', maxBuffer: 1 << 27 });
 const llog = lr.stderr || '';
-const curve = [...llog.matchAll(/t:\s*([\d.]+)\s+TARGET:.*?M:\s*(-?[\d.]+|-inf)\s+S:\s*(-?[\d.]+|-inf)/g)].map((m) => ({ t: Number(m[1]), M: Number(m[2]), S: Number(m[3]) }));
+const curve = curveOf(llog);
 const sum = llog.slice(llog.lastIndexOf('Summary:'));
 const I = Number(sum.match(/I:\s+(-?[\d.]+) LUFS/)?.[1]);
 const LRA = Number(sum.match(/LRA:\s+([\d.]+) LU/)?.[1]);
@@ -109,19 +110,11 @@ add(Math.abs(dur - TL.DURATION) > 0.25 ? 'WARN' : 'PASS', 'length', `${dur.toFix
 
 // ---- energy per scene --------------------------------------------------------------------------------------------------------
 if (TL.S && curve.length) {
-  console.log('short-term loudness per scene (LUFS, 3 s window) — the arc of the story:');
-  const per = Object.entries(TL.S).map(([n, [a, z]]) => {
-    // -70 LUFS is BS.1770's absolute gate: below it is silence, or the 3 s window still filling at the start
-    const pts = curve.filter((p) => p.t > a + 0.3 && p.t <= z && Number.isFinite(p.S) && p.S > -70);
-    const max = pts.length ? Math.max(...pts.map((p) => p.S)) : -Infinity;
-    const mean = pts.length ? pts.reduce((s, p) => s + p.S, 0) / pts.length : -Infinity;
-    console.log(`  ${n.padEnd(12)} ${a.toFixed(2).padStart(6)}–${z.toFixed(2).padEnd(6)} max ${max.toFixed(1).padStart(6)}  mean ${mean.toFixed(1).padStart(6)}  ${bar(max + 14)}`);
-    return { max, mean };
-  }).filter((q) => Number.isFinite(q.max) && Number.isFinite(q.mean));
-  // a short promo puts a hit in nearly every scene, so the maxima stay close even with a real arc; the means show it
-  const spread = (k) => Math.max(...per.map((q) => q[k])) - Math.min(...per.map((q) => q[k]));
-  if (per.length >= 3 && spread('max') < 3 && spread('mean') < 3) add('WARN', 'dynamics', 'every scene is about as loud as the others — no build, no drop: thin the verses, open the drops');
-  else if (per.length >= 3) add('PASS', 'dynamics', `scene means span ${spread('mean').toFixed(1)} LU, maxima ${spread('max').toFixed(1)} LU`);
+  // against the energy plan of js/timeline.mjs (ENERGY), when there is one (tools/energy.mjs)
+  console.log(`short-term loudness per scene (LUFS, 3 s window) — the arc of the story${TL.ENERGY ? ', against the ENERGY plan' : ''}:`);
+  const per = perScene(curve, TL.S);
+  for (const q of per) console.log(`  ${q.name.padEnd(12)} ${q.a.toFixed(2).padStart(6)}–${q.z.toFixed(2).padEnd(6)} level ${q.p75.toFixed(1).padStart(6)}  max ${q.max.toFixed(1).padStart(6)}  ${(TL.ENERGY?.[q.name] || '').padEnd(4)}  ${bar(q.p75 + 14)}`);
+  for (const r of planVerdict(per, TL.ENERGY ?? null)) add(r.level, r.what, r.detail);
 }
 
 // ---- the picture ---------------------------------------------------------------------------------------------------------------

@@ -21,6 +21,7 @@ and every sound effect are synthesised in Node on the same timeline. Facts and t
 
 ## Sound brief
 
+- Energy (per scene = ENERGY, and where it comes from — the person's words, the references, the topic):
 - Feel / genre:
 - Tempo & key:
 - Groove:

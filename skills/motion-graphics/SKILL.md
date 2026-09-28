@@ -120,15 +120,28 @@ node <skill>/scripts/ref-sheet.mjs <files and links…> --out <brand>-video/refs
   hook → build → the payoff on the drop → an end card.
 - **The brand's visual DNA**: take a shape, an angle or an object from the logo and the product and make it the
   transition language; plan one signature moment the viewer remembers.
+- **Energy first — it is the person's, not the skill's.** Read how the video should feel from their words, in any
+  language: "dynamic", "drive", "hype", "rock-n-roll", «динамично», «побольше динамики», «мощно» → **high from the
+  first bars**; "calm", "soft", "premium", «спокойно», «нежно», «премиально» → **low–mid**; "slow start, then a
+  blast" → low → high, as asked. No words about it → the references' music arc (`ref-sheet` prints it) → else the
+  topic (cars, sport, nightlife drive; spa and luxury breathe). Write it per scene as `ENERGY` in `js/timeline.mjs`
+  (`'low'` no or filtered drums · `'mid'` the groove with fewer layers · `'high'` the full groove) and one line in the
+  README: "Energy: high from bar 2 — asked for «прям динамичную»". A hook without drums may take up to 2 bars (plan
+  it `'mid'`); after that, a "dynamic" video keeps every scene `'high'` and builds contrast by adding layers. The
+  check follows the plan, whatever its shape: a calm film is as right as a relentless one.
 - **Pick the groove family, genre and tempo with the sound** (`references/sound-design.md` §3): one bar = 240 / BPM
-  seconds; scenes are whole bars; every slam and reveal is a beat. "Dynamic" is not a genre: a kick on every beat
-  (house, nu-disco, corporate 4/4) is where every model lands — choose it only for a club-minded brand. Ask for a
-  start: `node <skill>/assets/template/tools/sound-print.mjs --suggest "<brand>" --world <cars | tech | apps | food |
-  beauty | kids | b2b | health | nightlife | regional> --in <the folder the project will live in>` lists the brand
-  row's genre cards with a tempo, a key and a kit character — rotated by the brand's name, so a hundred brands of one
-  kind do not all open with the same card, and moved away from the promos already in that folder (`--list <folder>`
-  shows what they sound like). Take the first unless the user's words, the references or the edit point elsewhere.
-  The world rows are a start, not a cage: a personal reel or a channel intro takes the row closest to its mood.
+  seconds; scenes are whole bars; every slam and reveal is a beat. Energy is a level, not a genre: the brand still
+  picks the genre, and a kick on every beat (house, nu-disco, corporate 4/4) — where every model lands when asked
+  for energy — stays for club-minded brands. Half-time feels like half its BPM (141 → ~70): for a high plan pick a
+  full-time groove, or drive a half-time one with busy hats and rolls. Ask for a start:
+  `node <skill>/assets/template/tools/sound-print.mjs --suggest "<brand>" --world <cars | tech | apps | food | beauty |
+  kids | b2b | health | nightlife | regional> --energy <low | mid | high> --in <the folder the project will live in>`
+  lists the row's genre cards for that energy with a tempo (and the felt tempo of half-time), a key and a kit
+  character — rotated by the brand's name, so a hundred brands of one kind do not all open with the same card, and
+  moved away from the videos already in that folder (`--list <folder>` shows what they sound like). Without
+  `--energy` the topic's own energy decides. Take the first unless the user's words, the references or the edit point
+  elsewhere. The world rows are a start, not a cage: a personal reel or a channel intro takes the row closest to its
+  mood.
 - Write the **direction** into the README before you build anything — a written creative direction is what separates
   a showreel from generic AI motion. Per shot: its window in beats, what is on screen, how it **enters** (already
   moving: a fast ease-out, a slam, a whip landing) and how it **leaves** (an accelerating move, a blur ramp, a match
@@ -197,11 +210,14 @@ design it from structure and check it with numbers and pictures:
 
 1. Finish the **sound brief** (`references/sound-design.md` §2): genre and why, tempo and key, drum kit, bass, harmony,
    the hook (a 2–4 note sonic logo on the logo reveal), 2–4 **brand-world sounds** (an engine, a coffee grinder, paper,
-   a till...), an energy map per scene, an SFX map per visible event, the loudness target. If the user described a
-   sound, translate it into these choices; if they gave a reference track, match its energy, never its melody.
+   a till...), the energy per scene (`ENERGY`, step 3), an SFX map per visible event, the loudness target. If the
+   user described a sound, translate it into these choices; if they gave a reference track, match its energy, never
+   its melody.
 2. Start from the genre card (`references/genre-cards.md`), write `audio/score.mjs` from scratch with the synth
    (`references/synth-api.md`): one `harmony()` table drives every part; drums from `steps()` grids; SFX placed from
-   the same `CUE`s and schedules as the picture; a `gap()` before the biggest hit; a tail after the last one.
+   the same `CUE`s and schedules as the picture; a `gap()` before the biggest hit; a tail after the last one. Build
+   each scene at its `ENERGY`: a `'high'` scene keeps drums and bass in, and a second drop adds a layer instead of
+   taking the first one's away.
 3. Render and check (seconds each, repeat until clean):
 
 ```bash
@@ -230,7 +246,8 @@ you can in stills first. On a shared machine lower `--jobs`.
 
 ### 8. Deliver and report
 
-Tell the user, briefly: what the video says (the story table), the sound concept (genre, tempo, key, hook, brand-world
+Tell the user, briefly: what the video says (the story table), how you read the energy they asked for (the
+`ENERGY` line), the sound concept (genre, tempo, key, hook, brand-world
 sounds), the files with sizes, the verification (duration, fps, LUFS, true peak, QA result), the assumptions you made,
 and how to change things (text and contacts in `js/copy.mjs`, timing in `js/timeline.mjs`, sound in
 `audio/score.mjs`). Offer another language (`?lang=xx`), a 9:16 version, or a 15-second cut (`tools/cutdown.mjs`).
@@ -252,6 +269,8 @@ The video is done when all of these hold:
   word-for-word translations (a coffee shop's «обжарка» is not «обжиг»)
 - the brand's colours and shapes carry the design; one accent colour marks the key word of each statement
 - the end card holds ≥ 2.5 s with the logo, the CTA and contacts large
+- the music's energy is the person's: `ENERGY` written from their words (then the references, then the topic), and
+  `audio-check` finds the mix on that plan — dynamic from the first bars when they asked for dynamic, calm when calm
 - the score has its own genre and hook, at least one brand-world sound, silence before the biggest hit, a tail at
   the end, and passes `audio-check` (≈ target LUFS, true peak ≤ -1 dBTP, `unique` under 0.75, no FAIL)
 - none of the anti-generic list (`references/story-and-motion.md` §9): no slideshow fades, no HUD overlays, no stock
@@ -278,8 +297,13 @@ The video is done when all of these hold:
   `hash(i, seed)`, `noise1` and `ease` from `js/engine.js` instead.
 - **The default sound: house at 120–128 with a kick on every beat, in A minor, with the kit's default voices.** Left
   alone, every model writes it for every brief; the author of the promos this skill grew from heard "about the same
-  sound everywhere", and it measured so (same groove, same voices). "Dynamic" does not mean house. The `unique` check
+  sound everywhere", and it measured so (same groove, same voices). "Dynamic" means the groove drives from the first
+  bars, not house. The `unique` check
   in `audio-check` and QA catches it; the fix is another genre card, groove and kit — not a new seed or new chords.
+- **A calm first half after "make it dynamic".** The contrast shape — a quiet intro, a thinner verse, the groove on
+  the reveal — is one plan among others, not the default: a release promo asked for «прям динамичную» got its full
+  groove at 20 s of 36, in half-time that felt like 70 BPM. The person's words set `ENERGY`, and `audio-check` holds
+  the mix to it.
 - **Sound effects at hand-typed seconds.** One timing edit later they miss their hits. Place every sound from the
   same `CUE`s and schedules the picture uses.
 - **Judging a fix by a full render.** A 30-second render takes 10–60 minutes; a still takes a second. Check with
@@ -325,7 +349,7 @@ Load a reference at the step that names it, not all of them upfront.
 | `node <skill>/scripts/palette.mjs <image> [--k 6]` | exact brand colours from a logo or a screenshot |
 | `node tools/capture.mjs sheet / still / eval / doctor` | previews without rendering |
 | `node audio/score.mjs [--report] [--lang xx]` | the score → `out/music.wav` |
-| `node <skill>/assets/template/tools/sound-print.mjs --suggest "<brand>" --world … --in <folder>` | a starting genre card, tempo, key and kit for this brand, away from earlier videos |
+| `node <skill>/assets/template/tools/sound-print.mjs --suggest "<brand>" --world … --energy … --in <folder>` | a starting genre card, tempo, key and kit for this brand and energy, away from earlier videos |
 | `node tools/audio-check.mjs [--zoom a-b] [--against …]` | check the score: numbers, a spectrogram, is it new |
 | `node tools/render.mjs [--draft] [--range a-b] [--query lang=xx] [--jobs n]` | render, encode, covers, QA |
 | `node tools/qa.mjs [file]`, `node tools/cutdown.mjs --ranges …` | delivery check, short cuts (QA'd too) |

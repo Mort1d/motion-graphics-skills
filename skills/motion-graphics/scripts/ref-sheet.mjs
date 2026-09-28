@@ -184,10 +184,25 @@ function tempo(f) {
 }
 
 function loud(f) {
-  const r = run('ffmpeg', ['-hide_banner', '-nostats', '-i', f, '-vn', '-af', 'ebur128=framelog=verbose', '-f', 'null', '-']);
+  const r = run('ffmpeg', ['-hide_banner', '-nostats', '-i', f, '-vn', '-af', 'ebur128=framelog=info', '-f', 'null', '-']);
   if (r.status !== 0) return null;
-  const s = (r.stderr || '').slice((r.stderr || '').lastIndexOf('Summary:'));
-  return { I: Number(s.match(/I:\s+(-?[\d.]+)/)?.[1]), LRA: Number(s.match(/LRA:\s+([\d.]+)/)?.[1]) };
+  const log = r.stderr || '';
+  const s = log.slice(log.lastIndexOf('Summary:'));
+  // the music's energy arc: the mean momentary loudness (400 ms windows, so the first seconds count too) of every
+  // second, 8 levels over the 12 LU under the clip's loudest second (a calm opening, where the drums come in, a drop) —
+  // the shape an ENERGY plan can follow
+  const sum = [];
+  const cnt = [];
+  for (const m of log.matchAll(/t:\s*([\d.]+)\s+TARGET:.*?M:\s*(-?[\d.]+|-inf)/g)) {
+    const sec = Math.floor(Number(m[1]));
+    const v = m[2] === '-inf' ? -70 : Math.max(-70, Number(m[2]));
+    sum[sec] = (sum[sec] ?? 0) + v;
+    cnt[sec] = (cnt[sec] ?? 0) + 1;
+  }
+  const per = Array.from(sum, (v, i) => (cnt[i] ? v / cnt[i] : -Infinity));
+  const top = Math.max(...per.filter(Number.isFinite));
+  const arc = Number.isFinite(top) ? Array.from(per, (v) => (Number.isFinite(v) && v > top - 12 ? '▁▂▃▄▅▆▇█'[Math.min(7, Math.floor(((v - (top - 12)) / 12) * 8))] : ' ')).join('') : '';
+  return { I: Number(s.match(/I:\s+(-?[\d.]+)/)?.[1]), LRA: Number(s.match(/LRA:\s+([\d.]+)/)?.[1]), arc };
 }
 
 // ---- motion: how much of the picture changes from frame to frame (gray, 160 px wide), and where change peaks ------------
@@ -257,6 +272,7 @@ function analyse(f) {
     console.log(head);
     if (tp) console.log(`  ${tempoText(tp)}`);
     console.log(lo && !silent ? `  loudness ${lo.I} LUFS, range ${lo.LRA} LU` : '  silent');
+    if (lo?.arc && !silent) console.log(`  music by second:  ${lo.arc}`);
     analysed++;
     return;
   }
@@ -312,6 +328,7 @@ function analyse(f) {
   if (mo) {
     console.log(`  motion: something moves in ${pct(mo.moving)} of frames; ${mo.hits.length} hits, ${mo.perMinute.toFixed(0)}/min${hitBeat ? `, ${pct(hitBeat.share)} of them on the beat (by chance ${pct(hitBeat.chance)})${offsetText(hitBeat)}` : ''}`);
     console.log(`  energy by second: ${mo.spark}`);
+    if (lo?.arc && !silent) console.log(`  music by second:  ${lo.arc}  (loudness; where the drums come in, the drops)`);
   }
   if (tp) console.log(`  ${tempoText(tp)}${cutBeat ? `; cuts on the beat ${pct(cutBeat.share)}, on the half-beat ${pct(cutHalf.share)}${offsetText(cutBeat)}` : ''}`);
   console.log(lo && !silent ? `  loudness ${lo.I} LUFS, range ${lo.LRA} LU` : '  no sound (or silent): no tempo');
