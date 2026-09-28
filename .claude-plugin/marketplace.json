@@ -1,0 +1,22 @@
+{
+  "name": "motion-graphics-skills",
+  "owner": {
+    "name": "Mort1d",
+    "url": "https://github.com/Mort1d"
+  },
+  "metadata": {
+    "description": "Showreel-grade motion graphics videos from code, each with an original score",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "motion-graphics",
+      "description": "Promos, launch videos, explainers, intros, logo stings and reels rendered from code in headless Chrome with real motion blur, plus an original score composed for each video on the same beat grid. Works from a link, screenshots or reference clips.",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/motion-graphics"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+ "skill_name": "motion-graphics",
+ "evals": [
+  {
+   "id": 1,
+   "name": "coffee-ru",
+   "prompt": "референсы: динамичный кинетический текст как в роликах Apple и Linear, стеклянные карточки, быстрые вайпы с моушн-блюром (файлов нет, опирайся на описание)\n\nСоздай динамическое видео с референсов и даже лучше до 1 минуты для кофейни «Зерно»\n\nmake a dynamic 15-second motion graphics video that shows what an incredible motion designer you are, like it's your showreel for a résumé. go all out.\n\nты можешь добавлять что считаешь нужным главное сделать супер круто\nвсю логику сам придумай полностью идеально\nсделай продающий ролик на сколько считаешь нужным секунд, побольше динамики\n\nО кофейне: Казань, ул. Примерная, 1. Своя обжарка каждое утро в 7:00. 14 сортов зерна — Эфиопия, Колумбия, Бразилия. Кофе с собой за 3 минуты. Завтраки до 12:00. Сайт zerno-kzn.example\nОсновное где продажи и взаимодействие это ТГ БОТ @zerno_example_bot — предзаказ, забираешь без очереди.",
+   "expected_output": "A 20–45 s 16:9 promo MP4 with an original score (not the demo), a sound brief that picks a genre fitting a warm coffee brand, coffee-world sounds (grinder, steam, cups), only the given facts on screen, the Telegram bot as the main CTA, QA passing.",
+   "files": [],
+   "assertions": [
+    "A final MP4 is delivered in outputs/",
+    "Aspect ratio as asked",
+    "Duration within the asked range",
+    "Has an audio track",
+    "Integrated loudness between -16 and -11 LUFS",
+    "True peak at or below -0.5 dBTP",
+    "The soundtrack is not the template demo score (fingerprint < 0.75)",
+    "The soundtrack is unlike the owner's six earlier promos (max fingerprint < 0.75)",
+    "The soundtrack differs from the other briefs' soundtracks in this configuration (max < 0.75)",
+    "The call to action is in the video's source",
+    "A sound brief is written (README)",
+    "No template demo code left (scenes and score are original)",
+    "The score uses a brand-world builder or a custom voice",
+    "The report shows QA with no FAIL"
+   ]
+  },
+  {
+   "id": 2,
+   "name": "kids-vertical-ru",
+   "prompt": "Сделай вертикальный ролик 9:16 для рилс и тикток, секунд 20-25, для онлайн-школы рисования для детей «Карандаш» (karandash.example).\nЧто есть: уроки для детей 6–12 лет, 2 раза в неделю по 45 минут, маленькие группы до 6 человек, первое занятие бесплатно, 3000+ учеников.\nХочу ярко, весело, чтобы родители захотели записать ребёнка. Музыка весёлая, но не детская попса — стильно.\nЗапись через сайт.",
+   "expected_output": "A 20–25 s 1080x1920 promo with text inside the safe area, a playful but stylish original score translated from the user's words, drawing-world sounds (pencil, paper, marker), the site as CTA, QA passing.",
+   "files": [],
+   "assertions": [
+    "A final MP4 is delivered in outputs/",
+    "Aspect ratio as asked",
+    "Duration within the asked range",
+    "Has an audio track",
+    "Integrated loudness between -16 and -11 LUFS",
+    "True peak at or below -0.5 dBTP",
+    "The soundtrack is not the template demo score (fingerprint < 0.75)",
+    "The soundtrack is unlike the owner's six earlier promos (max fingerprint < 0.75)",
+    "The soundtrack differs from the other briefs' soundtracks in this configuration (max < 0.75)",
+    "The call to action is in the video's source",
+    "A sound brief is written (README)",
+    "No template demo code left (scenes and score are original)",
+    "The score uses a brand-world builder or a custom voice",
+    "The report shows QA with no FAIL"
+   ]
+  },
+  {
+   "id": 3,
+   "name": "saas-launch-en",
+   "prompt": "We're launching Pulseboard (pulseboard.example) next week — uptime monitoring for small SaaS teams. Make a 20–30 s launch promo for X and LinkedIn. Facts: checks every 30 seconds from 12 regions; alerts in Slack, Telegram or email in under 10 seconds; public status pages; free plan with 10 monitors. Feel: dark, precise, techy, like Linear or Vercel launch videos. The music should feel techy but not cheesy.",
+   "expected_output": "A 20–30 s 16:9 dark, precise launch promo with UI in motion, a techy non-cheesy original score, only the given facts, QA passing.",
+   "files": [],
+   "assertions": [
+    "A final MP4 is delivered in outputs/",
+    "Aspect ratio as asked",
+    "Duration within the asked range",
+    "Has an audio track",
+    "Integrated loudness between -16 and -11 LUFS",
+    "True peak at or below -0.5 dBTP",
+    "The soundtrack is not the template demo score (fingerprint < 0.75)",
+    "The soundtrack is unlike the owner's six earlier promos (max fingerprint < 0.75)",
+    "The soundtrack differs from the other briefs' soundtracks in this configuration (max < 0.75)",
+    "The call to action is in the video's source",
+    "A sound brief is written (README)",
+    "No template demo code left (scenes and score are original)",
+    "The score uses a brand-world builder or a custom voice",
+    "The report shows QA with no FAIL"
+   ]
+  }
+ ]
+}

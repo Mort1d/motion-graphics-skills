@@ -1,0 +1,9 @@
+/* Fonts. Put the brand's own files (or an OFL font from fonts.google.com) into assets/fonts and declare them here;
+   main.js loads every face declared in this file before the scenes are built, so text measures correctly.
+   Bundled defaults (SIL OFL 1.1, see assets/fonts/OFL.txt): Montserrat 700 / 900 / 900 italic (Latin + Cyrillic),
+   JetBrains Mono 400 / 700 (Latin + Cyrillic, ₽ € №, arrows). js/main.js warns about any character a font lacks. */
+@font-face { font-family: 'Display'; font-style: normal; font-weight: 700; src: url(../assets/fonts/Montserrat-Bold.ttf) format('truetype'); }
+@font-face { font-family: 'Display'; font-style: normal; font-weight: 900; src: url(../assets/fonts/Montserrat-Black.ttf) format('truetype'); }
+@font-face { font-family: 'Display'; font-style: italic; font-weight: 900; src: url(../assets/fonts/Montserrat-BlackItalic.ttf) format('truetype'); }
+@font-face { font-family: 'Mono'; font-style: normal; font-weight: 400; src: url(../assets/fonts/JetBrainsMono-Regular.ttf) format('truetype'); }
+@font-face { font-family: 'Mono'; font-style: normal; font-weight: 700; src: url(../assets/fonts/JetBrainsMono-Bold.ttf) format('truetype'); }

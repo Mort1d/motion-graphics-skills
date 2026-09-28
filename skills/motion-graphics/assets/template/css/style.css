@@ -1,0 +1,63 @@
+/* Brand tokens and shared pieces. Every value that moves is set per frame from JS (engine.js set()); CSS here only
+   describes how things look at rest. @template-demo — take the colours from the brand (logo, site), 4–6 of them. */
+:root {
+  /* A dark brand (the demo). Light or dark comes from the brand's own surfaces — its site, its logo's ground, its
+     packaging — never from this default: a white site, kids, food, flowers, health and most retail are light. */
+  --bg: #0b0b10;
+  --bg-2: #15151d;
+  --text: #f7f3ee;
+  --accent: #ff5a36;
+  --accent-2: #ffc24b;
+  --muted: color-mix(in srgb, var(--text) 55%, transparent);
+  --glass: color-mix(in srgb, var(--text) 6%, transparent);
+  --line: color-mix(in srgb, var(--text) 12%, transparent);
+  --card: linear-gradient(160deg, color-mix(in srgb, var(--text) 9%, transparent), color-mix(in srgb, var(--text) 3%, transparent));
+  --card-edge: rgba(255, 255, 255, .08);
+  --pill: color-mix(in srgb, var(--bg-2) 92%, transparent);
+  --shadow: 0 40px 120px rgba(0, 0, 0, .55);
+  --vignette: rgba(0, 0, 0, .5);
+  --glow: color-mix(in srgb, var(--accent) 55%, transparent);
+  --glow-2: color-mix(in srgb, var(--accent) 30%, transparent);
+  --display: 'Display', 'Arial Black', 'Segoe UI', sans-serif;
+  --mono: 'Mono', ui-monospace, 'Consolas', monospace;
+}
+/* A light brand: replace the first block's colours with these (then set --accent / --accent-2 from the brand).
+:root {
+  --bg: #f6f2eb; --bg-2: #ffffff; --text: #16131b;
+  --card: linear-gradient(160deg, #ffffff, color-mix(in srgb, var(--bg) 60%, #ffffff));
+  --card-edge: rgba(255, 255, 255, .9); --pill: #ffffff;
+  --shadow: 0 30px 80px color-mix(in srgb, var(--text) 16%, transparent);
+  --vignette: color-mix(in srgb, var(--text) 7%, transparent);
+  --glow: color-mix(in srgb, var(--accent) 30%, transparent); --glow-2: transparent;
+}
+*/
+
+html, body { margin: 0; padding: 0; background: #000; overflow: hidden; }
+body { -webkit-font-smoothing: antialiased; }
+#stage { position: relative; overflow: hidden; background: var(--bg); color: var(--text); font-family: var(--display); }
+#debug { position: fixed; left: 10px; bottom: 8px; font: 600 20px/1 var(--mono); color: #0f0; z-index: 99; display: none; text-shadow: 0 0 3px #000; }
+body.debug #debug { display: block; }
+
+.abs { position: absolute; left: 0; top: 0; }
+.scene, .layer { position: absolute; inset: 0; overflow: hidden; }
+img { display: block; user-select: none; }
+svg { overflow: visible; display: block; }
+
+/* kinetic type: heavy caps that slam on the beat */
+.kin { position: absolute; left: 0; top: 0; font: italic 900 200px/0.92 var(--display); letter-spacing: -0.02em; white-space: nowrap; text-transform: uppercase; }
+.ch { display: inline-block; will-change: transform; }
+.accent { color: var(--accent); }
+.glow { text-shadow: 0 0 28px var(--glow), 0 0 90px var(--glow-2); }
+.mono { font-family: var(--mono); }
+.caps { font: 700 26px/1 var(--display); letter-spacing: 0.4em; text-transform: uppercase; white-space: nowrap; }
+
+/* a glass card (feature, number, UI panel) */
+.card { position: absolute; left: 0; top: 0; border-radius: 30px; background: var(--card);
+  border: 1.5px solid var(--line); box-shadow: var(--shadow), inset 0 1px 0 var(--card-edge); }
+.pill { position: absolute; left: 0; top: 0; display: flex; align-items: center; gap: 16px; border-radius: 999px; background: var(--pill);
+  border: 1.5px solid var(--line); white-space: nowrap; color: var(--text); }
+.pill i { display: grid; place-items: center; border-radius: 50%; background: var(--accent); }
+
+/* finishing, above every scene */
+.vignette { position: absolute; inset: 0; pointer-events: none; z-index: 50; background: radial-gradient(ellipse 75% 70% at 50% 50%, transparent 55%, var(--vignette) 100%); }
+.flash { position: absolute; inset: 0; pointer-events: none; z-index: 60; background: #fff; opacity: 0; }
