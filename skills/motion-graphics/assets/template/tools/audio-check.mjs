@@ -113,7 +113,8 @@ if (TL.S && curve.length) {
   // against the energy plan of js/timeline.mjs (ENERGY), when there is one (tools/energy.mjs)
   console.log(`short-term loudness per scene (LUFS, 3 s window) — the arc of the story${TL.ENERGY ? ', against the ENERGY plan' : ''}:`);
   const per = perScene(curve, TL.S);
-  for (const q of per) console.log(`  ${q.name.padEnd(12)} ${q.a.toFixed(2).padStart(6)}–${q.z.toFixed(2).padEnd(6)} level ${q.p75.toFixed(1).padStart(6)}  max ${q.max.toFixed(1).padStart(6)}  ${(TL.ENERGY?.[q.name] || '').padEnd(4)}  ${bar(q.p75 + 14)}`);
+  for (const q of per) console.log(`  ${q.name.padEnd(12)} ${q.a.toFixed(2).padStart(6)}–${q.z.toFixed(2).padEnd(6)} level ${Number.isFinite(q.level) ? q.level.toFixed(1).padStart(6) : '     –'}${q.long ? ' ' : '*'} ${(TL.ENERGY?.[q.name] || '').padEnd(4)}  ${bar((Number.isFinite(q.level) ? q.level : -70) + 14)}`);
+  if (per.some((q) => !q.long)) console.log('  * a scene under 3.3 s, measured by momentary loudness (it can only WARN)');
   for (const r of planVerdict(per, TL.ENERGY ?? null)) add(r.level, r.what, r.detail);
 }
 

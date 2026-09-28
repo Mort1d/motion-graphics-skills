@@ -1,6 +1,6 @@
 // ONE timeline for picture and sound. Scenes (js/scenes/*.js) and the score (audio/score.mjs) both import this file,
 // so every slam, whoosh and cut lands on the same sample. Plan the story in beats; b(n) turns beats into seconds.
-// @template-demo — rewrite S, CUE, WHIPS and COVERS for every video (keep the exports' names).
+// @template-demo — rewrite S, ENERGY, CUE, WHIPS and COVERS for every video (keep the exports' names).
 export const W = 1920; // @param width
 export const H = 1080; // @param height
 export const FPS = 60; // @param fps

@@ -89,22 +89,23 @@ reference sets the energy and the pace of the cuts, never the genre or the tempo
 driven by busy hats and rolls); calm / soft / premium / cozy / «спокойно», «нежно», «премиально», «уютно» → low–mid (no
 kick or a gentle groove, space, long tails); "quiet, then a blast" → low → high where they said. Without such words the
 references' music arc decides (`ref-sheet` prints "music by second"), then the topic (`sound-print --suggest` without
-`--energy` uses the row's own). Write the choice down as `ENERGY` before composing.
+`--energy` uses the row's own). Write the choice down as `ENERGY` before composing. `sound-print --suggest … --energy`
+orders the row below by it — every row has at least two cards at every energy, still spread across brands by name.
 
 Then the genre from the brand — the first options of each row are outside four on the floor:
 
 | Brand world / vibe | Genres to consider (BPM) |
 |---|---|
-| Cars, moto, tuning, gyms, streetwear, energy, gaming — aggressive | drift phonk (128–145), trap (140 half-time), drum & bass (174), rock-ish hybrid (130–150) |
-| Tech, SaaS, AI, fintech — clean, smart | minimal pulse, half-time or no kick (90–110), glitch-pop, UK garage (132), liquid drum & bass (174); tech house (4/4) |
-| Apps, delivery, marketplaces, e-commerce — friendly, fast | future bass (140–150 half-time), breakbeat (125–135), UK garage (132), jersey club (140); house / nu-disco (4/4) |
-| Food, cafés, bakeries, coffee — warm, cozy | lo-fi hip-hop (75–90, swing), funk / boogie with a backbeat (95–112), bossa / latin groove (clave, conga); nu-disco (4/4) |
-| Beauty, fashion, flowers, jewellery — elegant | luxury ambient (60–95), amapiano log drums (112–118, the kick drops beats), UK garage (132); deep house (4/4) |
-| Kids, education, family, pets — playful | marimba / kalimba pop with a backbeat (100–125), chiptune (120–150), a bouncy breakbeat with toy sounds |
-| B2B, industry, logistics, real estate, finance — serious, confident | cinematic hybrid (braams, pulses; 80–100 or 120 half-time), minimal pulse |
-| Health, clinics, spa, wellness — calm, trust | ambient pulse (70–90), soft piano + glass pads, gentle plucks |
-| Events, bars, nightlife | house / techno (4/4, 122–130), UK garage (130–134), jersey club (140) |
-| Regional flavour | latin / dembow (90–100), afro (100–118), East Asian pentatonic plucks (koto = `pluck` 'ks') |
+| Cars, moto, tuning, gyms, streetwear, energy, gaming — aggressive | drift phonk (128–145), trap (140 half-time), drum & bass (174), rock-ish hybrid (130–150), baile funk; calm: night-drive ambient, lo-fi |
+| Tech, SaaS, AI, fintech — clean, smart | minimal pulse, half-time or no kick (90–110), glitch-pop, UK garage (132), liquid drum & bass (174), rock-ish hybrid, breakbeat, ambient pulse; tech house (4/4) |
+| Apps, delivery, marketplaces, e-commerce — friendly, fast | future bass (140–150 half-time), breakbeat (125–135), UK garage (132), jersey club (140), playful pop; calm: lo-fi, ambient pulse; house / nu-disco (4/4) |
+| Food, cafés, bakeries, coffee — warm, cozy | lo-fi hip-hop (75–90, swing), funk / boogie with a backbeat (95–112), bossa / latin groove (clave, conga), amapiano; driving: rock-ish hybrid, dembow; nu-disco (4/4) |
+| Beauty, fashion, flowers, jewellery — elegant | luxury ambient (60–95), minimal pulse, amapiano log drums (112–118, the kick drops beats), UK garage (132), fashion trap; driving: big-beat breaks, liquid drum & bass; deep house (4/4) |
+| Kids, education, family, pets — playful | marimba / kalimba pop with a backbeat (100–125), chiptune (120–150), a bouncy breakbeat with toy sounds, sugary future bass; calm: soft lo-fi, music-box ambient |
+| B2B, industry, logistics, real estate, finance — serious, confident | cinematic hybrid (braams, pulses; 80–100 or 120 half-time), minimal pulse, ambient pulse, synthwave; driving: breakbeat, rock-ish hybrid |
+| Health, clinics, spa, wellness — calm, trust | ambient pulse (70–90), soft piano + glass pads, gentle plucks, soft lo-fi; steady: gentle backbeat pop, easy amapiano; fitness and sport: driving breakbeat, drum & bass |
+| Events, bars, nightlife | house / techno (4/4, 122–130), UK garage (130–134), jersey club (140), baile funk, deep house; calm: lounge ambient, lo-fi lounge |
+| Regional flavour | latin / dembow (90–100), baile funk, afro (100–118), brass funk, East Asian pentatonic plucks (koto = `pluck` 'ks'), ambient with a regional voice |
 
 Then let the **edit** decide the details: cuts on every beat and whip pans → 120+ BPM, busy hats, short sounds; long
 holds, slow camera, luxury → 70–100 BPM or half-time, space, long reverbs. The hook scene sets the first impression —

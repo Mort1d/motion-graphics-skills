@@ -292,48 +292,61 @@ export function verdict(me, root, extra = []) {
 }
 
 // ---- suggest: a starting genre, tempo, key and kit for a brand ------------------------------------------------------------
-// The brand table (sound-design.md §3) lists the same options, in the same order, for every brand of a kind; a model
+// The brand table (sound-design.md §3) lists typical options in the same order for every brand of a kind; a model
 // takes the first one, so a hundred SaaS promos would open with the same card. The brand's name rotates the options
 // (stable for one brand, spread across brands), four on the floor stays last outside nightlife, and what the folder
 // already holds (families, keys, tempos) is moved out of the way.
 // energy: 1 calm (no kick, ambient, lo-fi) · 2 steady (a groove that leaves room) · 3 driving (the full groove, fast
-// or hard). home: the energy a brand of this kind gets when the person asked for none — their words (--energy) win.
+// or hard). Every row has at least two cards (outside four on the floor) at every energy, so the brand's name still
+// rotates the first one whatever the energy. home: the energy of a brand of this kind when the person asked for none —
+// their words (--energy) win. 'half-time' is a groove whose snare sits on 3: it feels like half the BPM.
 const C = (card, name, family, lo, hi, modes, energy) => ({ card, name, family, lo, hi, modes, energy });
 const WORLDS = {
-  cars: { home: 3, kit: ['hard, loud'], options: [C(1, 'Drift phonk', 'half-time', 128, 145, 'minor', 3), C(2, 'Trap', 'half-time', 130, 150, 'minor', 2),
+  cars: { home: 3, kit: ['hard, loud'], options: [C(1, 'Drift phonk', 'backbeat', 128, 145, 'minor', 3), C(2, 'Trap', 'half-time', 130, 150, 'minor', 2),
     C(11, 'Drum & bass', 'broken', 170, 176, 'minor', 3), C(18, 'Rock-ish hybrid', 'backbeat', 130, 150, 'minor mixolydian', 3),
-    C(21, 'Baile funk', 'broken', 125, 135, 'minor', 3), C(22, 'Hyperpop / glitch-pop', 'half-time', 140, 170, 'major minor', 2)] },
+    C(21, 'Baile funk', 'broken', 125, 135, 'minor', 3), C(22, 'Hyperpop / glitch-pop', 'half-time', 140, 170, 'major minor', 2),
+    C(17, 'Night-drive ambient (a premium car film)', 'no kick', 70, 90, 'minor lydian', 1), C(8, 'Lo-fi night drive', 'backbeat', 75, 90, 'minor', 1)] },
   tech: { home: 2, kit: ['clean, precise'], options: [C(14, 'Minimal pulse (no kick or half-time)', 'no kick', 90, 110, 'major minor', 1),
     C(22, 'Glitch-pop', 'half-time', 140, 170, 'major minor', 2), C(12, 'UK garage', 'broken', 130, 134, 'minor', 2),
     C(11, 'Liquid drum & bass', 'broken', 170, 176, 'minor', 3), C(7, 'Synthwave', 'backbeat', 90, 118, 'minor', 2),
-    C(18, 'Rock-ish hybrid (a launch with guitars-like leads)', 'backbeat', 130, 150, 'minor mixolydian', 3),
-    C(19, 'Breakbeat', 'broken', 125, 140, 'minor mixolydian', 3), C(3, 'Tech house', 'four on the floor', 120, 126, 'minor dorian', 3)] },
+    C(18, 'Rock-ish hybrid (a launch with guitar-like leads)', 'backbeat', 130, 150, 'minor mixolydian', 3),
+    C(19, 'Breakbeat', 'broken', 125, 140, 'minor mixolydian', 3), C(17, 'Ambient pulse (a calm product film)', 'no kick', 70, 95, 'lydian major', 1),
+    C(3, 'Tech house', 'four on the floor', 120, 126, 'minor dorian', 3)] },
   apps: { home: 2, kit: ['clean, precise', 'bouncy club'], options: [C(6, 'Future bass', 'half-time', 140, 160, 'major', 2),
     C(19, 'Breakbeat', 'broken', 125, 140, 'minor mixolydian', 3), C(12, 'UK garage', 'broken', 130, 134, 'minor', 2),
     C(20, 'Jersey club', 'broken', 135, 145, 'minor', 3), C(15, 'Playful pop (backbeat)', 'backbeat', 100, 125, 'major', 2),
+    C(8, 'Lo-fi (a calm, cozy app)', 'backbeat', 75, 90, 'major', 1), C(17, 'Ambient pulse', 'no kick', 70, 95, 'major lydian', 1),
     C(5, 'Nu-disco', 'four on the floor', 110, 122, 'major dorian', 2)] },
   food: { home: 2, kit: ['warm, round', 'dusty'], options: [C(8, 'Lo-fi hip-hop (swing)', 'backbeat', 75, 90, 'major', 1),
     C(5, 'Funk / boogie (backbeat)', 'backbeat', 95, 112, 'dorian major', 2), C(10, 'Latin / bossa groove', 'broken', 90, 100, 'minor', 1),
     C(9, 'Amapiano (log drums, the kick drops beats)', 'broken', 112, 118, 'minor major', 2),
-    C(18, 'Rock-ish hybrid (burgers, street food)', 'backbeat', 130, 150, 'minor mixolydian', 3), C(5, 'Nu-disco', 'four on the floor', 110, 122, 'major', 2)] },
+    C(18, 'Rock-ish hybrid (burgers, street food)', 'backbeat', 130, 150, 'minor mixolydian', 3),
+    C(10, 'Latin / dembow (tacos, street food)', 'broken', 90, 100, 'minor', 3), C(5, 'Nu-disco', 'four on the floor', 110, 122, 'major', 2)] },
   beauty: { home: 1, kit: ['clean, precise', 'warm, round'], options: [C(17, 'Luxury ambient', 'no kick', 60, 95, 'lydian major', 1),
     C(9, 'Amapiano (log drums)', 'broken', 112, 118, 'minor major', 2), C(12, 'UK garage', 'broken', 130, 134, 'minor', 2),
     C(2, 'Trap (fashion)', 'half-time', 130, 150, 'minor', 2), C(19, 'Big-beat breaks (fashion)', 'broken', 120, 135, 'minor', 3),
+    C(14, 'Minimal pulse without its kick', 'no kick', 90, 110, 'major', 1), C(11, 'Liquid drum & bass (a fashion film)', 'broken', 170, 176, 'minor', 3),
     C(4, 'Deep house', 'four on the floor', 118, 122, 'minor', 2)] },
   kids: { home: 2, kit: ['warm, round'], options: [C(15, 'Marimba / kalimba pop (backbeat)', 'backbeat', 100, 125, 'major', 2),
     C(16, 'Chiptune', 'backbeat', 120, 150, 'major minor', 3), C(19, 'Bouncy breakbeat with toy sounds', 'broken', 125, 135, 'major mixolydian', 3),
-    C(6, 'Future bass (sugary)', 'half-time', 140, 160, 'major', 2), C(8, 'Soft lo-fi (bedtime)', 'backbeat', 75, 90, 'major', 1)] },
-  b2b: { home: 2, kit: ['big, cinematic', 'clean, precise'], options: [C(13, 'Cinematic hybrid', 'half-time', 80, 100, 'minor', 2),
+    C(6, 'Future bass (sugary)', 'half-time', 140, 160, 'major', 2), C(8, 'Soft lo-fi (bedtime)', 'backbeat', 75, 90, 'major', 1),
+    C(17, 'Music-box ambient (a lullaby)', 'no kick', 70, 90, 'major lydian', 1)] },
+  b2b: { home: 2, kit: ['big, cinematic', 'clean, precise'], options: [C(13, 'Cinematic hybrid', 'broken', 80, 100, 'minor', 2),
     C(14, 'Minimal pulse', 'no kick', 90, 110, 'major minor', 1), C(19, 'Driving breakbeat', 'broken', 125, 135, 'minor', 3),
-    C(7, 'Synthwave', 'backbeat', 90, 118, 'minor', 2)] },
+    C(7, 'Synthwave', 'backbeat', 90, 118, 'minor', 2), C(17, 'Ambient pulse (trust, calm)', 'no kick', 70, 95, 'major lydian', 1),
+    C(18, 'Rock-ish hybrid (industry, power)', 'backbeat', 130, 150, 'minor mixolydian', 3)] },
   health: { home: 1, kit: ['warm, round'], options: [C(17, 'Ambient pulse', 'no kick', 70, 90, 'lydian major', 1),
     C(14, 'Minimal pulse without its kick', 'no kick', 90, 110, 'major', 1), C(8, 'Soft lo-fi', 'backbeat', 75, 90, 'major', 1),
+    C(15, 'Gentle backbeat pop (wellness)', 'backbeat', 95, 115, 'major', 2), C(9, 'Amapiano, easy (wellness)', 'broken', 110, 116, 'major minor', 2),
     C(19, 'Driving breakbeat (fitness, sport)', 'broken', 125, 140, 'minor mixolydian', 3), C(11, 'Drum & bass (running, cycling)', 'broken', 170, 176, 'minor', 3)] },
   nightlife: { home: 3, kit: ['bouncy club', 'hard, loud'], club: true, options: [C(3, 'House / techno', 'four on the floor', 122, 130, 'minor dorian', 3),
     C(12, 'UK garage', 'broken', 130, 134, 'minor', 2), C(20, 'Jersey club', 'broken', 135, 145, 'minor', 3),
-    C(21, 'Baile funk', 'broken', 125, 135, 'minor', 3), C(4, 'Deep house', 'four on the floor', 118, 122, 'minor', 2)] },
+    C(21, 'Baile funk', 'broken', 125, 135, 'minor', 3), C(4, 'Deep house', 'four on the floor', 118, 122, 'minor', 2),
+    C(17, 'Lounge ambient (a rooftop at dawn)', 'no kick', 80, 100, 'minor lydian', 1), C(8, 'Lo-fi lounge', 'backbeat', 80, 92, 'minor', 1)] },
   regional: { home: 2, kit: ['warm, round'], options: [C(10, 'Latin / dembow', 'broken', 90, 100, 'minor', 3),
-    C(9, 'Afro / amapiano', 'broken', 100, 118, 'minor major', 2), C(15, 'Pentatonic plucks (koto = pluck ks)', 'backbeat', 90, 120, 'major', 1)] },
+    C(9, 'Afro / amapiano', 'broken', 100, 118, 'minor major', 2), C(15, 'Pentatonic plucks (koto = pluck ks)', 'backbeat', 90, 120, 'major', 1),
+    C(21, 'Baile funk', 'broken', 125, 135, 'minor', 3), C(5, 'Brass funk (a regional band sound)', 'backbeat', 100, 118, 'minor dorian', 2),
+    C(17, 'Ambient with a regional voice (duduk = formant, koto = pluck ks)', 'no kick', 70, 95, 'minor lydian', 1)] },
 };
 // A minor and C major are what models write when nobody chooses: left out of the suggestions
 const KEYS = {
@@ -351,16 +364,20 @@ export function suggest(brand, world, earlier = [], { energy = null } = {}) {
   if (!w) throw new Error(`--world is one of: ${Object.keys(WORLDS).join(', ')}`);
   if (energy && !ENERGIES[energy]) throw new Error(`--energy is one of: ${Object.keys(ENERGIES).join(', ')}`);
   const want = energy ? ENERGIES[energy] : w.home;
+  const tol = energy ? 0 : 1; // the person's words are exact; the topic's own energy lets a neighbouring level tie
+  const off = (o) => Math.max(0, Math.abs(o.energy - want) - tol);
   const h = crypto.createHash('sha1').update(String(brand).trim().toLowerCase()).digest();
   const usedFam = new Map();
   for (const p of earlier) usedFam.set(familyOf(p), (usedFam.get(familyOf(p)) || 0) + 1);
   const usedKeys = new Set(earlier.map((p) => p.key));
   const usedBpm = earlier.map((p) => p.bpm);
-  const rot = h[0] % w.options.length;
-  const order = w.options.map((o, i) => ({ o, i: (i - rot + w.options.length) % w.options.length }))
+  // within what ties, each card's own hash with the brand's name decides: a stable order per brand, spread evenly
+  // across brands however many cards tie (a rotation of the list rarely swaps two neighbours)
+  const draw = (o) => crypto.createHash('sha1').update(`${String(brand).trim().toLowerCase()}|${o.card}|${o.name}`).digest().readUInt32BE(0);
+  const order = w.options.map((o) => ({ o, k: draw(o) }))
     .sort((a, b) => (!w.club && a.o.family === 'four on the floor') - (!w.club && b.o.family === 'four on the floor') // 4/4 last
-      || Math.abs(a.o.energy - want) - Math.abs(b.o.energy - want) // the asked-for energy first
-      || (usedFam.get(a.o.family) || 0) - (usedFam.get(b.o.family) || 0) || a.i - b.i)
+      || off(a.o) - off(b.o) // the asked-for energy first
+      || (usedFam.get(a.o.family) || 0) - (usedFam.get(b.o.family) || 0) || a.k - b.k)
     .map((x) => x.o);
   return {
     energy: Object.keys(ENERGIES).find((k) => ENERGIES[k] === want), fromWords: !!energy,

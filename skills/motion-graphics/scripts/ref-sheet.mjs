@@ -194,12 +194,13 @@ function loud(f) {
   const sum = [];
   const cnt = [];
   for (const m of log.matchAll(/t:\s*([\d.]+)\s+TARGET:.*?M:\s*(-?[\d.]+|-inf)/g)) {
+    const v = m[2] === '-inf' ? -Infinity : Number(m[2]);
+    if (!(v > -70)) continue; // silence, or the first window still filling
     const sec = Math.floor(Number(m[1]));
-    const v = m[2] === '-inf' ? -70 : Math.max(-70, Number(m[2]));
-    sum[sec] = (sum[sec] ?? 0) + v;
+    sum[sec] = (sum[sec] ?? 0) + 10 ** (v / 10); // averaged as energy, not as dB
     cnt[sec] = (cnt[sec] ?? 0) + 1;
   }
-  const per = Array.from(sum, (v, i) => (cnt[i] ? v / cnt[i] : -Infinity));
+  const per = Array.from(sum, (v, i) => (cnt[i] ? 10 * Math.log10(v / cnt[i]) : -Infinity));
   const top = Math.max(...per.filter(Number.isFinite));
   const arc = Number.isFinite(top) ? Array.from(per, (v) => (Number.isFinite(v) && v > top - 12 ? '▁▂▃▄▅▆▇█'[Math.min(7, Math.floor(((v - (top - 12)) / 12) * 8))] : ' ')).join('') : '';
   return { I: Number(s.match(/I:\s+(-?[\d.]+)/)?.[1]), LRA: Number(s.match(/LRA:\s+([\d.]+)/)?.[1]), arc };

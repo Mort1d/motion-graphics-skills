@@ -127,7 +127,7 @@ node <skill>/scripts/ref-sheet.mjs <files and links…> --out <brand>-video/refs
   topic (cars, sport, nightlife drive; spa and luxury breathe). Write it per scene as `ENERGY` in `js/timeline.mjs`
   (`'low'` no or filtered drums · `'mid'` the groove with fewer layers · `'high'` the full groove) and one line in the
   README: "Energy: high from bar 2 — asked for «прям динамичную»". A hook without drums may take up to 2 bars (plan
-  it `'mid'`); after that, a "dynamic" video keeps every scene `'high'` and builds contrast by adding layers. The
+  it `'low'`); after that, a "dynamic" video keeps every scene `'high'` and builds contrast by adding layers. The
   check follows the plan, whatever its shape: a calm film is as right as a relentless one.
 - **Pick the groove family, genre and tempo with the sound** (`references/sound-design.md` §3): one bar = 240 / BPM
   seconds; scenes are whole bars; every slam and reveal is a beat. Energy is a level, not a genre: the brand still
