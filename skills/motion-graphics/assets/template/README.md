@@ -70,6 +70,7 @@ node tools/aac.mjs out/*.mp4         # loudness and true peak of each delivery f
 | `audio/score.mjs` | the score and the sound design |
 | `audio/kit/` | recorded sounds the person supplied (`tools/kit.mjs`), with their licences in `KIT.md` |
 | `assets/ui/` | the product's real interface, element by element (`ui-shot.mjs`) |
+| `assets/footage/` | the person's clips: `scan.json`, a sheet per clip, the cut frames (`tools/footage.mjs`) |
 | `css/style.css` | brand colours and shared styles |
 
 ## Assumptions

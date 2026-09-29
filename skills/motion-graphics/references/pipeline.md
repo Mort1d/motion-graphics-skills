@@ -26,11 +26,13 @@ js/engine.js       time: ease, spring, SPRING, track, zoomLog, hash, noise; the 
 js/kit.js          scene helpers: textBlock, fitFont, slam, whip, rise, camera, roll, scramble, shakes, sparks, speed lines
 js/main.js, js/reel.js, js/i18n.js
 js/scenes/*.js     one file per scene: build(ctx) → (t, frame) => void; SCENES in reel.js lists them in order
+js/screen.js       the WebGL footage screen (created on first use);  js/footage.mjs  frames and speed ramps;
+                   js/footage.data.mjs  the cuts (written by tools/footage.mjs)
 audio/score.mjs    this video's score;  audio/synth/  the synth library;  audio/kit/  recorded sounds + KIT.md (tools/kit.mjs)
 tools/             capture, render, qa, plan-check, pops, audio-check, energy, sound-print (+ demo-print.json), kit,
-                   cutdown, aac, export-timeline (all .mjs)
+                   footage, cutdown, aac, export-timeline (all .mjs)
 README.md          the direction card, the story table, the sound brief;  brief.md  facts + sources;  REVIEW.md  critique rounds
-assets/fonts, assets/img, assets/ui (ui-shot.mjs: element PNGs + ui.json)
+assets/fonts, assets/img, assets/ui (ui-shot.mjs: element PNGs + ui.json), assets/footage (scan.json, sheets, cuts)
 out/               renders, covers/, qa/, review/, stills/, timeline.json;  .cache/  browser profiles, render chunks
 brand/             site-kit.mjs: site.md, site.json, shots/, sections/, logo/, fonts/ (+ fonts.css), img/, palettes
 refs/              references (fetched clips + <name>.post.json), refs/analysis/ (ref-sheet: sheets and numbers)
@@ -245,6 +247,9 @@ or more people — say so when you point someone to it.
 | audio clicks | a voice without attack / release ramps, or a cut without fades | ramp every start / end; `cutdown.mjs` fades joins |
 | a recorded sound lands late on its hit | it was placed from its start; a whoosh peaks 0.7 s in | `sample()` places the loudest moment on the cue by default (`align: 'peak'`); `tools/kit.mjs` lists each file's peak |
 | `verify` FAILs at some times | a scene keeps state between frames, reads the clock, or rolls `Math.random` | compute everything from `t` (and text from `frame / FPS`); `hash(i, seed)` for randomness |
+| `[screen] cannot load assets/footage/…` | the cut was not made, or a source second past its end | `node tools/footage.mjs cut …`; `frame()` clamps inside the cut, a hand-built url does not |
+| an empty frame in a footage shot (QA `flash` / `pops`) | an image drawn but not listed in `render.needs(t)` | list every url the frame draws, the echo's too |
+| "WebGL2 is not available" | a browser without WebGL2 (an old Chromium, GPU switched off by policy) | Chrome or Edge; headless draws it in software |
 | a number shows two values at once in a blurred frame | the counter was computed from the sample time | compute it from `frame / FPS` |
 | `ui-shot`: "not clicked: … submits a form" | the target is a submit button, or a plain button inside a form | stage the state another way (`--eval`, `--type` without submitting) |
 | `ui-shot`: "blocked N request(s) that would have sent data" | the page tried to post something (a form, a tracker, a beacon); only GET, HEAD and OPTIONS leave the browser | the shot is still right unless the state needed the server's answer — then stage that state with `--eval` |

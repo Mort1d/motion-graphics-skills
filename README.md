@@ -19,8 +19,8 @@
 
 ## What it does
 
-Give your agent whatever you have — a link to a site, a GitHub repository, an app, screenshots, photos, reference
-posts from X or Telegram, or just a name — and ask for a video.
+Give your agent whatever you have — a link to a site, a GitHub repository, an app, screenshots, your own clips and
+photos, reference posts from X or Telegram, or just a name — and ask for a video.
 
 - **Directs the film before it builds anything** — reads your words first, then what you gave, where the video will
   play and the brand's own voice; weighs three concepts and carries one from the first frame to the last; starts from
@@ -33,6 +33,9 @@ posts from X or Telegram, or just a name — and ask for a video.
   beat, where the drop comes in.
 - **Renders real motion graphics** — HTML scenes captured frame by frame in headless Chrome: spring physics, a camera
   that follows the action, sub-frame motion blur, seamless loops.
+- **Cuts your own footage** — scans your clips (the shots, the liveliest seconds, which way the camera moves) and
+  cuts them on the beat: speed ramps, whips that carry the motion, zoom punches, freezes, grades, glitch hits; a
+  screen recording gets a camera that zooms to where the work happens.
 - **Composes an original score** — a built-in synth with 80 voices and 22 genre cards, sound design on every cut, your
   own recorded sounds if you have them, and a fingerprint check so no two videos sound alike.
 - **Critiques itself before the render** — a frame on every beat, the phone view, strips through every fast move;
@@ -72,7 +75,7 @@ Plain words in any language are enough:
 
 > https://github.com/…/… — a launch video for version 2.0 of our CLI. Really dynamic, for X.
 
-> 24 photos from our trip to Georgia, attached — a 20-second vertical reel with wow transitions.
+> Clips and photos from our trip to Georgia, attached — a vertical reel with wow transitions.
 
 You get `out/<name>.mp4` (1080p or vertical, 60 fps, −14 LUFS), a light copy for messengers, covers, and a project
 that re-renders with one command. On request: other languages, a 9:16 version, a 15-second cut, the timeline as JSON
@@ -141,10 +144,11 @@ reading, a font without ₽) was fixed and re-tested.
 ```
 skills/motion-graphics/
   SKILL.md           the workflow the agent follows
-  references/        direction, look cards, wow library, story & motion craft, scene cookbook, sound design,
-                     genre cards, synth API, pipeline
+  references/        direction, look cards, wow library, story & motion craft, scene cookbook, footage, sound
+                     design, genre cards, synth API, pipeline
   scripts/           site-kit, ui-shot, ref-sheet, new-project, trace-logo, palette
-  assets/template/   a working project: scenes, motion kit, synth, plan-check / capture / render / QA tools
+  assets/template/   a working project: scenes, motion kit, footage screen, synth, plan-check / capture / render /
+                     QA tools
 .claude-plugin/      marketplace.json for Claude Code
 media/               the demo
 evals/               test prompts

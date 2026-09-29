@@ -4,7 +4,8 @@ Code patterns for the scenes, using the template's `js/engine.js` (`el`, `set`, 
 `spring`, `SPRING`, `track`, `zoomLog`, `hash`, `noise1`, `rng`) and `js/kit.js` (`U`, `VERTICAL`, `W`, `H`, `fitFont`,
 `spans`, `slam`, `whip`, `shake(s)`, `flash`, `roll`, `rise`, `camera`, `scramble`, `slashClip`, `ring`, `makeSparks` /
 `drawSparks`, `drawSpeedLines`).
-Adapt them — they are idioms, not finished scenes.
+Adapt them — they are idioms, not finished scenes. The person's own footage and photos on the WebGL screen (speed
+ramps, whips that carry the camera, grades, a screen recording zoomed to the work) live in `footage.md`.
 
 ## Contents
 1. Scene skeleton and the frame contract
