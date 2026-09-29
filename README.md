@@ -19,22 +19,29 @@
 
 ## What it does
 
-Give your agent a link to a site, a few reference posts from X or Telegram, or just screenshots — and ask for a video.
+Give your agent whatever you have — a link to a site, a GitHub repository, an app, screenshots, photos, reference
+posts from X or Telegram, or just a name — and ask for a video.
 
-- **Reads the brand from the link** — real UI blocks at 2×, the logo, the colours the site actually paints, its
-  fonts, prices and contacts.
+- **Directs the film before it builds anything** — reads your words first, then what you gave, where the video will
+  play and the brand's own voice; weighs three concepts and carries one from the first frame to the last; starts from
+  one of nine looks instead of one house style; writes a direction card and checks the plan before a single scene.
+- **Takes the energy from you** — a promo drives from the first bar by default; calm comes when you ask for it or the
+  brand lives in it. The music either carries the cuts or voices every tap of the interface.
+- **Reads the brand from the link** — the real interface element by element on a transparent ground, the logo, the
+  colours the site actually paints, its fonts, prices and contacts.
 - **Studies the references by numbers** — how much of the frame moves, visual hits per minute, how many land on the
-  beat.
-- **Writes the direction first** — every shot on a beat grid, how it enters and leaves, palette, type, a banned list.
-- **Renders real motion graphics** — HTML scenes captured frame by frame in headless Chrome, with sub-frame motion
-  blur.
-- **Composes an original score** — a built-in synth with 80 voices and 22 genre cards, sound design on every cut,
-  energy that follows your words and the topic (dynamic from the first bars when you ask for it, calm when you ask
-  for that), and a fingerprint check so no two videos sound alike.
-- **Checks everything** — loudness and true peak of every file, fps, gaps between scenes, missing glyphs, leftover
-  template code.
+  beat, where the drop comes in.
+- **Renders real motion graphics** — HTML scenes captured frame by frame in headless Chrome: spring physics, a camera
+  that follows the action, sub-frame motion blur, seamless loops.
+- **Composes an original score** — a built-in synth with 80 voices and 22 genre cards, sound design on every cut, your
+  own recorded sounds if you have them, and a fingerprint check so no two videos sound alike.
+- **Critiques itself before the render** — a frame on every beat, the phone view, strips through every fast move;
+  seven scores out of 10, the three worst problems fixed, again, until every score is 8 or more.
+- **Checks everything** — loudness and true peak, a still opening, single-frame pops, text cut by the frame, a loop
+  seam, frames that are not a function of time, missing glyphs, leftover template code.
 
-Promos · launch videos · explainers · intros · logo stings · Reels, Shorts and TikTok.
+Promos · launch videos · explainers · intros · logo stings · Reels, Shorts and TikTok · travel and event reels from
+photos.
 
 ## Install
 
@@ -63,8 +70,13 @@ Plain words in any language are enough:
 
 > Vertical 9:16, 20 seconds, for a kids' drawing school. Bright and fun, stylish music.
 
+> https://github.com/…/… — a launch video for version 2.0 of our CLI. Really dynamic, for X.
+
+> 24 photos from our trip to Georgia, attached — a 20-second vertical reel with wow transitions.
+
 You get `out/<name>.mp4` (1080p or vertical, 60 fps, −14 LUFS), a light copy for messengers, covers, and a project
-that re-renders with one command. On request: other languages, a 9:16 version, a 15-second cut.
+that re-renders with one command. On request: other languages, a 9:16 version, a 15-second cut, the timeline as JSON
+for Remotion, HyperFrames or an editor.
 
 ## Requirements
 
@@ -129,9 +141,10 @@ reading, a font without ₽) was fixed and re-tested.
 ```
 skills/motion-graphics/
   SKILL.md           the workflow the agent follows
-  references/        story & motion craft, scene cookbook, sound design, genre cards, synth API, pipeline
-  scripts/           site-kit, ref-sheet, new-project, trace-logo, palette
-  assets/template/   a working project: scenes, motion kit, synth, capture / render / QA tools
+  references/        direction, look cards, wow library, story & motion craft, scene cookbook, sound design,
+                     genre cards, synth API, pipeline
+  scripts/           site-kit, ui-shot, ref-sheet, new-project, trace-logo, palette
+  assets/template/   a working project: scenes, motion kit, synth, plan-check / capture / render / QA tools
 .claude-plugin/      marketplace.json for Claude Code
 media/               the demo
 evals/               test prompts

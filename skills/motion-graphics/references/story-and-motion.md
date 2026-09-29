@@ -66,8 +66,8 @@ under the words from bar 1. Sound brief (`--suggest … --energy high` offered r
 decided): UK garage 2-step, 132 BPM, D♭ major, shuffled hats, organ stabs, a subby kick; brand-world sounds — crust
 crackle, oven door, paper bag; −14 LUFS.
 
-**The pace in numbers.** The motion references this skill was measured on move in 75–90 % of their frames, land 55–80
-visual hits a minute, and put most of them on the beat (or at one constant offset — cuts a frame or two early on
+**The pace in numbers.** The motion references this skill was measured on move in 67–100 % of their frames, land
+45–91 visual hits a minute (`wow-library.md` §1), and put most of them on the beat (or at one constant offset — cuts a frame or two early on
 purpose). Measure your draft the same way: `ref-sheet.mjs out/<slug>-draft.mp4 --bpm <BPM>`. A calm film may sit
 lower on hits; a still frame outside the end card is a bug in any film.
 
@@ -98,11 +98,24 @@ lower on hits; a still frame outside the end card is a bug in any film.
 - **The camera is alive.** A slow push (2–6 %) through every hold, a shake on hits (`shake`, 10–25 px, 0.3–0.5 s),
   parallax between layers. A frozen frame reads as a slide.
 - **Motion blur sells speed.** Every fast move gets 16 samples (`WHIPS`) and speed lines; don't fake blur with CSS
-  filters.
+  filters. Blur is a smear of real travel, not polish — leave it out where it hurts: a move shorter than the
+  element's own width, a fade or a colour change (nothing travels), text that must be read at that instant, a slow
+  drift of under half a pixel a frame, a whole scene at once. Text and numbers that change are computed from the
+  frame's own time (`f / FPS`, `scene-cookbook.md` §1), so a blurred frame never mixes two values.
+- **Springs give weight.** A move that settles like a real object — accelerates, overshoots a hair, stops — reads as
+  expensive; the same move on a fixed curve reads as cheap. `SPRING` in `js/engine.js` has four feels: snap (buttons,
+  toggles, the leading edge of an indicator), base (cards, containers, the camera), heavy (big type, the logo: no
+  overshoot), play (stickers, mascots). A value that changes target several times (a cursor, a container) is a sum of
+  springs — `track(t, keys, SPRING.base)` — so a new target mid-move never jerks. Type never bounces.
 - **Depth.** 3–4 layers (background glow, midground, hero, foreground particles), each moving at its own speed; light
   blobs and vignette for focus.
 - **Flashes and shakes are spice.** A 0.1-s white flash at 10–40 % on the biggest hits only.
 - **Holds.** Text that must be read holds ≥ 0.6 s per 3 words after it lands; the end card ≥ 2.5 s.
+- **One read at a time.** List what the viewer must understand, in order; give each read its window (to find it,
+  understand it, register it) and never start the next read inside it. Motion around a read may continue; a second
+  message may not.
+- **Cut on downbeats, not on every beat.** A cut on every beat reads as a music video; hits on every beat, cuts on
+  the downbeats (or every second beat) read as a film. Something new still happens every 2–4 seconds.
 
 ## 5. Transitions
 
@@ -127,6 +140,10 @@ window — in a still that looks like a broken scene, not a fast transition.
 
 - One display face (heavy, italic caps read as speed) + one supporting face (mono for data, a sans for small text).
 - Sizes at 1080p: statements 150–260 px, card numbers 120–160 px, labels 28–36 px, never below 26 px (phones).
+- Hierarchy is a ratio, not a range: the hero text of a scene is at least 1.8× the next text on screen and 2.5× the
+  smallest. A 150 px statement beside 140 px numbers has no hero.
+- One accent word per statement: in the accent colour, or set in a contrasting face (a serif italic among heavy
+  sans) — the trend launch films use both, never more than one word per line.
 - 1–4 words per slam; a line per beat. Split long sentences into beats.
 - Numbers roll (`roll()`), never jump; units in a contrasting style.
 - Measure text after fonts load (they are, in main.js) and `fitFont()` anything that could overflow — especially in
@@ -147,6 +164,9 @@ window — in a still that looks like a broken scene, not a fast transition.
 - **No photos? Draw the world.** SVG and canvas can draw the product's objects at hero size: beans, a cup and
   steam; pencils, paper and scribbles; a server rack and a pulse line. One drawn signature element per brand (the
   pencil line that draws every transition) makes the video this brand's.
+- **Detail by depth.** Every drawn surface gets three things — a base (a gradient, not a flat fill), a texture of its
+  material (grain, fibres, a pattern) and one edge (a highlight, a line, a shadow). The hero gets full detail; far
+  layers get only grain at 40–60 %. Draw back to front in a fixed order: ground, far, mid, props, hero, effects.
 - Dark grounds make light effects glow; light grounds need shadows and depth to avoid a flat slide. On white, a white
   element needs a 1-px edge and a faint shadow, or it vanishes.
 - Frosted glass that reads on any ground: a blurred, lightened copy of what is behind, clipped to the shape (letters
@@ -183,12 +203,16 @@ These make a promo look cheap or AI-made — avoid unless the brand really calls
   the capture log and `qa.mjs` fails it;
 - HUD overlays (timecodes, frame counters, BPM readouts, corner brackets, "REC", coordinates) — unless the brand's
   world is literally a HUD;
-- invented numbers, fake reviews, fake client logos;
+- invented numbers, fake reviews, fake client logos; an illustrative number carries a visible "Example" label;
+- the defaults every model reaches for when given nothing (`direction.md` §9): a dark screen with a green glow, a
+  cream canvas with numbered labels, centred text fading in on a gradient, an invented logo, screens that do not
+  exist, beeps that sound like a microwave;
 - a generic "corporate" music bed; the same track as the last video.
 
 ## 10. Frame quality checklist
 
-Before the final render, from the contact sheet and stills at every CUE (± 0.1 s around each transition):
+Before the final render, from `node tools/capture.mjs review` (a frame per beat, the phone view, strips through every
+fast move) and stills at every CUE (± 0.1 s around each transition) — score them as in SKILL.md step 7:
 - the look is the brand's (a light brand is a light video); in most frames the hero fills the frame;
 - nothing cut off at the edges; text readable at phone size; no text on busy photos without a scrim;
 - no empty (all-background) frames except intended holds; no scene covering the one before too early;

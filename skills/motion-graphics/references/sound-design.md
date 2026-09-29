@@ -38,7 +38,9 @@ Sound brief
 - Feel / genre:   <genre> — because <brand personality, audience, pace of the edit>
 - Tempo & key:    <BPM> (one bar = 240 / BPM s), <root> <mode> — chosen, not A minor by habit
 - Energy:         <low | mid | high per scene = ENERGY in js/timeline.mjs> — from <the person's words | the references'
-                  music arc | the topic>
+                  music arc | the promo default | a calm brand or placement> (direction.md §5)
+- Role:           <music-led | ui-led> — music-led: the track carries the cuts; ui-led: every interface event is voiced
+                  and the groove sits lighter under it
 - Groove:         <family: four on the floor | backbeat | half-time | broken | no kick> — why this one;
                   kick <16 steps>, snare/clap <16 steps>, hats <16 steps>, straight or swung
 - Kit:            kick <type, tune Hz, decay>, snare <type, tone, bright>, hats <metal, tone>, drums bus <colour>
@@ -88,8 +90,10 @@ reference sets the energy and the pace of the cuts, never the genre or the tempo
 «динамично», «драйв», «мощно», «побольше динамики» → high from the first bars (a full-time groove, or a half-time one
 driven by busy hats and rolls); calm / soft / premium / cozy / «спокойно», «нежно», «премиально», «уютно» → low–mid (no
 kick or a gentle groove, space, long tails); "quiet, then a blast" → low → high where they said. Without such words the
-references' music arc decides (`ref-sheet` prints "music by second"), then the topic (`sound-print --suggest` without
-`--energy` uses the row's own). Write the choice down as `ENERGY` before composing. `sound-print --suggest … --energy`
+references' music arc decides (`ref-sheet` prints "music by second"); without references, a promo, a launch, a reel
+or an ad takes the default of this genre — the groove from the first bar, held — and calm needs a reason: a brand
+that lives in calm, a background placement, a sensitive subject (`direction.md` §5). Write the choice down as
+`ENERGY` before composing and pass it: `sound-print --suggest … --energy`. `sound-print --suggest … --energy`
 orders the row below by it — every row has at least two cards at every energy, still spread across brands by name.
 
 Then the genre from the brand — the first options of each row are outside four on the floor:
@@ -106,6 +110,8 @@ Then the genre from the brand — the first options of each row are outside four
 | Health, clinics, spa, wellness — calm, trust | ambient pulse (70–90), soft piano + glass pads, gentle plucks, soft lo-fi; steady: gentle backbeat pop, easy amapiano; fitness and sport: driving breakbeat, drum & bass |
 | Events, bars, nightlife | house / techno (4/4, 122–130), UK garage (130–134), jersey club (140), baile funk, deep house; calm: lounge ambient, lo-fi lounge |
 | Regional flavour | latin / dembow (90–100), baile funk, afro (100–118), brass funk, East Asian pentatonic plucks (koto = `pluck` 'ks'), ambient with a regional voice |
+| Developer tools, open source, CLIs, APIs — precise, driving (`--world dev`) | breakbeat (125–135), UK garage (132), liquid drum & bass (174), synthwave (100–118), rock-ish hybrid for a big version, glitch-pop; calm: minimal pulse without its kick, ambient pulse; tech house (4/4) |
+| Travel, sport, events, personal reels — kinetic, music-led (`--world lifestyle`) | breakbeat (120–135), baile funk, drift phonk (128–145), afro / amapiano, future bass, uplifting pop; calm: a lo-fi travel diary, ambient landscapes; nu-disco (4/4) |
 
 Then let the **edit** decide the details: cuts on every beat and whip pans → 120+ BPM, busy hats, short sounds; long
 holds, slow camera, luxury → 70–100 BPM or half-time, space, long reverbs. The hook scene sets the first impression —
@@ -139,21 +145,30 @@ so use their fifth (key of D → `hz('A1')` = 55 Hz). A tuned kick and bass soun
   with that energy. Never copy a melody, a hook or a recognisable riff.
 - **"Like <artist>".** Translate to traits (tempo, kit, bass, harmony, texture) and write something new in that
   world. Never imitate a specific song.
-- **Their own licensed track.** Do not compose; run `ref-sheet.mjs` on it for BPM and the first beat, build
-  `js/timeline.mjs` on that grid (set BPM, shift cues by the first-beat offset), and still design the SFX with the
-  synth, mixed under their track (`render.mjs --audio <mix.wav>` after you mix both, or mux theirs as is).
+- **Their own licensed track.** Do not compose; run `ref-sheet.mjs` on it for BPM, the first beat and its drops
+  (where the bass comes in — a beat tracker can put the bar a beat off, the bass level cannot), build
+  `js/timeline.mjs` on that grid (set BPM, shift cues by the first-beat offset), land the biggest visual moment on
+  the first drop (start the song at whatever offset that needs), trim scenes by whole beats and never stretch time,
+  and still design the SFX with the synth, mixed under their track (`render.mjs --audio <mix.wav>` after you mix
+  both, or mux theirs as is).
+- **Recorded sounds they supply** (their product's own chime, a real crunch, a click they recorded): `node
+  tools/kit.mjs <files>` converts them to 48 kHz WAV in `audio/kit/` and lists where each is loudest; `sample(t,
+  'audio/kit/crunch.wav', { vel, pan })` places that loudest moment on the cue (a whoosh peaks 0.7 s in: started on
+  its cue it lands late). The person answers for the licence (fill in `audio/kit/KIT.md`): their own recordings, or
+  files they downloaded themselves under a licence that allows commercial use — never a library pulled by a script,
+  and a "free" track can still draw a Content ID claim. The score stays composed: recordings are spice, not the bed.
 
 ## 5. The energy map
 
 The track follows the story, scene by scene (bars = 240 / BPM seconds each; plan scenes in whole bars), at the
-energy `ENERGY` gives each scene. The parts below are the contrast shape — a low or mid opening that builds to the
-drops. In a high plan the groove is in from bar 1–2 (a drumless hook of up to 2 bars at most), no scene is thinned
-below the full groove, and contrast comes from adding: a new layer, a fill, a filter opening, a second drop that
-adds what the first one didn't have.
+energy `ENERGY` gives each scene. A promo's default is the drive shape: the groove in from the first bar (a pickup of
+a bar at most), no scene thinned below it, contrast made by adding — a new layer, a fill, a filter opening, a hole
+before the biggest hit, a second drop with what the first one didn't have. The parts below also describe the
+contrast shape (a low or mid opening that builds to the drops): a plan for a calm brand, or for words that ask for it.
 
 | Part | Where | What happens |
 |---|---|---|
-| Intro / hook | first 2–8 bars (at most 2 in a high plan), the hook | no or filtered drums (`automate(bus, 'lp', …)` opening), hits on the words, a pad or a riff hinting the hook — in a high plan the beat is already under the words |
+| Intro / hook | a pickup of up to 1 bar in the drive shape; 2–8 bars only in a contrast or calm plan | no or filtered drums (`automate(bus, 'lp', …)` opening), hits on the words, a pad or a riff hinting the hook — in a high plan the beat is already under the words |
 | Build | into the first reveal | riser, snare/hat roll (`roll()`), filter opening, a reverse cymbal ending on the reveal |
 | Hole | ⅛–½ beat before the biggest hits | `gap()` — silence makes the next hit twice as big |
 | Drop 1 | the brand reveal / core promise | full groove, impact + crash, the bass enters |
@@ -215,8 +230,11 @@ List every visible event of the storyboard and decide its sound (or a deliberate
 | Split-flap, counters of many digits | one `tick` per flap, capped to one per 10 ms bucket | per flap |
 | End card | final hit + ring-out ≥ 1.5 s, nothing new after | the last hit |
 
-SFX live 3–6 dB under the music except the hero hits. Never two whooshes on the same moment; the smaller the UI
-element, the quieter and shorter its sound.
+SFX live 3–6 dB under the music except the hero hits in a music-led film; in a ui-led one every visible interface
+event gets its sound, tuned to the scale, 0–3 dB under the music, and the groove leaves them room (fewer hats,
+no busy lead). Never two whooshes on the same moment; the smaller the UI element, the quieter and shorter its
+sound. A sound repeated many times (footsteps, ticks, pops) varies a little each time — a semitone up or down on a
+synth voice, `rate: 0.92–1.08` on a sample — or it sounds pasted.
 
 ## 9. Mixing
 
