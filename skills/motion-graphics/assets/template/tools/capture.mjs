@@ -347,7 +347,13 @@ async function verify() {
     const walk = (e) => { const cs = getComputedStyle(e);
       if (cs.display === 'none' || cs.visibility === 'hidden' || Number(cs.opacity) === 0) return '';
       let s = '<' + e.tagName + [...e.attributes].map((a) => a.name + '=' + a.value).join(' ');
-      if (e.tagName === 'CANVAS') { const g = e.getContext('2d'); if (g) { const d = g.getImageData(0, 0, e.width, e.height).data; let h = 0; for (let i = 0; i < d.length; i += 61) h = (h * 31 + d[i]) | 0; s += '#' + h; } }
+      if (e.tagName === 'CANVAS') {
+        const g = e.getContext('2d');
+        let d = g ? g.getImageData(0, 0, e.width, e.height).data : null;
+        const w = g ? null : e.getContext('webgl2') || e.getContext('webgl');
+        if (w) { d = new Uint8Array(4 * e.width * e.height); w.bindFramebuffer(w.FRAMEBUFFER, null); w.readPixels(0, 0, e.width, e.height, w.RGBA, w.UNSIGNED_BYTE, d); }
+        if (d) { let h = 0; for (let i = 0; i < d.length; i += 61) h = (h * 31 + d[i]) | 0; s += '#' + h; }
+      }
       for (const n of e.childNodes) s += n.nodeType === 3 ? n.textContent : n.nodeType === 1 ? walk(n) : '';
       return s + '>'; };
     const s = walk(document.getElementById('stage'));

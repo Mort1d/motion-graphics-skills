@@ -104,11 +104,13 @@ function checkOverflow(t) {
 
 window.__samples = (t) => (WHIPS.some(([a, z]) => t >= a && t <= z) ? 16 : 8);
 
-window.__render = (t, f) => {
-  nextFrame();
+window.__render = async (t, f) => {
   // a loop: the motion-blur samples of frame 0 (t < 0) come from the end, those of the last frame from the start —
   // without this the seam frame blurs into an empty stage and blinks
   if (LOOP && DURATION > 0) t = ((t % DURATION) + DURATION) % DURATION;
+  // footage frames and photos on the screen are decoded before the frame is drawn
+  if (renderFn.prepare) await renderFn.prepare(t, f);
+  nextFrame();
   renderFn(t, f);
   if (debug) document.getElementById('debug').textContent = `${t.toFixed(2)} s · beat ${(t / BEAT).toFixed(2)} · bar ${Math.floor(t / BEAT / 4) + 1}`;
   // captureScreenshot draws a fresh frame itself; this wait only lets images and fonts settle (timer fallback when
