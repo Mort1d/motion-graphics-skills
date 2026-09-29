@@ -4,7 +4,7 @@ description: Creates showreel-grade motion graphics videos entirely from code â€
 license: MIT
 compatibility: Needs a local shell with Node.js 22.4+, ffmpeg and ffprobe on PATH, and Chrome, Edge, Chromium or Brave installed. No npm packages or API keys; the network is used only to read the links the user gives (the site, reference posts).
 metadata:
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 
 # Motion graphics
