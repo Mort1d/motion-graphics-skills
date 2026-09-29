@@ -282,8 +282,10 @@ export function verdict(me, root, extra = []) {
   const top = near[0];
   if (!top) return { level: 'INFO', detail: 'nothing to compare with', near };
   const same = top.c.same.length ? `: same ${top.c.same.join(', ')}` : '';
-  if (top.o.label === 'the template demo score' && top.c.score >= SAME) {
-    return { level: 'FAIL', detail: `${top.c.score.toFixed(2)} to the template's demo score — compose this video's own (references/sound-design.md)`, near };
+  // the demo score fails whatever else is nearer (a sibling project that also kept it must not hide it)
+  const demo = near.find((p) => p.o.label === 'the template demo score');
+  if (demo && demo.c.score >= SAME) {
+    return { level: 'FAIL', detail: `${demo.c.score.toFixed(2)} to the template's demo score — compose this video's own (references/sound-design.md)`, near };
   }
   if (top.c.score >= TOO_CLOSE) {
     return { level: 'WARN', detail: `${top.c.score.toFixed(2)} to ${top.o.label}${same} — change the genre, the groove or the kit unless a matching series was asked for (sound-design.md §12)`, near };
@@ -347,6 +349,18 @@ const WORLDS = {
     C(9, 'Afro / amapiano', 'broken', 100, 118, 'minor major', 2), C(15, 'Pentatonic plucks (koto = pluck ks)', 'backbeat', 90, 120, 'major', 1),
     C(21, 'Baile funk', 'broken', 125, 135, 'minor', 3), C(5, 'Brass funk (a regional band sound)', 'backbeat', 100, 118, 'minor dorian', 2),
     C(17, 'Ambient with a regional voice (duduk = formant, koto = pluck ks)', 'no kick', 70, 95, 'minor lydian', 1)] },
+  // developer tools, open source, CLIs, APIs: clean and precise, and driving by default (the release films drive)
+  dev: { home: 3, kit: ['clean, precise'], options: [C(19, 'Breakbeat (a release film)', 'broken', 125, 135, 'minor mixolydian', 3),
+    C(12, 'UK garage', 'broken', 130, 134, 'minor', 2), C(11, 'Liquid drum & bass', 'broken', 170, 176, 'minor', 3),
+    C(7, 'Synthwave (a terminal at night)', 'backbeat', 100, 118, 'minor', 2), C(18, 'Rock-ish hybrid (a big major version)', 'backbeat', 130, 150, 'minor mixolydian', 3),
+    C(22, 'Glitch-pop', 'half-time', 140, 160, 'minor', 2), C(14, 'Minimal pulse without its kick (docs, a calm explainer)', 'no kick', 90, 110, 'minor', 1),
+    C(17, 'Ambient pulse', 'no kick', 70, 95, 'lydian', 1), C(3, 'Tech house', 'four on the floor', 122, 126, 'minor', 3)] },
+  // travel, sport, events, personal reels: music-led, cut on the downbeats
+  lifestyle: { home: 3, kit: ['hard, loud', 'warm, round'], options: [C(19, 'Breakbeat (whip pans between places)', 'broken', 120, 135, 'minor mixolydian', 3),
+    C(21, 'Baile funk', 'broken', 125, 135, 'minor', 3), C(1, 'Drift phonk (night, speed)', 'backbeat', 128, 145, 'minor', 3),
+    C(9, 'Afro / amapiano (summer, the sea)', 'broken', 110, 118, 'minor major', 2), C(6, 'Future bass (a sunrise)', 'half-time', 140, 150, 'major', 2),
+    C(15, 'Uplifting pop (backbeat)', 'backbeat', 110, 125, 'major', 2), C(8, 'Lo-fi (a slow travel diary)', 'backbeat', 75, 90, 'major', 1),
+    C(17, 'Ambient (landscapes, a quiet morning)', 'no kick', 70, 90, 'lydian major', 1), C(5, 'Nu-disco', 'four on the floor', 115, 122, 'major', 2)] },
 };
 // A minor and C major are what models write when nobody chooses: left out of the suggestions
 const KEYS = {

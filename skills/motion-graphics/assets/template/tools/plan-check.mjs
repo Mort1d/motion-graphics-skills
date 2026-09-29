@@ -21,11 +21,16 @@ export function energyLine(readme) {
   return null;
 }
 
-/** What the words ask for: 'dynamic', 'calm', 'mixed' (both: "calm, then a blast") or null. */
+/**
+ * What the words ask for: 'dynamic', 'calm', 'mixed' (both: "calm, then a blast") or null. When the line quotes the
+ * person («…», "…", “…”), only the quotes count — the reasoning around them ("no reason for calm") is not a request.
+ */
 export function asked(line) {
   if (!line) return null;
-  const d = DYNAMIC.test(line);
-  const c = CALM.test(line);
+  const quotes = [...String(line).matchAll(/«([^»]+)»|“([^”]+)”|"([^"]+)"/g)].map((m) => m[1] ?? m[2] ?? m[3]).join(' ');
+  const words = quotes || line;
+  const d = DYNAMIC.test(words);
+  const c = CALM.test(words);
   return d && c ? 'mixed' : d ? 'dynamic' : c ? 'calm' : null;
 }
 
@@ -59,9 +64,12 @@ export function checkPlan(TL, { readme = '', copy = '', timelineSrc = '' } = {})
   const want = asked(line);
   if (!line) add('WARN', 'asked', 'README.md has no Energy line: write what the person asked for, or why the plan has this shape');
   else if (E && want === 'dynamic') {
-    // a hook without drums may take its first 2 bars; after that nothing may be planned low
+    // the groove comes in within the first bar (a pickup); a low scene past 2 bars breaks the promise, 1–2 bars is a
+    // long wait worth a second look
     const quiet = scenes.filter((n) => E[n] === 'low' && (S[n][0] > 2 * BAR + 0.01 || S[n][1] - S[n][0] > 2 * BAR + 0.5));
-    if (quiet.length) add('FAIL', 'asked', `the words ask for energy («${line}»), but ${quiet.map((n) => `${n} (${fmt(S[n][0])}–${fmt(S[n][1])})`).join(', ')} is planned 'low': keep the groove under every scene after the first 2 bars`);
+    const slow = scenes.filter((n) => E[n] === 'low' && !quiet.includes(n) && S[n][1] > BAR + 0.5);
+    if (quiet.length) add('FAIL', 'asked', `the words ask for energy («${line}»), but ${quiet.map((n) => `${n} (${fmt(S[n][0])}–${fmt(S[n][1])})`).join(', ')} is planned 'low': keep the groove under every scene after the first bar`);
+    else if (slow.length) add('WARN', 'asked', `the words ask for energy («${line}»), and ${slow.map((n) => `${n} stays 'low' until ${fmt(S[n][1])}`).join(', ')}: a pickup of a bar at most, then the groove (sound-design.md §5)`);
     else add('PASS', 'asked', `energy asked for, and the plan keeps it (${scenes.map((n) => `${n} ${E[n]}`).join(' · ')})`);
   } else if (E && want === 'calm') {
     const loud = scenes.filter((n) => E[n] === 'high');
@@ -78,10 +86,14 @@ export function checkPlan(TL, { readme = '', copy = '', timelineSrc = '' } = {})
     const gaps = [];
     for (let i = 1; i < times.length; i++) if (times[i] <= last + 1e-6 && times[i] - times[i - 1] > 4) gaps.push([times[i - 1], times[i]]);
     add(gaps.length ? 'WARN' : 'PASS', 'pace', gaps.length ? `${gaps.map(([a, z]) => `${fmt(a)}–${fmt(z)}`).join(', ')} without a planned event: something new every 2–4 s (a hit, a reveal, a move — a CUE)` : 'an event at least every 4 s');
-    const tail = DUR - last;
+    // the end card stays long enough to be read, and the last hit has room to ring out
     const endScene = names.filter((n) => !layer(n)).sort((a, b) => S[b][1] - S[a][1])[0];
-    const hold = endScene ? S[endScene][1] - Math.max(S[endScene][0], last) : tail;
-    add(tail >= 1.5 && hold >= 1.5 ? 'PASS' : 'WARN', 'end', `${fmt(tail)} after the last cue${endScene ? ` in ${endScene}` : ''} — the end card holds ≥ 2.5 s with the logo and the CTA, the sound rings out ≥ 1.5 s`);
+    const card = endScene ? Math.min(DUR, S[endScene][1]) - S[endScene][0] : 0;
+    const after = (endScene ? Math.min(DUR, S[endScene][1]) : DUR) - last;
+    const short = [];
+    if (endScene && card < 2.5) short.push(`the end card ${endScene} is on screen only ${fmt(card)}: hold it ≥ 2.5 s with the logo and the CTA`);
+    if (after < 1.5) short.push(`only ${fmt(after)} after the last cue: leave ≥ 1.5 s for the eye to rest and the sound to ring out`);
+    add(short.length ? 'WARN' : 'PASS', 'end', short.length ? short.join('; ') : `the end card${endScene ? ` ${endScene}` : ''} is on screen ${fmt(card)}, ${fmt(after)} after the last cue`);
   }
 
   // scene windows: none empty or inverted, neighbours meet (a gap flashes the background)

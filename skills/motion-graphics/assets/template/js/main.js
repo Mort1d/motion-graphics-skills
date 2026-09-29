@@ -5,7 +5,7 @@ const params = new URLSearchParams(location.search);
 const debug = params.has('debug');
 if (debug) document.body.classList.add('debug');
 
-const { W, H, BEAT, WHIPS, S, FPS = 60 } = await import('./timeline.mjs');
+const { W, H, BEAT, WHIPS, S, FPS = 60, DURATION, LOOP } = await import('./timeline.mjs');
 for (const e of [document.body, stage]) Object.assign(e.style, { width: `${W}px`, height: `${H}px` });
 
 if (document.readyState !== 'complete') await new Promise((r) => addEventListener('load', r, { once: true }));
@@ -87,7 +87,10 @@ function checkOverflow(t) {
     for (const n of e.childNodes) if (n.nodeType === 3) own += n.textContent;
     if (own.trim().length < 2) continue;
     const cs = getComputedStyle(e);
-    if (cs.display === 'none' || cs.visibility === 'hidden' || Number(cs.opacity) < 0.05) continue;
+    if (cs.display === 'none' || cs.visibility === 'hidden') continue;
+    let o = 1; // what the eye gets: a word inside a faded-out group is not on screen
+    for (let a = e; a && a !== stage; a = a.parentElement) o *= Number(getComputedStyle(a).opacity);
+    if (o < 0.05) continue;
     const r = e.getBoundingClientRect();
     if (!r.width || !r.height) continue;
     const inside = r.right > 0 && r.x < W && r.bottom > 0 && r.y < H; // wholly off the frame: on its way in or out
@@ -103,6 +106,9 @@ window.__samples = (t) => (WHIPS.some(([a, z]) => t >= a && t <= z) ? 16 : 8);
 
 window.__render = (t, f) => {
   nextFrame();
+  // a loop: the motion-blur samples of frame 0 (t < 0) come from the end, those of the last frame from the start —
+  // without this the seam frame blurs into an empty stage and blinks
+  if (LOOP && DURATION > 0) t = ((t % DURATION) + DURATION) % DURATION;
   renderFn(t, f);
   if (debug) document.getElementById('debug').textContent = `${t.toFixed(2)} s · beat ${(t / BEAT).toFixed(2)} · bar ${Math.floor(t / BEAT / 4) + 1}`;
   // captureScreenshot draws a fresh frame itself; this wait only lets images and fonts settle (timer fallback when

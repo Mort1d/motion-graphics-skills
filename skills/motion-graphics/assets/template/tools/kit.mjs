@@ -28,8 +28,12 @@ for (const a of inputs) {
 }
 fs.mkdirSync(OUT, { recursive: true });
 const rows = [];
+const used = new Set();
 for (const f of files) {
-  const name = path.basename(f).replace(/\.[^.]+$/, '').toLowerCase().replace(/[^a-z0-9а-яё_-]+/gi, '-').replace(/^-+|-+$/g, '') || 'sound';
+  const base = path.basename(f).replace(/\.[^.]+$/, '').toLowerCase().replace(/[^a-z0-9а-яё_-]+/gi, '-').replace(/^-+|-+$/g, '') || 'sound';
+  let name = base;
+  for (let k = 2; used.has(name); k++) name = `${base}-${k}`;
+  used.add(name);
   const out = path.join(OUT, `${name}.wav`);
   if (path.resolve(f) !== out) {
     const r = spawnSync('ffmpeg', ['-v', 'error', '-y', '-i', f, '-vn', '-ac', '2', '-ar', '48000', '-c:a', 'pcm_f32le', out], { encoding: 'utf8' });
@@ -53,13 +57,16 @@ const md = ['# Sound kit', '', 'Recorded sounds for the score: `sample(t, \'audi
   ...rows.map((r) => `| ${r.file} | ${r.from} | ${r.len.toFixed(2)} s | ${(r.at * 1000).toFixed(0)} ms | ${r.db.toFixed(1)} dBFS | |`), ''];
 const kitMd = path.join(OUT, 'KIT.md');
 if (fs.existsSync(kitMd)) {
-  // keep what was written in the licence column
-  const old = fs.readFileSync(kitMd, 'utf8');
+  // keep what was written in the licence column, and the rows of sounds added by earlier runs
+  const old = fs.readFileSync(kitMd, 'utf8').split('\n');
   for (let i = 0; i < md.length; i++) {
     const m = /^\| ([^|]+) \|/.exec(md[i]);
-    const prev = m && old.split('\n').find((l) => l.startsWith(`| ${m[1]} |`));
+    const prev = m && old.find((l) => l.startsWith(`| ${m[1]} |`));
     if (prev) md[i] = md[i].replace(/\| \|$/, `|${prev.split('|').slice(-2, -1)[0]}|`);
   }
+  const now = new Set(rows.map((r) => r.file));
+  const earlier = old.filter((l) => { const m = /^\| ([^|]+\.wav) \|/.exec(l); return m && !now.has(m[1]) && fs.existsSync(path.join(OUT, m[1])); });
+  md.splice(md.length - 1, 0, ...earlier);
 }
 fs.writeFileSync(kitMd, md.join('\n'));
 console.log(`${rows.length} sound(s) → ${path.relative(ROOT, OUT) || OUT}; fill in their sources and licences in ${path.relative(ROOT, kitMd)}`);

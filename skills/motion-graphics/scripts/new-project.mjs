@@ -83,6 +83,7 @@ process.stderr.write(doc.stderr || '');
 console.log(`
 next (from ${path.relative(process.cwd(), dest) || '.'}):
   node tools/capture.mjs sheet 0 12 24               the demo as a contact sheet → out/sheet.png (proves the pipeline)
-  ${fresh.has('brief.md') ? 'fill brief.md (facts + sources)' : 'brief.md is yours (kept)'} and README.md (story table + sound brief)
-  then replace the demo: js/timeline.mjs, js/copy.mjs, js/scenes/*, js/reel.js SCENES, css/style.css, audio/score.mjs`);
+  ${fresh.has('brief.md') ? 'fill brief.md (facts + sources)' : 'brief.md is yours (kept)'} and README.md (the direction card, the story table, the sound brief)
+  plan js/timeline.mjs (scene windows, cues, ENERGY), then: node tools/plan-check.mjs
+  then replace the demo: js/copy.mjs, js/scenes/*, js/reel.js SCENES, css/style.css, audio/score.mjs`);
 if (doc.status !== 0) process.exitCode = 1;

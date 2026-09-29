@@ -15,7 +15,6 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..');
 const args = process.argv.slice(2);
 const opt = (k, d) => { const i = args.indexOf(`--${k}`); return i >= 0 ? args[i + 1] : d; };
-const draft = args.includes('--draft');
 const TL = await import(pathToFileURL(path.join(ROOT, 'js/timeline.mjs')).href);
 
 let file = args.find((a, i) => !a.startsWith('--') && !['--lufs'].includes(args[i - 1]));
@@ -28,6 +27,8 @@ if (!file) {
 }
 file = path.resolve(file);
 const name = path.basename(file, '.mp4');
+// a draft is rendered at half size: named so by render.mjs, or said with --draft
+const draft = args.includes('--draft') || /-draft$/.test(name);
 const target = Number(opt('lufs', -14));
 const rows = [];
 const add = (level, what, detail) => rows.push({ level, what, detail });
@@ -142,7 +143,7 @@ if (a) {
   if (pops.length) {
     const p0 = pops[0].t;
     add('WARN', 'pops', `a frame unlike both of its neighbours at ${pops.slice(0, 6).map((p) => `${p.t.toFixed(3)} s`).join(', ')}${pops.length > 6 ? ' …' : ''} — `
-      + `a scene drawn a frame early, a number or a title that blinks; fine only if it is a designed one-frame glitch: node tools/capture.mjs sheet ${(p0 - 0.05).toFixed(3)} ${(p0 + 0.05).toFixed(3)} 7`);
+      + `a scene drawn a frame early, a number or a title that blinks; fine only if it is a designed one-frame glitch: node tools/capture.mjs sheet ${Math.max(0, p0 - 0.05).toFixed(3)} ${(p0 + 0.05).toFixed(3)} 7`);
   } else add('PASS', 'pops', 'no single-frame pops');
   if (TL.LOOP && !isCut && frames > 1) {
     let d = 0;

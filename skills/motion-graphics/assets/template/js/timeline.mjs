@@ -52,3 +52,7 @@ export const WHIPS = [
 
 /** Stills saved as covers / thumbnails after the final render. */
 export const COVERS = [b(3.6), b(20)];
+
+/** true for a video that loops (X plays short videos in a loop; a site's hero): the last frame folds back into the
+ *  first, the motion blur of frame 0 comes from the end, and QA checks the seam. */
+export const LOOP = false;

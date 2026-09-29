@@ -219,7 +219,8 @@ function drops(f, tp, dur) {
   const SR = 4000;
   const r = run('ffmpeg', ['-v', 'error', '-t', '600', '-i', f, '-vn', '-ac', '1', '-af', 'lowpass=f=150,lowpass=f=150', '-ar', String(SR), '-f', 'f32le', '-'], true);
   if (!r.stdout || r.stdout.length < SR * 4 * 4) return [];
-  const x = new Float32Array(r.stdout.buffer, r.stdout.byteOffset, r.stdout.byteLength >> 2);
+  // a copy: a Float32Array view needs its offset aligned to 4 bytes, and Node does not promise that for stdout
+  const x = new Float32Array(r.stdout.buffer.slice(r.stdout.byteOffset, r.stdout.byteOffset + (r.stdout.byteLength & ~3)));
   const pow = (a, z) => { const i0 = Math.max(0, Math.floor(a * SR)); const i1 = Math.min(x.length, Math.floor(z * SR)); let e = 0; for (let i = i0; i < i1; i++) e += x[i] * x[i]; return i1 > i0 ? e / (i1 - i0) : 0; };
   const db = (p) => 10 * Math.log10(p + 1e-12);
   const step = tp ? (4 * 60) / tp.bpm : 1; // bars, or seconds without a tempo

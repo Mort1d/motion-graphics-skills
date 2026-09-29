@@ -283,7 +283,8 @@ async function tiles(c, times, out, cols, scale) {
       ff.stdin.write(await frameAt(c, typeof t === 'string' ? f / FPS : t, f, shotOpts(scale)));
     }
   } finally { ff.stdin.end(); }
-  await done;
+  const code = await done;
+  if (code !== 0) throw new Error(`ffmpeg exited ${code} while writing ${out}`);
   console.log(out);
 }
 
@@ -316,7 +317,7 @@ async function review() {
   try {
     await tiles(c, beats, path.join(dir, 'beats.png'), 8, Math.min(0.25, 320 / W));
     for (const [a, z] of whips) {
-      const f0 = Math.round(((a + z) / 2) * FPS) - 6;
+      const f0 = Math.max(0, Math.min(Math.floor(dur * FPS) - 12, Math.round(((a + z) / 2) * FPS) - 6));
       await tiles(c, Array.from({ length: 12 }, (_, k) => `${f0 + k}f`), path.join(dir, `strip-${a.toFixed(2)}s.png`), 12, 160 / W);
     }
   } finally { await close(); }
@@ -385,9 +386,12 @@ function samplesFor(slots, want) {
  */
 async function renderRange(c, f0, f1, out, { slots = 16, scale = 1, shutter = 0.5, crf = 8, log = true } = {}) {
   fs.mkdirSync(path.dirname(out), { recursive: true });
+  // written beside its final name and moved there only when complete: a stopped render leaves no half-written chunk
+  // for a later --range run to reuse
+  const part = out.replace(/(\.\w+)?$/, '.partial$1');
   const vf = slots > 1 ? `tmix=frames=${slots},select='not(mod(n+1\\,${slots}))',setpts=N/(${FPS}*TB)` : 'null';
   const ff = spawn('ffmpeg', ['-v', 'error', '-y', '-f', 'image2pipe', '-framerate', String(FPS * slots), '-c:v', 'png', '-i', '-',
-    '-vf', vf, '-r', String(FPS), '-c:v', 'libx264', '-preset', 'fast', '-crf', String(crf), '-pix_fmt', 'yuv444p', out],
+    '-vf', vf, '-r', String(FPS), '-c:v', 'libx264', '-preset', 'fast', '-crf', String(crf), '-pix_fmt', 'yuv444p', part],
   { stdio: ['pipe', 'inherit', 'inherit'] });
   const done = new Promise((r) => ff.on('close', r));
   const write = (buf) => new Promise((r) => { if (ff.stdin.write(buf)) r(); else ff.stdin.once('drain', r); });
@@ -422,7 +426,8 @@ async function renderRange(c, f0, f1, out, { slots = 16, scale = 1, shutter = 0.
     }
   } finally { ff.stdin.end(); }
   const code = await done;
-  if (code !== 0) throw new Error(`ffmpeg exited ${code} while writing ${out}`);
+  if (code !== 0) { fs.rmSync(part, { force: true }); throw new Error(`ffmpeg exited ${code} while writing ${out}`); }
+  fs.renameSync(part, out);
   return { captures, secs: (Date.now() - started) / 1000 };
 }
 

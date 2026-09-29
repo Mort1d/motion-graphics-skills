@@ -75,7 +75,8 @@ export const rise = (t, t0, dur = 0.35, e = ease.snap) => 100 * (1 - e(clamp((t 
 /**
  * One camera over one container (transform-origin 0 0): keys [[t, [x, y, zoom]], ...] — the point of the content held
  * in the middle of the frame, and how close. It eases from key to key, one move at a time, the zoom in log space (a
- * cursor inside the container scales with it). → { x, y, z, transform }; write `transform` every frame.
+ * cursor inside the container scales with it); a key repeated with a later time holds the shot. Before the first
+ * key it sits on the first, after the last on the last. → { x, y, z, transform }; write `transform` every frame.
  */
 export function camera(t, ks, e = ease.inOutCubic) {
   let i = ks.findIndex((k) => t < k[0]);

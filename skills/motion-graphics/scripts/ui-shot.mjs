@@ -3,7 +3,9 @@
 // a chart, a whole panel — each on a transparent background (its rounded corners and shadow included), 2× by default,
 // so a scene can grow, morph and fly the real thing instead of a redrawing of it. Steps before a shot stage the state
 // the story needs on this headless copy of the page: open a tab, type into a field, rewrite a label for an empty or a
-// filled state. Nothing is submitted and nothing leaves the browser; a click that would submit a form is refused.
+// filled state. Nothing is submitted: a click on a submit button is refused, and every request that could carry data
+// (POST, PUT, PATCH, DELETE, a beacon) is blocked before it leaves the browser; dialogs are dismissed, downloads
+// denied. Type demo text only — a live search still sends what is typed in its GET.
 //   node <skill>/scripts/ui-shot.mjs <url> [--out assets/ui] [--width 1440] [--height 900] [--scale 2] [--mobile]
 //        [--pad 24] then steps, run in the order given:
 //        --shot "<name>=<css selector>"   save <out>/<name>.png and its box in <out>/ui.json
@@ -90,6 +92,7 @@ function typeInto([sel, text]) {
   if (setter && (e.tagName === 'INPUT' || e.tagName === 'TEXTAREA')) setter.call(e, text); else e.textContent = text;
   e.dispatchEvent(new Event('input', { bubbles: true }));
   e.dispatchEvent(new Event('change', { bubbles: true }));
+  e.blur(); // a filled field, not a focused one: no focus ring in the product shot
   return '';
 }
 function hideAll(sel) {
@@ -100,6 +103,7 @@ function hideAll(sel) {
 
 // ---- run -----------------------------------------------------------------------------------------------------------
 let b;
+const blocked = [];
 try { b = await launch({ width, height, profileDir: path.join(OUT, '.cache') }); } catch (e) { console.error(`ui-shot: ${e.message}`); process.exit(1); }
 const record = [];
 let failed = 0;
@@ -108,9 +112,19 @@ try {
   const page = await b.open((m) => {
     if (m.method === 'Page.loadEventFired') loaded = true;
     else if (m.method === 'Page.javascriptDialogOpening') page.send('Page.handleJavaScriptDialog', { accept: false }).catch(() => {});
+    else if (m.method === 'Fetch.requestPaused') {
+      // reading is fine, sending is not: only requests that cannot carry a body go out
+      const { requestId, request } = m.params;
+      if (/^(GET|HEAD|OPTIONS)$/i.test(request.method)) page.send('Fetch.continueRequest', { requestId }).catch(() => {});
+      else {
+        blocked.push(`${request.method} ${request.url.slice(0, 90)}`);
+        page.send('Fetch.failRequest', { requestId, errorReason: 'BlockedByClient' }).catch(() => {});
+      }
+    }
   });
   const inPage = (fn, arg) => page.evaluate(call(fn, arg), { isolated: true });
   await page.send('Page.enable');
+  await page.send('Fetch.enable', { patterns: [{ urlPattern: '*' }] });
   await b.send('Browser.setDownloadBehavior', { behavior: 'deny' }).catch(() => {});
   await page.send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: scale, mobile });
   await page.send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'reduce' }, { name: 'prefers-color-scheme', value: 'light' }] });
@@ -149,6 +163,7 @@ try {
     record.push({ name, selector: sel, file: path.basename(file), box: { x: Math.round(box.x), y: Math.round(box.y), w: Math.round(box.w), h: Math.round(box.h) }, pad, scale, after: [...done], text: box.text });
     console.log(`  ${path.relative(process.cwd(), file)}  ${Math.round(box.w)}×${Math.round(box.h)} css px at ${scale}×${done.length ? `, after: ${done.join('; ')}` : ''}`);
   }
+  if (blocked.length) console.log(`  blocked ${blocked.length} request(s) that would have sent data: ${blocked.slice(0, 4).join(', ')}${blocked.length > 4 ? ', …' : ''}`);
 } catch (e) {
   console.error(`ui-shot: ${e.message}`);
   failed++;

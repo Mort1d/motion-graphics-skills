@@ -3,11 +3,16 @@
 // so by default a sample is placed with that peak on t, not its first byte. Prepare the files with tools/kit.mjs
 // (converts any format to 48 kHz WAV and lists each file's peak); the person answers for their licence.
 import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { SR, writer, at } from './core.mjs';
 
 const cache = new Map();
+// a path like 'audio/kit/crunch.wav' is the project's, wherever the score is run from
+const ROOT = fileURLToPath(new URL('../../', import.meta.url));
+const locate = (file) => (path.isAbsolute(file) || fs.existsSync(file) ? file : path.join(ROOT, file));
 
-/** Reads a PCM (16/24/32-bit) or float WAV → { L, R, rate }. */
+/** Reads a PCM (8/16/24/32-bit) or 32-bit float WAV → { L, R, rate }. */
 export function readWav(file) {
   const b = fs.readFileSync(file);
   if (b.toString('ascii', 0, 4) !== 'RIFF' || b.toString('ascii', 8, 12) !== 'WAVE') throw new Error(`${file} is not a WAV file (convert it with tools/kit.mjs)`);
@@ -26,8 +31,10 @@ export function readWav(file) {
   if (!fmt || !data) throw new Error(`${file}: no fmt or data chunk`);
   if (fmt.format !== 1 && fmt.format !== 3) throw new Error(`${file}: WAV format ${fmt.format} — convert it with tools/kit.mjs`);
   const float = fmt.format === 3;
+  if (float ? fmt.bits !== 32 : ![8, 16, 24, 32].includes(fmt.bits) || !fmt.ch) throw new Error(`${file}: ${fmt.bits}-bit ${float ? 'float' : 'PCM'} with ${fmt.ch} channels — convert it with tools/kit.mjs`);
   const step = fmt.bits / 8;
   const n = Math.floor(data.length / (step * fmt.ch));
+  if (!n) throw new Error(`${file}: its data chunk holds no audio`);
   const L = new Float32Array(n);
   const R = new Float32Array(n);
   const read = (o) => (float ? data.readFloatLE(o) : fmt.bits === 16 ? data.readInt16LE(o) / 32768 : fmt.bits === 24 ? data.readIntLE(o, 3) / 8388608 : fmt.bits === 32 ? data.readInt32LE(o) / 2147483648 : (data.readUInt8(o) - 128) / 128);
@@ -53,7 +60,7 @@ export function peakOf({ L, R, rate }) {
 
 function load(file) {
   if (!cache.has(file)) {
-    const w = readWav(file);
+    const w = readWav(locate(file));
     cache.set(file, { ...w, peak: peakOf(w) });
   }
   return cache.get(file);
