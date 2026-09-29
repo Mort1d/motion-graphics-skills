@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Delivery check of a rendered video, in one decoding pass: codec / size / fps / duration against js/timeline.mjs,
-// loudness and true peak, black or frozen stretches, silence, leftover template demo code; plus a contact sheet of
-// the encoded file to look at (out/qa/<name>-sheet.png).
+// loudness and true peak, black or frozen stretches, silence, flat frames, single-frame pops, the loop seam (LOOP),
+// leftover template demo code; plus a contact sheet of the encoded file to look at (out/qa/<name>-sheet.png).
 //   node tools/qa.mjs [out/<name>.mp4] [--lufs -14] [--draft]
 // Exit code 1 when something FAILs; WARN lines are worth a look but may be intentional (a held end card, a dark scene).
 import fs from 'node:fs';
@@ -9,6 +9,7 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { curveOf, perScene, planVerdict } from './energy.mjs';
+import { findPops } from './pops.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..');
@@ -118,6 +119,37 @@ if (a) {
   }
   const lum = lumSum / (frames * n || 1);
   add('INFO', 'look', `${lum < 0.3 ? 'dark' : lum > 0.6 ? 'light' : 'mid-tone'} (mean luminance ${lum.toFixed(2)}) — is that the brand's own look?`);
+
+  // single-frame pops (tools/pops.mjs) and, for a video that loops, the seam: the same thumbnails in grey
+  const grey = Buffer.alloc(frames * n);
+  for (let i = 0; i < frames * n; i++) grey[i] = Math.round(0.299 * px[3 * i] + 0.587 * px[3 * i + 1] + 0.114 * px[3 * i + 2]);
+  const thumbs = { frames: grey, w: sw, h: shh, n: frames };
+  // the hook moves: the longest still stretch of the first 1.5 s (a slam, a hold, a slam is fine; a logo on black is not)
+  const first = Math.min(frames - 1, Math.round(1.5 * fps));
+  let still = 0;
+  let run = 0;
+  let runAt = 0;
+  for (let k = 1; k <= first; k++) {
+    let d = 0;
+    for (let i = 0; i < n; i++) d += Math.abs(grey[k * n + i] - grey[(k - 1) * n + i]);
+    run = d / n > 0.1 ? 0 : run + 1;
+    if (run > still) { still = run; runAt = (k - run) / fps; }
+  }
+  add(still / fps <= 0.5 ? 'PASS' : 'WARN', 'hook', still / fps <= 0.5
+    ? `the opening moves (the longest still stretch of the first 1.5 s is ${(still / fps).toFixed(2)} s)`
+    : `nothing moves for ${(still / fps).toFixed(2)} s from ${runAt.toFixed(2)} s — the feed scrolls on: motion from frame 1, the words within the first second`);
+  const pops = findPops(thumbs, { fps });
+  if (pops.length) {
+    const p0 = pops[0].t;
+    add('WARN', 'pops', `a frame unlike both of its neighbours at ${pops.slice(0, 6).map((p) => `${p.t.toFixed(3)} s`).join(', ')}${pops.length > 6 ? ' …' : ''} — `
+      + `a scene drawn a frame early, a number or a title that blinks; fine only if it is a designed one-frame glitch: node tools/capture.mjs sheet ${(p0 - 0.05).toFixed(3)} ${(p0 + 0.05).toFixed(3)} 7`);
+  } else add('PASS', 'pops', 'no single-frame pops');
+  if (TL.LOOP && !isCut && frames > 1) {
+    let d = 0;
+    for (let i = 0; i < n; i++) d += Math.abs(grey[i] - grey[(frames - 1) * n + i]);
+    d /= n;
+    add(d <= 2 ? 'PASS' : 'FAIL', 'loop', `first and last frame differ by ${d.toFixed(1)} of 255 — ${d <= 2 ? 'the loop is seamless' : 'a loop ends on its own first frame (LOOP in js/timeline.mjs)'}`);
+  }
 }
 
 // ---- leftovers of the template: only in files the video actually uses ----------------------------------------------------
@@ -149,8 +181,14 @@ const lint = spawnSync(process.execPath, [path.join(HERE, 'capture.mjs'), 'eval'
 let found = null;
 try { found = JSON.parse((lint.stdout || '').slice((lint.stdout || '').indexOf('['))); } catch { found = null; }
 if (!Array.isArray(found)) add('INFO', 'counters', 'could not read the page lint (tools/capture.mjs eval) — look for a scene counter by eye');
-else if (found.length) add('FAIL', 'counters', `${found.map((l) => `"${l.text}" at ${l.t} s`).join(', ')} — a scene counter reads as a template: the video never numbers its own scenes`);
-else add('PASS', 'counters', 'no scene counter or chapter label on screen');
+else {
+  const counters = found.filter((l) => (l.kind ?? 'counter') === 'counter');
+  const cut = found.filter((l) => l.kind === 'overflow');
+  if (counters.length) add('FAIL', 'counters', `${counters.map((l) => `"${l.text}" at ${l.t} s`).join(', ')} — a scene counter reads as a template: the video never numbers its own scenes`);
+  else add('PASS', 'counters', 'no scene counter or chapter label on screen');
+  if (cut.length) add('WARN', 'edges', `${cut.slice(0, 6).map((l) => `"${l.text}" ${l.px} px out at ${l.t} s`).join(', ')}${cut.length > 6 ? ' …' : ''} — text cut by the edge of the frame: fitFont() it or move it inside (a still at that time shows it)`);
+  else add('PASS', 'edges', 'no text cut by the edge of the frame at the settled moments of the scenes');
+}
 
 // ---- is the soundtrack new? the demo score and the promos next to this project (tools/sound-print.mjs) -------------------
 if (a) {

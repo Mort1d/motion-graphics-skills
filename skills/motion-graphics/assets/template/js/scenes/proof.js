@@ -1,7 +1,7 @@
 // @template-demo — Proof (beats 8–16): the drop. Three glass cards whip in on the beat with speed lines, their numbers
 // roll (the score ticks along with the digits); two statement lines slam; a beat of silence pushes in; whip up.
 import { el, set, P, ease, clamp, lerp } from '../engine.js';
-import { CUE, S, b } from '../timeline.mjs';
+import { CUE, S, b, FPS } from '../timeline.mjs';
 import { TX } from '../i18n.js';
 import { W, H, U, VERTICAL, fitFont, slam, shakes, whip, roll, drawSpeedLines } from '../kit.js';
 
@@ -42,7 +42,7 @@ export async function build(ctx) {
     return { d, w: fitFont(d, W * 0.9), h: d.offsetHeight, t0: CUE.statement + b(i) };
   });
 
-  return (t) => {
+  return (t, f) => {
     const on = t >= S.proof[0] && t <= S.proof[1];
     set(root, { vis: on });
     if (!on) return;
@@ -55,7 +55,7 @@ export async function build(ctx) {
       const wx = whip(t, c.t0, 0.42, W * 0.9, 'in');
       const r = lerp(8, 0, ease.outExpo(clamp(d / 0.42)));
       set(c.d, { x: c.x + wx, y: c.y + back * 30 * U, r, s: 1 - 0.08 * back, o: d < 0 ? 0 : 1 - 0.8 * back, blur: back * 6 * U });
-      c.num.textContent = roll(t, c.t0 + 0.12, 0.8, c.c.from, c.c.to);
+      c.num.textContent = roll(f / FPS, c.t0 + 0.12, 0.8, c.c.from, c.c.to); // one real value per frame
       const nw = c.num.offsetWidth;
       set(c.num, { x: 44 * U, y: 38 * U, o: 1 });
       set(c.unit, { x: 44 * U + nw + 16 * U, y: 38 * U + 150 * U * 0.62, o: 1 });

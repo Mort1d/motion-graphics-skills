@@ -36,7 +36,9 @@ const num = (k, d, lo, hi) => {
 const inputs = args.filter((a, i) => !a.startsWith('--') && !VALUED.has(args[i - 1]));
 if (!inputs.length) usage();
 const outDir = path.resolve(opt('out', 'refs/analysis'));
-const refsDir = path.resolve(opt('refs', path.basename(outDir) === 'analysis' ? path.dirname(outDir) : 'refs'));
+// fetched clips go next to the analysis (<project>/refs for --out <project>/refs/analysis), never into the folder the
+// command runs from: that may be a repository
+const refsDir = path.resolve(opt('refs', path.basename(outDir) === 'analysis' ? path.dirname(outDir) : outDir));
 const TH = num('threshold', 0.3, 0.01, 1); // scene-change score above which a frame starts a new shot
 const MAX_MB = num('max-mb', 300, 1, 5000);
 // a known tempo (your own timeline's BPM, beat 0 at --first seconds) instead of the detected one
@@ -210,6 +212,40 @@ function loud(f) {
 // Motion design rarely cuts — wipes, morphs and slams are continuous — so counting hard cuts undersells its pace. The share
 // of frames where something moves, the "hits" (local peaks of change) per minute and how many of them sit on the beat
 // describe it. Measure your own draft the same way and compare.
+// ---- drops: where the bass comes in, bar by bar, then to 20 ms -------------------------------------------------------
+// A beat tracker can put the bar a beat or two off; the bass level cannot. For a track the edit follows, land the
+// biggest visual moment on the first drop.
+function drops(f, tp, dur) {
+  const SR = 4000;
+  const r = run('ffmpeg', ['-v', 'error', '-t', '600', '-i', f, '-vn', '-ac', '1', '-af', 'lowpass=f=150,lowpass=f=150', '-ar', String(SR), '-f', 'f32le', '-'], true);
+  if (!r.stdout || r.stdout.length < SR * 4 * 4) return [];
+  const x = new Float32Array(r.stdout.buffer, r.stdout.byteOffset, r.stdout.byteLength >> 2);
+  const pow = (a, z) => { const i0 = Math.max(0, Math.floor(a * SR)); const i1 = Math.min(x.length, Math.floor(z * SR)); let e = 0; for (let i = i0; i < i1; i++) e += x[i] * x[i]; return i1 > i0 ? e / (i1 - i0) : 0; };
+  const db = (p) => 10 * Math.log10(p + 1e-12);
+  const step = tp ? (4 * 60) / tp.bpm : 1; // bars, or seconds without a tempo
+  const start = tp ? tp.first % step : 0;
+  const edges = [];
+  for (let t = start; t + step <= Math.min(dur, 600) + 1e-6; t += step) edges.push(t);
+  const lv = edges.map((t) => db(pow(t, t + step)));
+  const top = Math.max(...lv);
+  const found = [];
+  for (let k = 1; k < lv.length; k++) {
+    const rise = lv[k] - lv[k - 1];
+    if (rise < 6 || lv[k] < top - 6) continue;
+    // the sharpest entrance of the bass within half a bar of the bar line (drops land mid-bar too): the 20 ms step
+    // where the next 0.25 s outweighs the last 0.25 s the most
+    let t = edges[k];
+    let best = 0;
+    for (let w = edges[k] - step / 2; w < edges[k] + step / 2; w += 0.02) {
+      const q = pow(w, w + 0.25) / (pow(w - 0.25, w) + 1e-9);
+      if (q > best) { best = q; t = w; }
+    }
+    found.push({ t: +t.toFixed(2), bar: tp ? k + 1 : null, rise: +rise.toFixed(1) });
+  }
+  return found.sort((a, b) => b.rise - a.rise).slice(0, 3).sort((a, b) => a.t - b.t);
+}
+const dropText = (d) => (d.length ? `drops (the bass comes in): ${d.map((x) => `${x.t.toFixed(2)} s${x.bar ? ` (bar ${x.bar})` : ''} +${x.rise} dB`).join(', ')}` : 'no drop: the bass holds its level (or there is none)');
+
 const median = (a) => { const s = [...a].sort((x, z) => x - z); return s.length ? s[Math.floor(s.length / 2)] : 0; };
 function motion(f) {
   const r = run('ffmpeg', ['-hide_banner', '-nostats', '-v', 'error', '-i', f, '-an', '-vf',
@@ -268,10 +304,12 @@ function analyse(f) {
   const silent = !lo || !(lo.I > -50); // a silent track has no tempo to find
   const tp = GIVEN ?? (silent ? null : tempo(f));
   const head = `${name}: ${info.dur.toFixed(2)} s${info.video ? ` ${info.w}x${info.h} @ ${info.fps.toFixed(2)} fps` : ', sound only'}${src ? `  ← ${src.link}` : ''}`;
-  if (!info.video) { // a track: its tempo and loudness are what matter
-    fs.writeFileSync(path.join(outDir, `${name}.json`), JSON.stringify({ file: f, duration: +info.dur.toFixed(2), tempo: tp, loudness: lo, source: src }, null, 1));
+  const dr = silent ? [] : drops(f, tp, info.dur);
+  if (!info.video) { // a track: its tempo, drops and loudness are what matter
+    fs.writeFileSync(path.join(outDir, `${name}.json`), JSON.stringify({ file: f, duration: +info.dur.toFixed(2), tempo: tp, drops: dr, loudness: lo, source: src }, null, 1));
     console.log(head);
     if (tp) console.log(`  ${tempoText(tp)}`);
+    if (!silent) console.log(`  ${dropText(dr)}`);
     console.log(lo && !silent ? `  loudness ${lo.I} LUFS, range ${lo.LRA} LU` : '  silent');
     if (lo?.arc && !silent) console.log(`  music by second:  ${lo.arc}`);
     analysed++;
@@ -311,7 +349,7 @@ function analyse(f) {
     file: f, duration: +info.dur.toFixed(2), size: `${info.w}x${info.h}`, fps: +info.fps.toFixed(2),
     shots: shots.length, shotsPerMinute: +((shots.length / info.dur) * 60).toFixed(1), medianShot: +medianShot.toFixed(2),
     shortestShot: +sorted[0]?.toFixed(2), longestShot: +sorted[sorted.length - 1]?.toFixed(2),
-    cuts: cs.map((t) => +t.toFixed(3)), tempo: tp, loudness: lo,
+    cuts: cs.map((t) => +t.toFixed(3)), tempo: tp, drops: dr, loudness: lo,
     cutsOnBeat: cutBeat && { beat: +cutBeat.share.toFixed(2), half: +cutHalf.share.toFixed(2), constantOffsetMs: cutBeat.lead != null ? Math.round(cutBeat.lead * 1000) : null },
     motion: mo && {
       movingShare: +mo.moving.toFixed(2), hits: mo.hits.map((x) => +x.toFixed(3)), hitsPerMinute: +mo.perMinute.toFixed(1),
@@ -330,6 +368,7 @@ function analyse(f) {
     console.log(`  motion: something moves in ${pct(mo.moving)} of frames; ${mo.hits.length} hits, ${mo.perMinute.toFixed(0)}/min${hitBeat ? `, ${pct(hitBeat.share)} of them on the beat (by chance ${pct(hitBeat.chance)})${offsetText(hitBeat)}` : ''}`);
     console.log(`  energy by second: ${mo.spark}`);
     if (lo?.arc && !silent) console.log(`  music by second:  ${lo.arc}  (loudness; where the drums come in, the drops)`);
+    if (!silent) console.log(`  ${dropText(dr)}`);
   }
   if (tp) console.log(`  ${tempoText(tp)}${cutBeat ? `; cuts on the beat ${pct(cutBeat.share)}, on the half-beat ${pct(cutHalf.share)}${offsetText(cutBeat)}` : ''}`);
   console.log(lo && !silent ? `  loudness ${lo.I} LUFS, range ${lo.LRA} LU` : '  no sound (or silent): no tempo');

@@ -79,6 +79,31 @@ export function spring(dt, freq = 3, damping = 0.5) {
   return 1 - Math.exp(-w * dt) * (1 + w * dt);
 }
 
+/**
+ * Spring feels, as [freq, damping] for spring() and track(): snap — buttons, toggles, the leading edge of a moving
+ * indicator (overshoots ~3 %); base — cards, containers, the camera (a hair, <1 %); heavy — big type, 3D objects, the
+ * logo (none); play — mascots and stickers (a visible 25 % bounce). Type never bounces: heavy or base.
+ */
+export const SPRING = { snap: [5, 0.75], base: [3, 0.85], heavy: [2, 1], play: [3.5, 0.4] };
+
+/**
+ * A value that changes target several times, springing to each: keys [[t, value], ...] sorted by time (values are
+ * numbers or arrays). One spring per change, summed — the motion stays continuous when a new target arrives mid-move,
+ * and any frame is computed directly (frame 812 without simulating 0–811). feel = [freq, damping], e.g. SPRING.snap.
+ */
+export function track(t, ks, [freq, damping] = SPRING.base) {
+  let v = ks[0][1];
+  for (let i = 1; i < ks.length; i++) {
+    const s = spring(t - ks[i][0], freq, damping);
+    if (s === 0) break;
+    v = Array.isArray(v) ? v.map((x, j) => x + (ks[i][1][j] - ks[i - 1][1][j]) * s) : v + (ks[i][1] - ks[i - 1][1]) * s;
+  }
+  return v;
+}
+
+/** Zoom between two scales at progress p in log space: 1× → 2× takes as long as 2× → 4×, so a push never lurches. */
+export const zoomLog = (p, z0, z1) => z0 * Math.pow(z1 / z0, p);
+
 /** Damped oscillation around 0 that starts at 0: a "wobble" kick (squash/stretch, jiggle). */
 export function wobble(dt, freq = 4, damping = 0.35) {
   if (dt <= 0) return 0;

@@ -8,9 +8,11 @@
 //         success, sparkle, coin, shutter, buzz, paper, thud, glitch, zap, boing, goo, heartbeat, errorBuzz,
 //         noiseHit, toneSweep
 // mix     gap, tapeStop, stutter, automate, render, loudness, truePeak
+// sample  sample (a recorded WAV, its loudest moment on t), readWav, peakOf
 export * from './core.mjs';
 export * from './theory.mjs';
 export * from './drums.mjs';
 export * from './tonal.mjs';
 export * from './fx.mjs';
 export * from './mix.mjs';
+export * from './sample.mjs';

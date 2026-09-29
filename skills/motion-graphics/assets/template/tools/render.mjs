@@ -154,10 +154,15 @@ const vf = `${grain > 0 ? `noise=c0s=${grain}:c0f=t,` : ''}scale=trunc(iw/2)*2:t
 const encode = async (file, c, abr, extra = []) => {
   const aac = path.join(cacheDir, `score-${abr}.m4a`);
   const sound = hasAudio ? await encodeAac(audioPath, aac, { bitrate: abr }) : null;
+  // written beside the file and moved over it only when complete: a failed encode never costs the last good master
+  const part = file.replace(/\.mp4$/, '.partial.mp4');
   await run('ffmpeg', ['-v', 'error', '-y', '-i', joined, ...(sound ? ['-i', aac] : []),
     '-filter_complex', `[0:v]${vf}[v]`, '-map', '[v]', ...(sound ? ['-map', '1:a', '-c:a', 'copy'] : []),
     '-c:v', 'libx264', '-preset', draft ? 'veryfast' : 'slow', '-crf', String(c), '-profile:v', 'high', '-pix_fmt', 'yuv420p',
-    '-r', String(FPS), '-t', String(DURATION), '-movflags', '+faststart', ...extra, file], path.basename(file));
+    '-r', String(FPS), '-t', String(DURATION), '-movflags', '+faststart', ...extra, part], path.basename(file));
+  try { fs.renameSync(part, file); } catch (e) {
+    throw new Error(`the new ${path.basename(file)} is at ${path.relative(ROOT, part)}: the old one could not be replaced (${e.code || e.message} — open in a player?)`);
+  }
   console.log(`wrote ${path.relative(ROOT, file)}`);
   if (sound) console.log(`  ${report('audio', await loudness(file).then((m) => ({ ...m, gain: sound.gain })))}`);
 };

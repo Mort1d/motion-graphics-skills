@@ -24,6 +24,7 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { launch, sleep } from './lib/browser.mjs';
 import { download, get, why, sniff, isPrivateUrl } from './lib/net.mjs';
+import { botCheck, hideOverlays, call } from './lib/page.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const argv = process.argv.slice(2);
@@ -346,30 +347,7 @@ function pageFacts() {
   };
 }
 
-function botCheck() {
-  const t = `${document.title} ${String(document.body?.innerText || '').slice(0, 3000)}`;
-  // the phrases of a challenge page — not a bare "captcha", which also sits in footers ("protected by reCAPTCHA")
-  return /just a moment\.\.\.|attention required|checking your browser|verify you are human|are you a robot|enable javascript and cookies to continue|ddos-guard|complete the captcha|solve the captcha|проверка браузера|вы не робот|подтвердите, что вы (не робот|человек)|пройдите капчу/i.test(t);
-}
 
-// hides consent banners, chat bubbles and modal dialogs for the screenshots only (nothing is clicked or accepted)
-function hideOverlays() {
-  let n = 0;
-  for (const el of document.querySelectorAll('body *')) {
-    const s = getComputedStyle(el);
-    if (s.position !== 'fixed' && s.position !== 'sticky') continue;
-    const id = `${el.id} ${typeof el.className === 'string' ? el.className : ''}`;
-    const txt = String(el.innerText || '').slice(0, 500);
-    const r = el.getBoundingClientRect();
-    const consent = /cookie|куки|consent|gdpr|согласи|персональных данных/i.test(`${txt} ${id}`) && r.height < innerHeight * 0.7;
-    const chat = /jivo|jdiv|intercom|crisp|tawk|carrot|chatra|livechat|b24-|bitrix|chat-widget|widget-button|callback|whatsapp-button/i.test(id);
-    const modal = el.getAttribute('aria-modal') === 'true' || (el.getAttribute('role') === 'dialog' && r.width * r.height > innerWidth * innerHeight * 0.2);
-    if (consent || chat || modal) { el.style.setProperty('visibility', 'hidden', 'important'); n++; }
-  }
-  document.querySelectorAll('iframe[src*="jivo"], iframe[src*="intercom"], iframe[src*="tawk"], #jivo-iframe-container, jdiv')
-    .forEach((el) => { el.style.setProperty('visibility', 'hidden', 'important'); n++; });
-  return n;
-}
 
 // scrolls the page once, top to bottom and back, so lazy parts load; an app-shell page (html and body fixed, one
 // scrolling container inside) is scrolled through that container
@@ -418,7 +396,6 @@ function unroll() {
 }
 
 // ---- browser side ------------------------------------------------------------------------------------------------
-const call = (fn, arg) => `(${fn.toString()})(${arg === undefined ? '' : JSON.stringify(arg)})`;
 // page code runs in a world of its own: the site's scripts cannot change the built-ins it relies on
 const inPage = (fn, arg, timeout = 60000) => page.evaluate(call(fn, arg), { isolated: true, timeout });
 const inflight = new Set(); // request ids: a redirect keeps its id, so it is not counted twice

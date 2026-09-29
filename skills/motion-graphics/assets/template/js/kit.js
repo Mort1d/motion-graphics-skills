@@ -1,6 +1,6 @@
 // Motion kit: the building blocks of the showreel look — slams, whips, shakes, flashes, counters, decode text,
 // sparks, speed lines, shockwave rings, diagonal wipes. All pure functions of time; draw on ctx.fx for particles.
-import { el, clamp, lerp, hash, noise1, ease } from './engine.js';
+import { el, clamp, lerp, hash, noise1, ease, zoomLog } from './engine.js';
 import { W, H } from './timeline.mjs';
 
 export { W, H };
@@ -69,10 +69,35 @@ export function whip(t, t0, dur, dist, dir = 'in') {
   return dir === 'in' ? dist * (1 - ease.outExpo(p)) : -dist * ease.inExpo(p);
 }
 
+/** A word rising out of a mask line (its parent has overflow: hidden): translateY in % of its height, 100 → 0. */
+export const rise = (t, t0, dur = 0.35, e = ease.snap) => 100 * (1 - e(clamp((t - t0) / dur)));
+
+/**
+ * One camera over one container (transform-origin 0 0): keys [[t, [x, y, zoom]], ...] — the point of the content held
+ * in the middle of the frame, and how close. It eases from key to key, one move at a time, the zoom in log space (a
+ * cursor inside the container scales with it). → { x, y, z, transform }; write `transform` every frame.
+ */
+export function camera(t, ks, e = ease.inOutCubic) {
+  let i = ks.findIndex((k) => t < k[0]);
+  if (i < 0) i = ks.length;
+  const a = ks[Math.max(0, i - 1)][1];
+  const b = ks[Math.min(ks.length - 1, i)][1];
+  const p = i === 0 || i === ks.length ? 0 : e(clamp((t - ks[i - 1][0]) / (ks[i][0] - ks[i - 1][0])));
+  const z = zoomLog(p, a[2], b[2]);
+  const x = lerp(a[0], b[0], p);
+  const y = lerp(a[1], b[1], p);
+  return { x, y, z, transform: `translate(${W / 2 - x * z}px, ${H / 2 - y * z}px) scale(${z})` };
+}
+
 /** Flash intensity 0..max: instant on at t0, gone after dur (white or brand-colour overlay). */
 export const flash = (t, t0, dur = 0.12, max = 0.5) => (t >= t0 && t < t0 + dur ? max * Math.pow(1 - (t - t0) / dur, 2) : 0);
 
-/** Rolls a number from `from` to `to` between t0 and t0 + dur; integers by default. */
+/**
+ * Rolls a number from `from` to `to` between t0 and t0 + dur; integers by default. Pass the frame's own time — the
+ * render function's second argument over FPS, `roll(f / FPS, …)`: the motion-blur samples of one frame then all show
+ * the same real value and only the movement blurs (with the sample time a frame blends two numbers into one that was
+ * never on the way).
+ */
 export function roll(t, t0, dur, from, to, { decimals = 0, e = ease.outCubic } = {}) {
   const v = lerp(from, to, e(clamp((t - t0) / dur)));
   return decimals ? v.toFixed(decimals) : String(Math.round(v));

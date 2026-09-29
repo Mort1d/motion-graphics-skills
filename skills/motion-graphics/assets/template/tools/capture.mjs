@@ -10,6 +10,8 @@
 //   node tools/capture.mjs doctor                                   check node, ffmpeg, ffprobe and the browser
 //   node tools/capture.mjs still 0.5 3 7.25 [--out out/stills]      full-size PNG stills at a list of times (no blur)
 //   node tools/capture.mjs sheet 0 12 24 [--cols 6] [--scale 0.25]  contact sheet: 24 frames from 0 s to 12 s (--clean: no time label)
+//   node tools/capture.mjs review [--out out/review]                  the critique set: a frame per beat, the phone view, fast-move strips
+//   node tools/capture.mjs verify [--n 12]                           the same frames in any order? (determinism)
 //   times are seconds, or beats with a b suffix: still 16b 16.5b, sheet 0b 32b 24
 //   node tools/capture.mjs render --from 0 --to 4 [--out out/part.mp4] [--sub 16] [--scale 1]
 //   node tools/capture.mjs eval "<js expression>" [--times 3.5,4]   render those times, print the expression's value
@@ -268,30 +270,105 @@ async function still() {
   } finally { await close(); }
 }
 
+/** Frames at a list of times (frame numbers with an f suffix) tiled into one PNG, `cols` across. */
+async function tiles(c, times, out, cols, scale) {
+  fs.mkdirSync(path.dirname(out), { recursive: true });
+  cols = Math.max(1, Math.min(cols, times.length));
+  const ff = spawn('ffmpeg', ['-v', 'error', '-y', '-f', 'image2pipe', '-c:v', 'png', '-i', '-',
+    '-vf', `tile=${cols}x${Math.ceil(times.length / cols)}:padding=4:color=0x202020`, '-frames:v', '1', out], { stdio: ['pipe', 'inherit', 'inherit'] });
+  const done = new Promise((r) => ff.on('close', r));
+  try {
+    for (const t of times) {
+      const f = typeof t === 'string' ? Number(t.slice(0, -1)) : Math.floor(t * FPS + 1e-6);
+      ff.stdin.write(await frameAt(c, typeof t === 'string' ? f / FPS : t, f, shotOpts(scale)));
+    }
+  } finally { ff.stdin.end(); }
+  await done;
+  console.log(out);
+}
+
 async function sheet() {
   const [t0, t1] = pos.slice(0, 2).map(sec);
   const n = Number(pos[2]);
   if (!(n >= 1)) throw new Error('usage: sheet <t0> <t1> <count> [--cols 6] [--scale 0.25] [--out out/sheet.png]');
-  const cols = Math.min(num('cols', 6), n);
-  const scale = num('scale', W > H ? 0.25 : 0.2);
   const out = flags.out ? path.resolve(flags.out) : path.join(ROOT, 'out/sheet.png');
-  fs.mkdirSync(path.dirname(out), { recursive: true });
-  const rows = Math.ceil(n / cols);
-  const ff = spawn('ffmpeg', ['-v', 'error', '-y', '-f', 'image2pipe', '-c:v', 'png', '-i', '-',
-    '-vf', `tile=${cols}x${rows}:padding=4:color=0x202020`, '-frames:v', '1', out], { stdio: ['pipe', 'inherit', 'inherit'] });
-  const done = new Promise((r) => ff.on('close', r));
+  const times = Array.from({ length: n }, (_, i) => (n === 1 ? t0 : t0 + (t1 - t0) * (i / (n - 1))));
   const { c, close } = await openPage({ query: queryOf(flags.clean ? [] : ['debug=1']) }); // time overlay unless --clean
+  try { await tiles(c, times, out, num('cols', 6), num('scale', W > H ? 0.25 : 0.2)); } finally { await close(); }
+}
+
+/**
+ * The critique set (SKILL.md step 7): one frame per beat (layout, variety, dead beats), the film at the width of a
+ * phone held upright (can it be read?), and 12 consecutive frames through every fast move of WHIPS (pops, overlaps,
+ * text that smears during a handoff). Look at all of them as a harsh motion director, not as their proud author.
+ */
+async function review() {
+  const dir = flags.out ? path.resolve(flags.out) : path.join(ROOT, 'out/review');
+  const TL = await import(pathToFileURL(path.join(ROOT, 'js', 'timeline.mjs')).href);
+  const dur = CFG.DURATION ?? 15;
+  const step = CFG.BEAT * Math.max(1, Math.ceil(dur / CFG.BEAT / 96)); // at most 96 tiles: every beat, or every 2nd
+  const beats = [];
+  for (let t = 0; t < dur - 0.5 / FPS; t += step) beats.push(t);
+  const secs = [];
+  for (let t = 0.5; t < dur; t += Math.max(1, dur / 32)) secs.push(t);
+  const whips = (TL.WHIPS || []).slice(0, 12);
+  let { c, close } = await openPage({ query: queryOf(['debug=1']) });
   try {
-    for (let i = 0; i < n; i++) {
-      const t = n === 1 ? t0 : t0 + (t1 - t0) * (i / (n - 1));
-      ff.stdin.write(await frameAt(c, t, Math.floor(t * FPS + 1e-6), shotOpts(scale)));
+    await tiles(c, beats, path.join(dir, 'beats.png'), 8, Math.min(0.25, 320 / W));
+    for (const [a, z] of whips) {
+      const f0 = Math.round(((a + z) / 2) * FPS) - 6;
+      await tiles(c, Array.from({ length: 12 }, (_, k) => `${f0 + k}f`), path.join(dir, `strip-${a.toFixed(2)}s.png`), 12, 160 / W);
     }
-  } finally {
-    ff.stdin.end();
-    await close();
-  }
-  await done;
-  console.log(out);
+  } finally { await close(); }
+  ({ c, close } = await openPage({ query: queryOf([]) })); // the phone view without the time overlay
+  try { await tiles(c, secs, path.join(dir, 'phone.png'), 4, 360 / W); } finally { await close(); }
+  console.log(`\nLook at ${path.relative(ROOT, dir)}/beats.png, phone.png${whips.length ? ' and strip-*.png' : ''} as a harsh motion director.`);
+  console.log('Score 1–10: hook in the first 2 s · readable at phone size · motion (eases, springs, no dead frames) · variety (something new every 2–4 s)');
+  console.log('· composition (one hero, the frame filled) · brand and data accuracy · sound sync (on the draft with sound). Write the scores and the');
+  console.log('three worst problems with their times in REVIEW.md, fix those, run again — until every score is 8 or more.');
+}
+
+/**
+ * Determinism: the same times rendered forward, backward and shuffled must leave the stage identical (its markup and
+ * the pixels of its 2D canvases). A difference means a frame depends on something besides t — Math.random, Date.now,
+ * a timer, state carried from the frame before — and the render's chunks and motion-blur samples will not agree.
+ */
+async function verify() {
+  const TL = await import(pathToFileURL(path.join(ROOT, 'js', 'timeline.mjs')).href);
+  const dur = CFG.DURATION ?? 15;
+  const n = num('n', 12);
+  const times = new Set(Array.from({ length: n }, (_, i) => Math.round(((i + 0.5) / n) * dur * FPS) / FPS));
+  for (const [a, z] of TL.WHIPS || []) times.add(Math.round(((a + z) / 2) * FPS) / FPS);
+  const ts = [...times].sort((x, y) => x - y);
+  // what is on screen: every visible element's attributes and text, and the pixels of 2D canvases (a hidden scene keeps
+  // the styles of the last frame it drew — invisible, and not part of the frame)
+  const fp = `(() => {
+    const walk = (e) => { const cs = getComputedStyle(e);
+      if (cs.display === 'none' || cs.visibility === 'hidden' || Number(cs.opacity) === 0) return '';
+      let s = '<' + e.tagName + [...e.attributes].map((a) => a.name + '=' + a.value).join(' ');
+      if (e.tagName === 'CANVAS') { const g = e.getContext('2d'); if (g) { const d = g.getImageData(0, 0, e.width, e.height).data; let h = 0; for (let i = 0; i < d.length; i += 61) h = (h * 31 + d[i]) | 0; s += '#' + h; } }
+      for (const n of e.childNodes) s += n.nodeType === 3 ? n.textContent : n.nodeType === 1 ? walk(n) : '';
+      return s + '>'; };
+    const s = walk(document.getElementById('stage'));
+    let h = 2166136261; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return (h >>> 0).toString(16); })()`;
+  const { c, close } = await openPage({ query: queryOf([]) });
+  const seen = new Map();
+  const bad = new Set();
+  try {
+    const shuffled = [...ts].sort((x, y) => Math.sin(x * 12.9898) - Math.sin(y * 12.9898));
+    for (const order of [ts, [...ts].reverse(), shuffled]) {
+      for (const t of order) {
+        await evaluate(c, `window.__render(${t}, ${Math.round(t * FPS)})`);
+        const h = await evaluate(c, fp);
+        if (seen.has(t) && seen.get(t) !== h) bad.add(t);
+        seen.set(t, h);
+      }
+    }
+  } finally { await close(); }
+  if (bad.size) {
+    console.log(`FAIL  ${[...bad].map((t) => `${t.toFixed(3)} s`).join(', ')} rendered differently in another order: something there is not a function of t (Math.random, Date.now, a timer, a value kept from the frame before) — SKILL.md, Traps`);
+    process.exitCode = 1;
+  } else console.log(`PASS  ${ts.length} times, rendered forward, backward and shuffled: the same frames every time`);
 }
 
 /** Largest divisor of `slots` that is <= want (so every output frame averages exactly `slots` images). */
@@ -387,12 +464,12 @@ async function worker() {
   process.send({ ready: true });
 }
 
-const MODES = { doctor, still, sheet, render, eval: evalMode, worker };
+const MODES = { doctor, still, sheet, review, verify, render, eval: evalMode, worker };
 // run as a command (compared as real paths: a symlink or a junction in the path must not turn the CLI off)
 const real = (p) => { try { return fs.realpathSync(p); } catch { return path.resolve(p); } };
 if (process.argv[1] && real(process.argv[1]) === real(fileURLToPath(import.meta.url))) {
   if (!MODES[mode] || flags.help) {
-    console.log('usage: node tools/capture.mjs doctor | still <t...> | sheet <t0> <t1> <n> | render --from A --to B | eval "<expr>" [--times ...]');
+    console.log('usage: node tools/capture.mjs doctor | still <t...> | sheet <t0> <t1> <n> | review | verify | render --from A --to B | eval "<expr>" [--times ...]');
     console.log('times are seconds (7.5) or beats of js/timeline.mjs with a b suffix (15b): still 15b 15.5b · sheet 0b 32b 24');
     process.exitCode = mode && !flags.help ? 1 : 0;
   } else {

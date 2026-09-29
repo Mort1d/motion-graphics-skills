@@ -1,7 +1,7 @@
 // @template-demo — Hook (beats 0–8): a light line draws across the black, three words slam on beats 1-2-3 with shakes
 // and flashes, the subline decodes, the camera pushes in, then a whip pan exits left into the next scene.
 import { el, set, P, ease, clamp } from '../engine.js';
-import { CUE, S, BEAT } from '../timeline.mjs';
+import { CUE, S, BEAT, FPS } from '../timeline.mjs';
 import { TX } from '../i18n.js';
 import { W, H, U, fitFont, slam, shakes, flash, whip, scramble, drawSpeedLines } from '../kit.js';
 
@@ -38,7 +38,7 @@ export async function build(ctx) {
   const fl = el('div', 'flash', root);
   const hits = [CUE.w1, CUE.w2, CUE.w3];
 
-  return (t) => {
+  return (t, f) => {
     const on = t >= S.hook[0] && t <= S.hook[1];
     set(root, { vis: on });
     if (!on) return;
@@ -58,8 +58,9 @@ export async function build(ctx) {
     });
 
     // the subline decodes, typewriter-fast
-    const sp = clamp((t - CUE.sub) / 0.7);
-    sub.textContent = scramble(TX.sub, sp, t, 4);
+    // the letters from the frame's own time: every motion-blur sample of a frame shows the same text
+    const sp = clamp((f / FPS - CUE.sub) / 0.7);
+    sub.textContent = scramble(TX.sub, sp, f / FPS, 4);
     set(sub, { x: W / 2 - subW / 2, y: top + lineH * words.length + 50 * U + offY, o: t < CUE.sub ? 0 : Math.min(1, (t - CUE.sub) / 0.1) });
 
     // camera: shakes on the hits, a slow push, then the whip exit to the left

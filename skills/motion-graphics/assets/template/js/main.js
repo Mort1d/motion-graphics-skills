@@ -79,6 +79,26 @@ function checkCounters(t) {
   }
 }
 
+// Text cut by the edge of the frame: a word that sits partly outside at a settled moment of a scene (one flying in or
+// out, wholly off the frame, is left alone). Warned in the capture log; tools/qa.mjs reports it.
+function checkOverflow(t) {
+  for (const e of stage.querySelectorAll('*')) {
+    let own = '';
+    for (const n of e.childNodes) if (n.nodeType === 3) own += n.textContent;
+    if (own.trim().length < 2) continue;
+    const cs = getComputedStyle(e);
+    if (cs.display === 'none' || cs.visibility === 'hidden' || Number(cs.opacity) < 0.05) continue;
+    const r = e.getBoundingClientRect();
+    if (!r.width || !r.height) continue;
+    const inside = r.right > 0 && r.x < W && r.bottom > 0 && r.y < H; // wholly off the frame: on its way in or out
+    const over = Math.max(-r.x, -r.y, r.right - W, r.bottom - H);
+    if (over > 8 && inside) {
+      const text = own.replace(/\s+/g, ' ').trim().slice(0, 40);
+      if (!window.__lint.some((l) => l.kind === 'overflow' && l.text === text)) window.__lint.push({ kind: 'overflow', text, t: Math.round(t * 100) / 100, px: Math.round(over) });
+    }
+  }
+}
+
 window.__samples = (t) => (WHIPS.some(([a, z]) => t >= a && t <= z) ? 16 : 8);
 
 window.__render = (t, f) => {
@@ -105,14 +125,16 @@ await Promise.all([...document.querySelectorAll('image')].map((im) => new Promis
 // the glyph and counter checks at the start, the middle and the end of every scene (frames are functions of t),
 // then back to frame 0
 const moments = new Set([0]);
-for (const [a, z] of Object.values(S ?? {})) for (const k of [0.15, 0.5, 0.85]) moments.add(a + (z - a) * k);
-for (const t of [...moments].sort((x, y) => x - y)) { nextFrame(); renderFn(t, Math.round(t * FPS)); checkGlyphs(); checkCounters(t); }
+const settled = new Set();
+for (const [a, z] of Object.values(S ?? {})) for (const k of [0.15, 0.5, 0.85]) { moments.add(a + (z - a) * k); if (k > 0.3) settled.add(a + (z - a) * k); }
+for (const t of [...moments].sort((x, y) => x - y)) { nextFrame(); renderFn(t, Math.round(t * FPS)); checkGlyphs(); checkCounters(t); if (settled.has(t)) checkOverflow(t); }
 for (const [family, chars] of glyphGaps) {
   const show = (c) => (/[\p{L}\p{N}\p{P}\p{S}]/u.test(c) ? `"${c}"` : `U+${c.codePointAt(0).toString(16).toUpperCase().padStart(4, '0')}`);
   const list = [...chars].slice(0, 12).map(show).join(' ') + (chars.size > 12 ? ' …' : '');
   console.warn(`[fonts] ${family} has no glyph for ${list} — another font draws it, or a box; use a font that has it, or another character`);
 }
-for (const l of window.__lint) console.warn(`[template] a scene counter "${l.text}" at ${l.t} s — the video never numbers its own scenes: remove it (story-and-motion.md §9)`);
+for (const l of window.__lint.filter((x) => x.kind === 'counter')) console.warn(`[template] a scene counter "${l.text}" at ${l.t} s — the video never numbers its own scenes: remove it (story-and-motion.md §9)`);
+for (const l of window.__lint.filter((x) => x.kind === 'overflow')) console.warn(`[layout] "${l.text}" is cut ${l.px} px by the edge of the frame at ${l.t} s — fitFont() it, or move it inside`);
 nextFrame();
 renderFn(0, 0);
 window.__ready = true;
