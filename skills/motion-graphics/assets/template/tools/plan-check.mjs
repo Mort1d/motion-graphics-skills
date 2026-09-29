@@ -111,7 +111,7 @@ export function checkPlan(TL, { readme = '', copy = '', timelineSrc = '' } = {})
 
   if (TL.LOOP) add('INFO', 'loop', 'LOOP: the last frame folds back into the first (the cursor, the colours, everything) — QA checks the seam');
   if (DUR > 90) add('INFO', 'length', `${DUR.toFixed(0)} s: a long film — plan it in chapters (references/pipeline.md)`);
-  else if (DUR > 60) add('WARN', 'length', `${DUR.toFixed(0)} s: more than a promo holds; cut to what the facts need, or plan chapters`);
+  else if (DUR > 60) add('WARN', 'length', `${DUR.toFixed(0)} s: longer than most promos hold — right when the person asked for this length; otherwise cut to what the facts need, or plan chapters`);
   return rows;
 }
 

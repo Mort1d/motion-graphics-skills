@@ -171,9 +171,10 @@ Made-up briefs, to show how different inputs lead to different films — the rea
 
 ## 9. Brief contagion: the defaults every model reaches for
 
-Hundreds of people posted videos from the same one-line showreel prompt, and they came out alike. Left to itself,
-every model reaches for the same answers: a dark screen with a green or purple glow; a cream canvas with numbered
-labels ("01 · CREATE"); centred text fading in on a gradient; frames and text in the corners; an invented logo;
-screens that do not exist; beeps "like a microwave"; house at 128 in A minor. The direction above exists to replace
-each of these with a choice made for this brand: every line of the card should be something the last video in this
-folder did not do.
+Hundreds of people posted videos from the same one-line showreel prompt, and they came out alike. The prompt's
+ambition is right — it is this skill's bar (SKILL.md); what made the videos alike is everything it left open. Left
+to itself, every model reaches for the same answers: a dark screen with a green or purple glow; a cream canvas with
+numbered labels ("01 · CREATE"); centred text fading in on a gradient; frames and text in the corners; an invented
+logo; screens that do not exist; beeps "like a microwave"; house at 128 in A minor. The direction above exists to
+replace each of these with a choice made for this brand: every line of the card should be something the last video
+in this folder did not do.

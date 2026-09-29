@@ -28,9 +28,9 @@
 
 ## 2. Length and beat sheets
 
-Choose the length from the content, not from a number in the prompt. A "15-second showreel" prompt that also asks
-for a selling promo → make the promo at the length its facts need (usually 30–45 s) and offer a 15 s cutdown
-(`tools/cutdown.mjs`). One bar = 240 / BPM seconds (at 120 BPM: 2 s; at 128: 1.875 s).
+The person's number wins: a "15-second" ask gets 15 seconds — keep the strongest facts, say what was left out and
+offer a longer version. Without a number, choose the length from the content with the table below. One bar = 240 /
+BPM seconds (at 120 BPM: 2 s; at 128: 1.875 s).
 
 | Length | Bars at 120–130 BPM | Shape |
 |---|---|---|

@@ -15,6 +15,12 @@ every frame is a pure function of time, captured in headless Chrome with real su
 composed and synthesised for this one video on the same beat grid as the picture, so every cut, slam and whoosh lands
 on the beat. No stock footage or music libraries, no AI video, no npm packages.
 
+The bar for every video, whatever it is for, is the prompt that made this genre famous: "make a dynamic motion
+graphics video that shows what an incredible motion designer you are, like it's your showreel for a résumé. Go all
+out." Treat each brief as the piece that opens your own showreel — every frame designed, motion from the first
+frame, nothing filler. That is the effort, not a look: the direction (step 3) still decides the style, the pace and
+the energy, and a calm request gets a calm film made with the same care.
+
 `<skill>` below means the directory that contains this SKILL.md. Run the scripts with `node`; they check their own
 requirements and explain what is missing. In an environment without a shell, Chrome or ffmpeg (a chat-only app), do
 steps 1–6 as files anyway, and hand over the project as an archive with the commands that render it on the user's
@@ -136,9 +142,10 @@ pick a card from `references/look-cards.md`. Then, in this order:
   music-led, or ui-led when the product's interface is the hero and every tap should be heard.
 - **Three concepts, one film** (`direction.md` §6): three different devices carried from the first frame to the
   last, each with one signature moment; score them, take the best, note the other two. One device, not a montage.
-- **Length from the content**: 4–8 s for a logo sting, 10–20 s for an intro or one message, 30–45 s for a selling
-  promo with 3–5 proof points, 60 s at most. When a prompt asks for "a 15-second showreel" but also for a selling
-  promo, make the promo at the length its facts need and offer a 15-second cutdown.
+- **Length**: the person's number wins — "15 seconds" gets 15 seconds; when the facts do not fit, keep the
+  strongest, say what was left out and offer a longer version. Without a number, pick it from the content: 4–8 s
+  for a logo sting, 10–20 s for an intro, one message or a reel, 30–45 s for a selling promo with 3–5 proof
+  points, 60 s at most unless they ask for more (a long film: `references/pipeline.md` §12).
 - **Arc** of a selling video: hook in the first second (the promise or the pain in 3–6 words, moving) → the brand
   arrives with the drop → how it works → proof → offer (only if real) → lockup with the CTA and contacts, held for at
   least 2.5 s. A video that sells nothing (an intro, a sting, a personal reel) keeps the craft and drops the pitch:
