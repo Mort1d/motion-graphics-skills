@@ -3,8 +3,8 @@
  "evals": [
   {
    "id": 1,
-   "name": "coffee-ru",
-   "prompt": "референсы: динамичный кинетический текст как в роликах Apple и Linear, стеклянные карточки, быстрые вайпы с моушн-блюром (файлов нет, опирайся на описание)\n\nСоздай динамическое видео с референсов и даже лучше до 1 минуты для кофейни «Зерно»\n\nmake a dynamic 15-second motion graphics video that shows what an incredible motion designer you are, like it's your showreel for a résumé. go all out.\n\nты можешь добавлять что считаешь нужным главное сделать супер круто\nвсю логику сам придумай полностью идеально\nсделай продающий ролик на сколько считаешь нужным секунд, побольше динамики\n\nО кофейне: Казань, ул. Примерная, 1. Своя обжарка каждое утро в 7:00. 14 сортов зерна — Эфиопия, Колумбия, Бразилия. Кофе с собой за 3 минуты. Завтраки до 12:00. Сайт zerno-kzn.example\nОсновное где продажи и взаимодействие это ТГ БОТ @zerno_example_bot — предзаказ, забираешь без очереди.",
+   "name": "coffee-shop",
+   "prompt": "references: dynamic kinetic type like Apple and Linear videos, glass cards, fast wipes with motion blur (no files, go by the description)\n\nMake a dynamic video from the references, or better, up to 1 minute, for the coffee shop Zerno\n\nmake a dynamic 15-second motion graphics video that shows what an incredible motion designer you are, like it's your showreel for a résumé. go all out.\n\nadd whatever you think it needs, the point is to make it super cool\nwork out all the logic yourself, make it perfect\nmake a video that sells, as many seconds as you think is right, more energy\n\nAbout the coffee shop: Kazan, 1 Example St. Roasted in-house every morning at 7:00. 14 origins — Ethiopia, Colombia, Brazil. Coffee to go in 3 minutes. Breakfast until 12:00. Site zerno-kzn.example\nMost sales happen in the Telegram bot @zerno_example_bot — order ahead, pick up without the queue.",
    "expected_output": "A 20–45 s 16:9 promo MP4 with an original score (not the demo), a sound brief that picks a genre fitting a warm coffee brand, coffee-world sounds (grinder, steam, cups), only the given facts on screen, the Telegram bot as the main CTA, QA passing.",
    "files": [],
    "assertions": [
@@ -26,8 +26,8 @@
   },
   {
    "id": 2,
-   "name": "kids-vertical-ru",
-   "prompt": "Сделай вертикальный ролик 9:16 для рилс и тикток, секунд 20-25, для онлайн-школы рисования для детей «Карандаш» (karandash.example).\nЧто есть: уроки для детей 6–12 лет, 2 раза в неделю по 45 минут, маленькие группы до 6 человек, первое занятие бесплатно, 3000+ учеников.\nХочу ярко, весело, чтобы родители захотели записать ребёнка. Музыка весёлая, но не детская попса — стильно.\nЗапись через сайт.",
+   "name": "kids-vertical",
+   "prompt": "Make a vertical 9:16 video for Reels and TikTok, 20–25 seconds, for Karandash, an online drawing school for kids (karandash.example).\nWhat we have: lessons for kids aged 6–12, twice a week for 45 minutes, small groups of up to 6, the first lesson is free, 3000+ students.\nI want it bright and fun, so parents want to sign their kid up. Cheerful music, but not kiddie pop — stylish.\nSign-up is on the site.",
    "expected_output": "A 20–25 s 1080x1920 promo with text inside the safe area, a playful but stylish original score translated from the user's words, drawing-world sounds (pencil, paper, marker), the site as CTA, QA passing.",
    "files": [],
    "assertions": [

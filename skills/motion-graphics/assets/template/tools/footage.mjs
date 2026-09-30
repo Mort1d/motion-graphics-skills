@@ -31,7 +31,8 @@ for (let i = 1; i < argv.length; i++) {
 }
 const VIDEO = /\.(mp4|mov|m4v|mkv|webm|avi|mts|m2ts|3gp)$/i;
 const IMAGE = /\.(jpe?g|png|webp|heic|heif|avif|tiff?)$/i;
-const slug = (s) => s.toLowerCase().replace(/\.[^.]+$/, '').replace(/[^a-z0-9а-яё_-]+/gi, '-').replace(/^-+|-+$/g, '') || 'clip';
+// a clip keeps its name in any script; accents on Latin letters go (café → cafe)
+const slug = (s) => s.toLowerCase().replace(/\.[^.]+$/, '').normalize('NFKD').replace(/(\p{Script=Latin})\p{M}+/gu, '$1').normalize('NFC').replace(/[^\p{L}\p{M}\p{N}_-]+/gu, '-').replace(/^-+|-+$/g, '') || 'clip';
 const even = (x) => 2 * Math.round(x / 2);
 const r1 = (x) => Math.round(x * 10) / 10;
 

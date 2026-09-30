@@ -54,15 +54,15 @@ processes you did not start.
 ## 3. Fonts and images
 
 - `main.js` loads every `@font-face` in `css/fonts.css` before building; a missing file prints `[fonts] cannot load`.
-- The template bundles Montserrat 700 / 900 / 900 italic and JetBrains Mono 400 / 700 (SIL OFL; Latin, Cyrillic, ₽ € №,
+- The template bundles Montserrat 700 / 900 / 900 italic and JetBrains Mono 400 / 700 (SIL OFL; Latin and Cyrillic,
   arrows). A character a font lacks is drawn by a system font and looks pasted in: `main.js` prints
-  `[fonts] <family> has no glyph for "₽"` for every such case in the built scenes. Use the
+  `[fonts] <family> has no glyph for "₹"` for every such case in the built scenes. Use the
   brand's font files if you have them, or an OFL font (fonts.google.com); keep the licence file next to them.
 - `site-kit.mjs` downloads the Google Fonts a site uses into `brand/fonts/` as full TTFs (every script in one file,
   static weights 100 apart) and writes `brand/fonts/fonts.css` with rules ready for `css/fonts.css`; its coverage line
-  says whether each has Cyrillic, ₽, №, «», —. Sites rename fonts ("brandMulish", "__Inter_1a2b3c", "plexMono"); the
+  says whether each draws the letters and signs of the site's own text, and names the ones it lacks. Sites rename fonts ("brandMulish", "__Inter_1a2b3c", "plexMono"); the
   tool maps them back to the Google name.
-- Some display fonts lack glyphs (a no-break space, ₽, №, arrows) and show empty boxes: replace the character or pick
+- Some display fonts lack glyphs (a no-break space, a newer currency sign, arrows) and show empty boxes: replace the character or pick
   a font that has it; check every language's sheet.
 - Images: PNG / JPG / WebP in `assets/img`, pre-scaled to ≤ 2× their on-screen size; preloaded as `<img>` in build.
 

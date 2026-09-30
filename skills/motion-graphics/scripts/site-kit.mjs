@@ -10,7 +10,7 @@
 //   logo/       logo candidates: inline SVG with its colours baked in, the logo image, a 4× screenshot of each, the
 //               icons (apple-touch-icon, mask icon) and the share image (og:image)
 //   fonts/      the Google Fonts the site uses as TTF, with fonts.css (@font-face rules for the project's css/fonts.css)
-//               and each font's coverage (Latin, Cyrillic, ₽, №…)
+//               and each font's coverage (Latin, digits, every letter and sign of the site's text)
 //   img/        the largest images of the page (up to 12)
 //   node <skill>/scripts/site-kit.mjs <url | domain | @telegram> [--out brand] [--pages 3] [--no-fonts] [--no-images]
 // Public pages only: no login, no forms; consent banners and chat bubbles are hidden in the screenshots, never
@@ -24,7 +24,7 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { launch, sleep } from './lib/browser.mjs';
 import { download, get, why, sniff, isPrivateUrl } from './lib/net.mjs';
-import { botCheck, hideOverlays, call } from './lib/page.mjs';
+import { botCheck, hideOverlays, signIn, call } from './lib/page.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const argv = process.argv.slice(2);
@@ -52,11 +52,10 @@ if (!Number.isInteger(PAGES) || PAGES < 1 || PAGES > 8) { console.error('site-ki
 const MAX_FULL = 12000; // CSS px: a taller page is cut (Chromium cannot paint a taller texture)
 for (const d of ['shots', 'sections', 'logo', 'fonts', 'img']) fs.mkdirSync(path.join(OUT, d), { recursive: true });
 const rel = (f) => path.relative(OUT, f).split(path.sep).join('/');
-const TR = { а: 'a', б: 'b', в: 'v', г: 'g', д: 'd', е: 'e', ё: 'e', ж: 'zh', з: 'z', и: 'i', й: 'y', к: 'k', л: 'l', м: 'm', н: 'n', о: 'o', п: 'p', р: 'r', с: 's', т: 't', у: 'u', ф: 'f', х: 'h', ц: 'ts', ч: 'ch', ш: 'sh', щ: 'sch', ъ: '', ы: 'y', ь: '', э: 'e', ю: 'yu', я: 'ya' };
-// ASCII file names (Cyrillic transliterated): every tool on every OS reads them
+// file names in the site's own script: letters of every language stay, accents on Latin letters go (café → cafe)
 const slug = (s, n = 32) => {
-  const t = String(s || '').toLowerCase().replace(/[а-яё]/g, (ch) => TR[ch] ?? '').normalize('NFKD')
-    .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, n) || 'page';
+  const t = [...String(s || '').toLowerCase().normalize('NFKD').replace(/(\p{Script=Latin})\p{M}+/gu, '$1').normalize('NFC')
+    .replace(/[^\p{L}\p{M}\p{N}]+/gu, '-').replace(/^-|-$/g, '')].slice(0, n).join('').replace(/-$/, '') || 'page';
   return /^(con|prn|aux|nul|com\d|lpt\d)$/.test(t) ? `${t}-page` : t; // names Windows reserves
 };
 const one = (s, n = 300) => String(s ?? '').replace(/\s+/g, ' ').trim().slice(0, n); // one line of text from the site
@@ -246,10 +245,10 @@ function pageFacts() {
     logos.push(item);
   };
   const media = (el) => (el.matches('svg, img') ? el : el.querySelector('svg, img') || el);
-  document.querySelectorAll('[class*="logo" i], [id*="logo" i], [aria-label*="logo" i], [aria-label*="логотип" i], img[alt*="logo" i], img[alt*="логотип" i], img[src*="logo" i]')
+  document.querySelectorAll('[class*="logo" i], [id*="logo" i], [aria-label*="logo" i], img[alt*="logo" i], img[src*="logo" i]')
     .forEach((el) => consider(media(el), 'named "logo"'));
   // a brand block or a "home" link at the top: the whole lockup (mark + wordmark), then the mark alone
-  document.querySelectorAll('[class*="brand" i], [aria-label*="главн" i], [aria-label*="home" i], [title*="home" i]').forEach((el) => {
+  document.querySelectorAll('[class*="brand" i], [aria-label*="home" i], [title*="home" i]').forEach((el) => {
     if (el.getBoundingClientRect().top + scrollY > 200) return;
     consider(el, 'brand block at the top');
     const pic = el.querySelector('svg, img');
@@ -298,11 +297,17 @@ function pageFacts() {
     .filter((h) => h.text).slice(0, 80);
   const text = String(document.body?.innerText || '').replace(/[ \t]+/g, ' ').replace(/\n\s*\n\s*\n+/g, '\n\n').trim().slice(0, 30000);
   const lines = text.split('\n').map(clean).filter(Boolean);
-  const priceRe = /(\d[\d\s  .,]*\s?(₽|руб\.?|р\.|\$|€|£|¥|₸|₴|₺|zł|USD|EUR|RUB)|(₽|\$|€|£)\s?\d)/i;
-  const numRe = /(%|\+\s*$|×|\bx\d|лет|год|мин|час|сек|дн|клиент|заказ|товар|сорт|город|магазин|шт|км|кг|years?|mins?|minutes?|hours?|days?|customers?|clients?|orders?|users?|countries|cities|stores?|products?|тыс|млн|\d\s?[kKмМ]\b)/i;
+  // in any language: a currency sign or code next to a number; a figure with a %, a plus, a multiplier, an English
+  // unit — or, in a short line, a number of two digits or more (or a range) followed by its word, whatever the
+  // language ("12 000 orders", "3–5 stems"); a clock time, a copyright line and a repeated line are not figures
+  const priceRe = /(\d[\d\s  .,]*\s?(\p{Sc}|zł|USD|EUR|GBP|RUB|KZT|UAH|TRY|INR|CNY|JPY|AED)|\p{Sc}\s?\d)/iu;
+  const numRe = /(%|\+\s*$|×|\bx\d|\d\s?[kKM]\b|years?|mins?|minutes?|hours?|days?|customers?|clients?|orders?|users?|countries|cities|stores?|products?)/i;
+  const wordNum = /(?:\d[\d\s  .,]*\d|\d\s?[–-]\s?\d+)\+?\s?\p{L}{2,}/u;
+  const notFigure = /\b\d{1,2}:\d{2}\b|©/;
   const around = (i) => ({ line: lines[i], before: lines[i - 1] || '' });
   const prices = lines.map((l, i) => (priceRe.test(l) && l.length <= 200 ? around(i) : null)).filter(Boolean).slice(0, 40);
-  const numbers = lines.map((l, i) => (/\d/.test(l) && !priceRe.test(l) && l.length <= 140 && numRe.test(l) ? around(i) : null)).filter(Boolean).slice(0, 40);
+  const numbers = lines.map((l, i) => (/\d/.test(l) && !priceRe.test(l) && l.length <= 140 && (numRe.test(l) || (l.length <= 80 && wordNum.test(l) && !notFigure.test(l))) ? around(i) : null)).filter(Boolean)
+    .filter((x, i, all) => all.findIndex((y) => y.line === x.line) === i).slice(0, 40);
 
   // links: contacts and channels, and the site's own pages (for --pages)
   const links = [...document.querySelectorAll('a[href]')].map((a) => ({ href: a.href, text: clean(a.innerText || a.getAttribute('aria-label')).slice(0, 80) }));
@@ -316,7 +321,7 @@ function pageFacts() {
   for (const k of Object.keys(contacts)) if (!contacts[k].length) delete contacts[k];
   const navSeen = new Set();
   const nav = [...document.querySelectorAll('header a[href], nav a[href], footer a[href], main a[href]')]
-    .map((a) => ({ href: String(a.href).split('#')[0], text: clean(a.innerText).slice(0, 60) }))
+    .map((a) => ({ href: String(a.href).split('#')[0], text: clean(a.innerText).slice(0, 60), top: !!a.closest('header, nav') }))
     .filter((l) => { try { const u = new URL(l.href); return u.origin === location.origin && u.pathname !== location.pathname && !navSeen.has(l.href) && navSeen.add(l.href); } catch { return false; } })
     .slice(0, 80);
 
@@ -553,16 +558,20 @@ try {
     console.log('  phone: 2 shots');
   });
 
-  // a few more pages of the same site: prices, features, about, catalogue first — checked here, not by the page
-  const KEY = /pric|tarif|тариф|цен|стоим|plan|feature|возможн|product|продукт|услуг|service|catalog|каталог|menu|меню|about|о-нас|o-nas|company|компан|how|как-|delivery|доставк|faq|вопрос/i;
-  const SKIP = /login|signin|sign-in|signup|register|auth|account|cabinet|кабинет|cart|корзин|checkout|privacy|policy|terms|oferta|оферт|cookie|legal|politika|agreement|согласи|\.(pdf|zip|rar|7z|docx?|xlsx?|pptx?|csv|apk|exe|msi|dmg|pkg|iso)(\?|$)/i;
+  // a few more pages of the same site: prices, features, about, catalogue first — checked here, not by the page. The
+  // words are the English ones many sites use in their addresses; the site's own menu counts in any language, and a
+  // page that turns out to be a sign-in form is skipped for the next one
+  const KEY = /pric|tarif|plan|feature|product|service|catalog|menu|about|o-nas|company|how|delivery|faq/i;
+  const SKIP = /login|signin|sign-in|signup|register|auth|account|cabinet|cart|basket|checkout|privacy|policy|terms|oferta|cookie|legal|politika|agreement|\.(pdf|zip|rar|7z|docx?|xlsx?|pptx?|csv|apk|exe|msi|dmg|pkg|iso)(\?|$)/i;
   const origin = new URL(home.url).origin;
   const sameSite = (href) => { try { const u = new URL(href); return /^https?:$/.test(u.protocol) && u.origin === origin; } catch { return false; } };
   const extra = [...new Map(home.nav.map((l) => [l.href, l])).values()]
     .filter((l) => sameSite(l.href) && !SKIP.test(l.href) && !SKIP.test(l.text))
-    .map((l) => ({ ...l, score: (KEY.test(l.href) || KEY.test(l.text) ? 2 : 0) + (new URL(l.href).pathname.split('/').filter(Boolean).length <= 1 ? 1 : 0) }))
-    .sort((a, z) => z.score - a.score).slice(0, PAGES - 1);
+    .map((l) => ({ ...l, score: (KEY.test(l.href) || KEY.test(l.text) ? 2 : 0) + (l.top ? 1 : 0) + (new URL(l.href).pathname.split('/').filter(Boolean).length <= 1 ? 1 : 0) }))
+    .sort((a, z) => z.score - a.score).slice(0, PAGES + 2);
+  let taken = 0;
   for (const l of extra) {
+    if (taken >= PAGES - 1) break;
     await step(l.href, async () => {
       await viewport(1440, 900, 2);
       const st = await go(l.href);
@@ -570,6 +579,8 @@ try {
       await inPage(scrollThrough);
       await settle(4000);
       await inPage(hideOverlays);
+      if (await inPage(signIn)) { console.log(`  page ${l.href}: a sign-in form, skipped`); return; }
+      taken++;
       const name = slug(new URL(l.href).pathname.replace(/\//g, ' ') || l.text);
       kit.files.shots.push(rel(await shot(path.join(OUT, 'shots', `${name}.png`))));
       await inPage(unroll).catch(() => 0);
@@ -666,7 +677,11 @@ for (const [roleName, r] of Object.entries(home.fonts.roles)) {
 }
 const fontReport = [];
 const cssRules = [];
-const PROBE = { Latin: 'AZaz', Cyrillic: 'АЯаяЁё', digits: '0123456789', '₽': '₽', '№': '№', '«»': '«»', '—': '—', '€': '€' };
+// what each font must draw: Latin, digits, and every letter and sign of the site's own text, in whatever script it is
+const siteChars = [...new Set(`${home.title || ''} ${(home.headings || []).map((h) => h.text).join(' ')} ${home.text || ''}`.normalize('NFC'))]
+  .filter((ch) => ch.codePointAt(0) > 0x7e && /[\p{L}\p{M}\p{N}\p{P}\p{S}]/u.test(ch) && !/\p{Extended_Pictographic}/u.test(ch))
+  .slice(0, 400).join('');
+const PROBE = { Latin: 'AZaz', digits: '0123456789', ...(siteChars ? { "the site's text": siteChars } : {}) };
 function coverage(buf) {
   try {
     const u16 = (o) => buf.readUInt16BE(o);
@@ -696,7 +711,8 @@ function coverage(buf) {
         }
         return false;
       };
-    return Object.fromEntries(Object.entries(PROBE).map(([k, s]) => [k, [...s].every((ch) => has(ch.codePointAt(0)))]));
+    // true, or the characters it lacks
+    return Object.fromEntries(Object.entries(PROBE).map(([k, s]) => { const miss = [...s].filter((ch) => !has(ch.codePointAt(0))); return [k, miss.length ? miss.slice(0, 16).join(' ') : true]; }));
   } catch { return null; }
 }
 // Sites rename fonts ("brandMulish", "__Inter_1a2b3c", "font-heading"): try the name, its words, and it without the prefix
@@ -812,7 +828,7 @@ p();
 p('## Logo');
 if (TG) p(`- avatar: ${home.meta.ogFile || 'not found'} — the brand's own picture on Telegram (ask for the logo file if the video needs a sharper one)`);
 else if (!home.logos.length) p('- no logo found on the page: use the icons below, the share image, or ask for the file');
-list(home.logos, (l) => `${l.file || '(no file)'}${l.shot ? ` · screenshot ${l.shot}` : ''} — ${l.tag}, ${l.why}, ${l.rect.w}×${l.rect.h} px at y ${l.rect.y}${l.text ? `, text «${one(l.text, 60)}»` : ''}`);
+list(home.logos, (l) => `${l.file || '(no file)'}${l.shot ? ` · screenshot ${l.shot}` : ''} — ${l.tag}, ${l.why}, ${l.rect.w}×${l.rect.h} px at y ${l.rect.y}${l.text ? `, text “${one(l.text, 60)}”` : ''}`);
 list(home.icons.filter((i) => i.file), (i) => `${i.file} — ${one(i.rel, 40)}${i.sizes ? ` ${one(i.sizes, 20)}` : ''}${i.color ? ` (colour ${one(i.color, 20)})` : ''}`);
 if (home.meta.ogFile && !TG) p(`- share image: ${home.meta.ogFile}`);
 p('An SVG is animatable as it is; a raster logo goes through trace-logo.mjs.');
@@ -827,7 +843,7 @@ home.colours.backgrounds.slice(0, 5).forEach((c) => p(`| background | ${c.hex} |
 home.colours.text.slice(0, 3).forEach((c) => p(`| text | ${c.hex} | ${Math.round(c.share * 100)} % of the text |`));
 const ctaBg = new Map();
 home.ctas.filter((c) => c.bg).forEach((c) => ctaBg.set(c.bg, [...(ctaBg.get(c.bg) || []), c.text]));
-[...ctaBg].slice(0, 4).forEach(([h, t]) => p(`| button | ${h} | ${t.slice(0, 3).map((x) => `«${one(x, 40).replace(/\|/g, '/')}»`).join(', ')} |`));
+[...ctaBg].slice(0, 4).forEach(([h, t]) => p(`| button | ${h} | ${t.slice(0, 3).map((x) => `“${one(x, 40).replace(/\|/g, '/')}”`).join(', ')} |`));
 home.colours.links.slice(0, 2).forEach((c) => p(`| links | ${c.hex} | ${Math.round(c.share * 100)} % of link text |`));
 home.colours.gradients.slice(0, 4).forEach((c) => p(`| gradient stop | ${c.hex} | ${Math.round(c.share * 100)} % of gradient area |`));
 home.colours.vars.slice(0, 16).forEach((v) => p(`| token ${v.name} | ${v.hex} | ${v.scope} |`));
@@ -836,7 +852,7 @@ if (home.darkScheme) {
   p(`| dark scheme: page | ${home.darkScheme.pageBackground} | the site with the viewer's theme set to dark |`);
   if (home.darkScheme.text[0]) p(`| dark scheme: text | ${home.darkScheme.text[0].hex} | the most used text colour there |`);
   const b0 = home.darkScheme.ctas.find((c) => c.bg);
-  if (b0) p(`| dark scheme: button | ${b0.bg} | «${one(b0.text, 40).replace(/\|/g, '/')}» |`);
+  if (b0) p(`| dark scheme: button | ${b0.bg} | “${one(b0.text, 40).replace(/\|/g, '/')}” |`);
 }
 }
 if (pagePalette) { p(); p('Pixels of the whole page (palette.mjs, photos included):'); p('```'); p(pagePalette); p('```'); }
@@ -847,7 +863,7 @@ for (const [k, r] of Object.entries(home.fonts.roles)) if (r) p(`- ${k}: ${one(r
 for (const f of fontReport) {
   const cov = f.files[0]?.coverage;
   p(`- **${one(f.family, 80)}**${f.roles.length ? ` (${f.roles.join(', ')})` : ''}: ${f.google
-    ? `Google Fonts «${f.google}» → ${f.files.map((x) => `${path.basename(x.file)}`).join(', ')}${cov ? `; covers ${Object.entries(cov).map(([k, v]) => `${k} ${v ? '✓' : '✗'}`).join(' ')}` : ''}${f.note ? `; ${f.note}` : ''}`
+    ? `Google Fonts “${f.google}” → ${f.files.map((x) => `${path.basename(x.file)}`).join(', ')}${cov ? `; covers ${Object.entries(cov).map(([k, v]) => `${k} ${v === true ? '✓' : `✗ (no ${v})`}`).join(' · ')}` : ''}${f.note ? `; ${f.note}` : ''}`
     : 'not on Google Fonts — likely licensed to the site; use it only if the client owns it, else the closest open font'}`);
 }
 if (TG) p('- the page is Telegram\'s: the brand\'s fonts are not here (ask, or choose an open display font that fits)');
@@ -860,14 +876,14 @@ if (home.meta.description || home.meta.ogDescription) p(`- description: ${one(ho
 if (home.meta.siteName) p(`- site name: ${one(home.meta.siteName, 80)}`);
 p('- headings:');
 home.headings.slice(0, 40).forEach((h) => p(`  ${'  '.repeat(h.level - 1)}- H${h.level} ${one(h.text, 200)}`));
-if (home.ctas.length) p(`- calls to action: ${home.ctas.slice(0, 10).map((c) => `«${one(c.text, 60)}»${c.href ? ` → ${one(c.href, 200)}` : ''}`).join(' · ')}`);
+if (home.ctas.length) p(`- calls to action: ${home.ctas.slice(0, 10).map((c) => `“${one(c.text, 60)}”${c.href ? ` → ${one(c.href, 200)}` : ''}`).join(' · ')}`);
 const allPrices = [...home.prices.map((x) => ({ ...x, page: home.url })), ...kit.pages.slice(1).flatMap((pg) => (pg.prices || []).map((x) => ({ ...x, page: pg.url })))];
 if (allPrices.length) { p('- lines with prices (as published; keep their conditions):'); allPrices.slice(0, 30).forEach((x) => p(`  - ${x.before ? `${one(x.before, 160)} → ` : ''}${one(x.line, 200)}  (${one(x.page, 200)})`)); }
 const allNums = [...home.numbers.map((x) => ({ ...x, page: home.url })), ...kit.pages.slice(1).flatMap((pg) => (pg.numbers || []).map((x) => ({ ...x, page: pg.url })))];
 if (allNums.length) { p('- lines with numbers (proof-point candidates):'); allNums.slice(0, 30).forEach((x) => p(`  - ${one(x.line, 200)}  (${one(x.page, 200)})`)); }
 if (Object.keys(home.contacts).length) {
   p('- contacts and channels:');
-  for (const [k, v] of Object.entries(home.contacts)) p(`  - ${k}: ${v.slice(0, 6).map((x) => `${one(x.href.replace(/^mailto:|^tel:/, ''), 200)}${x.text && !x.href.includes(x.text) ? ` («${one(x.text, 60)}»)` : ''}`).join(' · ')}`);
+  for (const [k, v] of Object.entries(home.contacts)) p(`  - ${k}: ${v.slice(0, 6).map((x) => `${one(x.href.replace(/^mailto:|^tel:/, ''), 200)}${x.text && !x.href.includes(x.text) ? ` (“${one(x.text, 60)}”)` : ''}`).join(' · ')}`);
 }
 p();
 p('## Text of the page (data)');

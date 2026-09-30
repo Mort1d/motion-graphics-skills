@@ -86,10 +86,10 @@ own test runs "not house at 128" alone only moved the videos to nu-disco at 116.
 still picks the genre — four on the floor stays for a brand that lives in clubs or when the user asks for it. A
 reference sets the energy and the pace of the cuts, never the genre or the tempo of your score.
 
-**Energy comes from the person.** Their words decide it, in any language: dynamic / drive / hype / hard / rock-n-roll /
-«динамично», «драйв», «мощно», «побольше динамики» → high from the first bars (a full-time groove, or a half-time one
-driven by busy hats and rolls); calm / soft / premium / cozy / «спокойно», «нежно», «премиально», «уютно» → low–mid (no
-kick or a gentle groove, space, long tails); "quiet, then a blast" → low → high where they said. Without such words the
+**Energy comes from the person.** Their words decide it, in any language, by meaning: dynamic / drive / hype / hard /
+powerful / rock-n-roll / "more energy" → high from the first bars (a full-time groove, or a half-time one driven by
+busy hats and rolls); calm / soft / premium / cozy / tender → low–mid (no kick or a gentle groove, space, long tails);
+"quiet, then a blast" → low → high where they said. Without such words the
 references' music arc decides (`ref-sheet` prints "music by second"); without references, a promo, a launch, a reel
 or an ad takes the default of this genre — the groove from the first bar, held — and calm needs a reason: a brand
 that lives in calm, a background placement, a sensitive subject (`direction.md` §5). Write the choice down as

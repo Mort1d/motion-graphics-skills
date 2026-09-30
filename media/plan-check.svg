@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="308" viewBox="0 0 1000 308">
+<rect x="0.5" y="0.5" width="999" height="307" rx="16" fill="#0f1016" stroke="#2a2c38"/>
+<rect x="16" y="16" width="968" height="38" rx="10" fill="#181922"/>
+<circle cx="38" cy="35" r="5.5" fill="#3b3d48"/>
+<circle cx="56" cy="35" r="5.5" fill="#3b3d48"/>
+<circle cx="74" cy="35" r="5.5" fill="#3b3d48"/>
+<text x="94" y="40" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" fill="#9a9da8">~/nova · the plan, checked before a single scene</text>
+<text x="968" y="40" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" fill="#ff5a36" text-anchor="end" font-weight="700" letter-spacing="1.2">REAL OUTPUT</text>
+<text x="36" y="92" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="13.5" fill="#f4f1ec">$ node tools/plan-check.mjs</text>
+<text x="36" y="113" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="13.5" xml:space="preserve"><tspan fill="#ffc24b" font-weight="700">WARN  </tspan><tspan fill="#f4f1ec">asked   </tspan><tspan fill="#9a9da8">the words ask for energy (“really dynamic, go all out”), and hook stays 'low' until 4.20 s:</tspan></text>
+<text x="36" y="134" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="13.5" xml:space="preserve"><tspan fill="#9a9da8" font-weight="700">      </tspan><tspan fill="#f4f1ec">        </tspan><tspan fill="#9a9da8">a pickup of a bar at most, then the groove (sound-design.md §5)</tspan></text>
+<text x="36" y="155" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="13.5" xml:space="preserve"><tspan fill="#3ccf8e" font-weight="700">PASS  </tspan><tspan fill="#f4f1ec">hook    </tspan><tspan fill="#9a9da8">first event at 0.13 s</tspan></text>
+<text x="36" y="176" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="13.5" xml:space="preserve"><tspan fill="#3ccf8e" font-weight="700">PASS  </tspan><tspan fill="#f4f1ec">pace    </tspan><tspan fill="#9a9da8">an event at least every 4 s</tspan></text>
+<text x="36" y="197" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="13.5" xml:space="preserve"><tspan fill="#3ccf8e" font-weight="700">PASS  </tspan><tspan fill="#f4f1ec">end     </tspan><tspan fill="#9a9da8">the end card lockup is on screen 5.10 s, 2.00 s after the last cue</tspan></text>
+<text x="36" y="239" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="13.5" fill="#686b77"># change the plan, not the render: ENERGY.hook 'low' → 'high'</text>
+<text x="36" y="260" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="13.5" fill="#f4f1ec">$ node tools/plan-check.mjs</text>
+<text x="36" y="281" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="13.5" xml:space="preserve"><tspan fill="#3ccf8e" font-weight="700">PASS  </tspan><tspan fill="#f4f1ec">asked   </tspan><tspan fill="#9a9da8">energy asked for, and the plan keeps it (hook high · proof high · lockup high)</tspan></text>
+</svg>

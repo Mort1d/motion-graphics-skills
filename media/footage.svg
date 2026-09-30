@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="372" viewBox="0 0 1000 372">
+<rect x="0.5" y="0.5" width="999" height="371" rx="16" fill="#0f1016" stroke="#2a2c38"/>
+<rect x="16" y="16" width="968" height="38" rx="10" fill="#181922"/>
+<circle cx="38" cy="35" r="5.5" fill="#3b3d48"/>
+<circle cx="56" cy="35" r="5.5" fill="#3b3d48"/>
+<circle cx="74" cy="35" r="5.5" fill="#3b3d48"/>
+<text x="94" y="40" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" fill="#9a9da8">tools/footage.mjs · js/footage.mjs</text>
+<text x="968" y="40" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" fill="#ff5a36" text-anchor="end" font-weight="700" letter-spacing="1.2">YOUR CLIPS, CUT ON THE BEAT</text>
+<text x="40" y="92" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="11.5" fill="#686b77" font-weight="600" letter-spacing="1.4">SCAN · SHOTS, CAMERA, ACTION, QUIET</text>
+<rect x="40" y="128" width="208" height="70" rx="8" fill="#7aa2ff" fill-opacity="0.14" stroke="#7aa2ff" stroke-opacity="0.65"/>
+<rect x="252" y="128" width="208" height="70" rx="8" fill="#3ccf8e" fill-opacity="0.12" stroke="#3ccf8e" stroke-opacity="0.65"/>
+<path d="M102.5,158 h-24 m8,-7 l-8,7 l8,7" fill="none" stroke="#7aa2ff" stroke-width="2.2" stroke-opacity="0.4"/>
+<path d="M145.9,158 h-24 m8,-7 l-8,7 l8,7" fill="none" stroke="#7aa2ff" stroke-width="2.2" stroke-opacity="0.5800000000000001"/>
+<path d="M189.3,158 h-24 m8,-7 l-8,7 l8,7" fill="none" stroke="#7aa2ff" stroke-width="2.2" stroke-opacity="0.76"/>
+<path d="M232.7,158 h-24 m8,-7 l-8,7 l8,7" fill="none" stroke="#7aa2ff" stroke-width="2.2" stroke-opacity="0.9400000000000001"/>
+<text x="145" y="188" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12.5" fill="#7aa2ff" text-anchor="middle">camera pans right</text>
+<rect x="274.5" y="142" width="24" height="24" rx="4" fill="none" stroke="#3ccf8e" stroke-width="2"/><rect x="344.5" y="142" width="24" height="24" rx="4" fill="none" stroke="#3ccf8e" stroke-width="2" stroke-dasharray="3 3"/><path d="M306.5,154 h30" stroke="#3ccf8e" stroke-width="1.5" stroke-dasharray="2 3"/>
+<text x="355" y="188" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12.5" fill="#3ccf8e" text-anchor="middle">still · where it moves</text>
+<line x1="250" y1="120" x2="250" y2="278" stroke="#ff5a36" stroke-width="2"/>
+<text x="250" y="116" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" fill="#ff5a36" text-anchor="middle">cut 3.0 s</text>
+<rect x="41.3" y="235.4" width="3" height="21.2" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="46.9" y="228.1" width="3" height="35.8" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="52.5" y="225.5" width="3" height="41" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="58.1" y="228.2" width="3" height="35.7" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="63.7" y="234.3" width="3" height="23.4" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="69.3" y="239.3" width="3" height="13.4" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="74.9" y="235.5" width="3" height="21" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="80.5" y="235.4" width="3" height="21.3" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="86.1" y="237.8" width="3" height="16.4" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="91.7" y="239.7" width="3" height="12.5" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="97.3" y="239.5" width="3" height="12.9" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="102.9" y="237.6" width="3" height="16.7" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="108.5" y="233.1" width="3" height="25.7" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="114.1" y="229.7" width="3" height="32.5" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="119.7" y="230" width="3" height="31.9" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="164.5" y="233" width="3" height="25.9" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="170.1" y="229.9" width="3" height="32.3" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="175.7" y="231.1" width="3" height="29.7" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="181.3" y="235.2" width="3" height="21.7" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="186.9" y="239.1" width="3" height="13.9" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="192.5" y="239.5" width="3" height="13" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="198.1" y="239" width="3" height="13.9" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="203.7" y="236.1" width="3" height="19.7" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="209.3" y="234.5" width="3" height="23" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="214.9" y="236.2" width="3" height="19.7" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="220.5" y="238.6" width="3" height="14.8" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="226.1" y="231.7" width="3" height="28.6" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="231.7" y="226.4" width="3" height="39.2" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="237.3" y="225.5" width="3" height="40.9" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="242.9" y="230.1" width="3" height="31.8" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="287.7" y="235.5" width="3" height="20.9" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="293.3" y="236.7" width="3" height="18.6" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="298.9" y="239.4" width="3" height="13.2" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="304.5" y="239" width="3" height="14" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="310.1" y="239.8" width="3" height="12.5" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="315.7" y="235.8" width="3" height="20.4" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="321.3" y="231.2" width="3" height="29.7" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="326.9" y="228.8" width="3" height="34.3" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="332.5" y="231" width="3" height="30.1" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="338.1" y="237.5" width="3" height="17" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="343.7" y="233.8" width="3" height="24.4" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="349.3" y="226.6" width="3" height="38.7" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="354.9" y="224" width="3" height="43.9" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="360.5" y="227.1" width="3" height="37.8" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="366.1" y="234.4" width="3" height="23.3" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="371.7" y="237.5" width="3" height="17.1" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="377.3" y="231.7" width="3" height="28.5" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="382.9" y="230.4" width="3" height="31.3" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="388.5" y="232.9" width="3" height="26.2" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="394.1" y="237" width="3" height="17.9" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="399.7" y="239.9" width="3" height="12.2" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="405.3" y="239.9" width="3" height="12.1" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="410.9" y="237.5" width="3" height="17.1" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="416.5" y="234.7" width="3" height="22.7" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="422.1" y="234.2" width="3" height="23.6" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="427.7" y="237.5" width="3" height="17" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="433.3" y="236.1" width="3" height="19.8" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="438.9" y="229.2" width="3" height="33.6" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="444.5" y="225.2" width="3" height="41.6" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="450.1" y="226.4" width="3" height="39.2" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="455.7" y="232.7" width="3" height="26.6" rx="1.5" fill="#9a9da8" fill-opacity="0.55"/>
+<rect x="124" y="222" width="42" height="48" rx="5" fill="#ffc24b" fill-opacity="0.12" stroke="#ffc24b" stroke-opacity="0.6" stroke-dasharray="3 3"/>
+<rect x="250" y="222" width="35" height="48" rx="5" fill="#ffc24b" fill-opacity="0.12" stroke="#ffc24b" stroke-opacity="0.6" stroke-dasharray="3 3"/>
+<text x="145" y="290" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12.5" fill="#ffc24b" text-anchor="middle">quiet → a clean cut</text>
+<text x="40" y="346" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" fill="#686b77" text-anchor="start">0 s</text>
+<text x="110" y="346" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" fill="#686b77" text-anchor="middle">1 s</text>
+<text x="180" y="346" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" fill="#686b77" text-anchor="middle">2 s</text>
+<text x="250" y="346" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" fill="#686b77" text-anchor="middle">3 s</text>
+<text x="320" y="346" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" fill="#686b77" text-anchor="middle">4 s</text>
+<text x="390" y="346" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" fill="#686b77" text-anchor="middle">5 s</text>
+<text x="460" y="346" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" fill="#686b77" text-anchor="end">6 s</text>
+<text x="530" y="92" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="11.5" fill="#686b77" font-weight="600" letter-spacing="1.4">SPEED RAMP · OUTPUT → SOURCE SECONDS</text>
+<line x1="554" y1="108" x2="554" y2="328" stroke="#30333f"/>
+<line x1="604" y1="108" x2="604" y2="328" stroke="#1b1d26"/>
+<line x1="654" y1="108" x2="654" y2="328" stroke="#30333f"/>
+<line x1="704" y1="108" x2="704" y2="328" stroke="#1b1d26"/>
+<line x1="754" y1="108" x2="754" y2="328" stroke="#30333f"/>
+<line x1="804" y1="108" x2="804" y2="328" stroke="#1b1d26"/>
+<line x1="854" y1="108" x2="854" y2="328" stroke="#30333f"/>
+<line x1="904" y1="108" x2="904" y2="328" stroke="#1b1d26"/>
+<line x1="954" y1="108" x2="954" y2="328" stroke="#30333f"/>
+<line x1="554" y1="328" x2="954" y2="328" stroke="#1b1d26"/>
+<text x="546" y="332" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="11.5" fill="#686b77" text-anchor="end">0</text>
+<line x1="554" y1="284" x2="954" y2="284" stroke="#1b1d26"/>
+<text x="546" y="288" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="11.5" fill="#686b77" text-anchor="end">1</text>
+<line x1="554" y1="240" x2="954" y2="240" stroke="#1b1d26"/>
+<text x="546" y="244" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="11.5" fill="#686b77" text-anchor="end">2</text>
+<line x1="554" y1="196" x2="954" y2="196" stroke="#1b1d26"/>
+<text x="546" y="200" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="11.5" fill="#686b77" text-anchor="end">3</text>
+<line x1="554" y1="152" x2="954" y2="152" stroke="#1b1d26"/>
+<text x="546" y="156" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="11.5" fill="#686b77" text-anchor="end">4</text>
+<line x1="554" y1="108" x2="954" y2="108" stroke="#1b1d26"/>
+<text x="546" y="112" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="11.5" fill="#686b77" text-anchor="end">5</text>
+<text x="554" y="346" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" fill="#686b77" text-anchor="middle">0 s</text>
+<text x="654" y="346" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" fill="#686b77" text-anchor="middle">1 s</text>
+<text x="754" y="346" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" fill="#686b77" text-anchor="middle">2 s</text>
+<text x="854" y="346" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" fill="#686b77" text-anchor="middle">3 s</text>
+<text x="954" y="346" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" fill="#686b77" text-anchor="middle">4 s</text>
+<line x1="554" y1="328" x2="954" y2="152" stroke="#686b77" stroke-dasharray="5 5"/>
+<text x="926" y="176.2" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" fill="#686b77">1×</text>
+<path d="M554,328L556,327.1L558,326.3L560,325.6L562,324.9L564,324.2L566,323.6L568,323L570,322.5L572,322L574,321.5L576,321L578,320.5L580,320.1L582,319.7L584,319.2L586,318.8L588,318.4L590,318L592,317.6L594,317.2L596,316.7L598,316.3L600,315.8L602,315.3L604,314.8L606,314.3L608,313.7L610,313.1L612,312.4L614,311.7L616,311L618,310.2L620,309.4L622,308.5L624,307.5L626,306.5L628,305.5L630,304.3L632,303.1L634,301.8L636,300.4L638,299L640,297.4L642,295.8L644,294.1L646,292.3L648,290.4L650,288.4L652,286.2L654,284L656,281.5L658,278.7L660,275.5L662,272.1L664,268.3L666,264.4L668,260.3L670,256L672,251.5L674,247L676,242.5L678,237.9L680,233.3L682,228.8L684,224.3L686,220L688,215.8L690,211.8L692,208L694,204.4L696,201.2L698,198.2L700,195.6L702,193.4L704,191.6L706,190.1L708,188.7L710,187.4L712,186.2L714,185.2L716,184.2L718,183.3L720,182.6L722,181.9L724,181.3L726,180.7L728,180.3L730,179.9L732,179.5L734,179.2L736,179L738,178.8L740,178.7L742,178.6L744,178.5L746,178.5L748,178.4L750,178.4L752,178.4L754,178.4L756,178.4L758,178.4L760,178.4L762,178.4L764,178.4L766,178.4L768,178.4L770,178.4L772,178.4L774,178.4L776,178.4L778,178.4L780,178.4L782,178.4L784,178.4L786,178.4L788,178.4L790,178.4L792,178.4L794,178.4L796,178.4L798,178.4L800,178.4L802,178.4L804,178.4L806,178.4L808,178.3L810,178.2L812,178L814,177.8L816,177.6L818,177.3L820,177L822,176.6L824,176.2L826,175.8L828,175.3L830,174.8L832,174.2L834,173.6L836,173L838,172.4L840,171.7L842,171L844,170.3L846,169.5L848,168.7L850,167.9L852,167L854,166.2L856,165.3L858,164.4L860,163.4L862,162.5L864,161.5L866,160.5L868,159.5L870,158.5L872,157.4L874,156.4L876,155.3L878,154.2L880,153.1L882,152L884,150.9L886,149.7L888,148.6L890,147.4L892,146.3L894,145.1L896,144L898,142.8L900,141.6L902,140.5L904,139.3L906,138.1L908,136.9L910,135.8L912,134.6L914,133.4L916,132.3L918,131.1L920,130L922,128.8L924,127.7L926,126.6L928,125.5L930,124.4L932,123.3L934,122.2L936,121.2L938,120.1L940,119.1L942,118.1L944,117.1L946,116.1L948,115.1L950,114.2L952,113.3L954,112.4" fill="none" stroke="#ff5a36" stroke-width="3" stroke-linecap="round"/>
+<circle cx="679" cy="235.6" r="5" fill="#ff5a36"/>
+<text x="689" y="240.6" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12.5" fill="#ff5a36">4× into the hit</text>
+<circle cx="729" cy="180.1" r="5" fill="#ffc24b"/>
+<text x="665" y="168.1" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12.5" fill="#ffc24b">slow motion</text>
+<circle cx="779" cy="178.4" r="5" fill="#7aa2ff"/>
+<text x="767" y="202.4" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12.5" fill="#7aa2ff">freeze</text>
+<circle cx="884" cy="150.9" r="5" fill="#f4f1ec"/>
+<text x="860" y="136.9" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12.5" fill="#f4f1ec">back to life</text>
+</svg>

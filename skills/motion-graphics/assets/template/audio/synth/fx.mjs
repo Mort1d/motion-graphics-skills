@@ -210,7 +210,7 @@ export function sparkle(t, o = {}) {
   const n = o.count ?? 10;
   for (let k = 0; k < n; k++) tick(t + k * (o.spacing ?? 0.03), { bright: 7000 + k * 300, pan: (rand() - 0.5) * 1.4, vel: (o.vel ?? 1) * 0.35 * (1 - k / (n + 2)) });
 }
-/** Coin / till «ka-ching»: two metallic partials and a shimmer (prices, discounts, sales). */
+/** Coin / till “ka-ching”: two metallic partials and a shimmer (prices, discounts, sales). */
 export function coin(t, o = {}) {
   bell(t, 96, { ratio: 1.41, index: 2.2, idec: 5, dur: 0.9, verb: 0.4, pan: 0.2, bus: 'fx', vel: (o.vel ?? 1) * 0.3 });
   bell(t + 0.07, 100, { ratio: 1.41, index: 2.2, idec: 5, dur: 1.1, verb: 0.45, pan: -0.2, bus: 'fx', vel: (o.vel ?? 1) * 0.3 });

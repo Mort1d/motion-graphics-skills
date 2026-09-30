@@ -24,21 +24,4 @@ export const COPY = {
       { icon: 'phone', text: '+1 (555) 010-0199' },
     ],
   },
-  ru: {
-    hook: ['ПУСТЬ', 'ВСЁ', 'ДВИЖЕТСЯ.'],
-    sub: 'Моушн-графика, отрендеренная кодом',
-    cards: [
-      { from: 0, to: 60, unit: 'FPS', label: 'каждый кадр отрендерен' },
-      { from: 1, to: 16, unit: '× BLUR', label: 'настоящий motion blur' },
-      { from: 128, to: 0, unit: 'СЭМПЛОВ', label: 'весь звук синтезирован' },
-    ],
-    statement: ['КАЖДЫЙ КАДР.', 'КАЖДЫЙ БИТ.'],
-    tagline: 'ПРОМО-РОЛИКИ ИЗ КОДА',
-    cta: 'Ваш бренд в движении',
-    contacts: [
-      { icon: 'link', text: 'nova.example' },
-      { icon: 'send', text: '@nova_example' },
-      { icon: 'phone', text: '+1 (555) 010-0199' },
-    ],
-  },
 };

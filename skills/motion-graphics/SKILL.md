@@ -4,7 +4,7 @@ description: Creates showreel-grade motion graphics videos entirely from code �
 license: MIT
 compatibility: Needs a local shell with Node.js 22.4+, ffmpeg and ffprobe on PATH, and Chrome, Edge, Chromium or Brave installed. No npm packages or API keys; the network is used only to read the links the user gives (the site, reference posts).
 metadata:
-  version: "1.3.0"
+  version: "1.4.0"
 ---
 
 # Motion graphics
@@ -145,8 +145,8 @@ pick a card from `references/look-cards.md`. Then, in this order:
   they gave (a site, a repository, an app, screenshots, a recording, photos, only a name) decides what the hero is;
   where it plays decides the opening, the format and whether the picture must work muted; the brand's own copy,
   colours and interface motion decide the look and the feel; the topic comes last.
-- **Energy, mood, the sound's role** (`direction.md` §5). The person's words set the energy («динамично» → the
-  groove from the first bar; «спокойно» → low–mid). Without such words: the references' music arc, else the
+- **Energy, mood, the sound's role** (`direction.md` §5). The person's words set the energy ("dynamic" → the
+  groove from the first bar; "calm" → low–mid). Without such words: the references' music arc, else the
   default of this genre for a promo, a launch, a reel or an ad — the groove from the first bar, held, contrast made
   by adding. Calm needs a reason written in the card (a brand that lives in calm, a background placement, a
   sensitive subject). Mood (bright or dark, playful or serious) is a separate choice; the sound's role is
@@ -175,7 +175,7 @@ pick a card from `references/look-cards.md`. Then, in this order:
   they sound like). Take the first unless the person's words, the references or the edit point elsewhere.
 - **Write the direction card** (`direction.md` §7) — into the project's README as soon as step 4 has scaffolded it
   (the template has the fields), before any scene: the film in one line; what you read; the concept; the look;
-  `Energy:` per scene with where it came from ("high from bar 1 — asked for «прям динамичную»"); the sound's role;
+  `Energy:` per scene with where it came from ("high from bar 1 — asked for “really dynamic”"); the sound's role;
   the beat map — per shot its window in beats, what is on screen, how it **enters** (already moving) and how it
   **leaves** (an accelerating move, a blur ramp, a match cut); the palette as roles with hexes; the type; the hard
   cuts on their beats; the banned list (the anti-generic list — a scene counter and HUD always on it — plus what the
@@ -209,9 +209,9 @@ browser, and prints the next steps. Then:
   palette.mjs logo.png` prints a logo's exact hexes with their share and role. Light or dark follows the brand's own
   surfaces (a white site → the light preset in `style.css`); the template is dark only because its demo brand is.
 - **Fonts** in `assets/fonts` + `css/fonts.css`: the brand's Google Fonts from `brand/fonts/` (copy the TTFs and the
-  rules of `brand/fonts/fonts.css`; check the coverage line for Cyrillic, ₽, №); a font the site serves itself may be
-  licensed to the site only — use the closest open one. Montserrat and JetBrains Mono are bundled (OFL, Latin,
-  Cyrillic, ₽ € №); a `[fonts] … has no glyph` line in the capture log names a character to fix.
+  rules of `brand/fonts/fonts.css`; its coverage line checks the letters and signs of the site's own text); a font
+  the site serves itself may be licensed to the site only — use the closest open one. Montserrat and JetBrains Mono
+  are bundled (OFL; Latin and Cyrillic); a `[fonts] … has no glyph` line in the capture log names a character to fix.
 - **Copy and contacts** in `js/copy.mjs`; client photos and `brand/sections/` crops in `assets/img`, pre-scaled.
 - Encode the story in `js/timeline.mjs`: `BPM`, `DURATION`, scene windows `S`, named `CUE`s, `ENERGY`, `WHIPS` (fast
   moves), `COVERS`, `LOOP` (a video that loops ends on its own first frame). Picture and sound both import this file.
@@ -336,7 +336,7 @@ The video is done when all of these hold:
 - entrances ease out, exits ease in, wipes last ≥ 0.3 s; groups stagger; one hero per frame
 - text ≥ 26 px at 1080p, held long enough to read; nothing cut off in any language
 - every line of copy reads as a native writer of that language would put it — proofread it; no coined words or
-  word-for-word translations (a coffee shop's «обжарка» is not «обжиг»)
+  word-for-word translations (a dictionary's first sense is often the wrong one)
 - the brand's colours and shapes carry the design; one accent colour marks the key word of each statement
 - the end card holds ≥ 2.5 s with the logo, the CTA and contacts large
 - the music's energy is the person's: `ENERGY` written from their words (then the references, then the genre's
@@ -372,7 +372,7 @@ The video is done when all of these hold:
   bars, not house. The `unique` check
   in `audio-check` and QA catches it; the fix is another genre card, groove and kit — not a new seed or new chords.
 - **A calm first half after "make it dynamic".** The contrast shape — a quiet intro, a thinner verse, the groove on
-  the reveal — is one plan among others, not the default: a release promo asked for «прям динамичную» got its full
+  the reveal — is one plan among others, not the default: a release promo asked to be "really dynamic" got its full
   groove at 20 s of 36, in half-time that felt like 70 BPM. The person's words set `ENERGY`, and `audio-check` holds
   the mix to it.
 - **The defaults every model reaches for.** Given nothing, every model makes the same video: a dark screen with a
@@ -387,9 +387,9 @@ The video is done when all of these hold:
   same `CUE`s and schedules the picture uses.
 - **Judging a fix by a full render.** A 30-second render takes 10–60 minutes; a still takes a second. Check with
   stills and sheets, and re-render only the changed range (`--range`).
-- **A font without the needed glyphs** (Cyrillic, ₽, №, arrows) falls back to a system font and changes text widths.
-  `main.js` names each such character in the capture log (`[fonts] Mono has no glyph for "₽"`): swap the font or
-  the character.
+- **A font without the needed glyphs** (another script, a newer currency sign, arrows) falls back to a system font
+  and changes text widths. `main.js` names each such character in the capture log (`[fonts] Mono has no glyph for
+  "₹"`): swap the font or the character.
 - **Trusting the encoder with the peaks.** FFmpeg's AAC encoder added 5 dB of peak to a clean score in a 192k copy.
   `render.mjs` and `cutdown.mjs` encode through `tools/aac.mjs`, which measures every file; `node tools/aac.mjs
   out/*.mp4` checks anything else you encode.

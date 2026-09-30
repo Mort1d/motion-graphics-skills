@@ -2,9 +2,20 @@
 
 /** A bot-check page instead of the site? */
 export function botCheck() {
-  const t = `${document.title} ${String(document.body?.innerText || '').slice(0, 3000)}`;
+  const body = String(document.body?.innerText || '');
+  const t = `${document.title} ${body.slice(0, 3000)}`;
   // the phrases of a challenge page — not a bare "captcha", which also sits in footers ("protected by reCAPTCHA")
-  return /just a moment\.\.\.|attention required|checking your browser|verify you are human|are you a robot|enable javascript and cookies to continue|ddos-guard|complete the captcha|solve the captcha|проверка браузера|вы не робот|подтвердите, что вы (не робот|человек)|пройдите капчу/i.test(t);
+  if (/just a moment\.\.\.|attention required|checking your browser|verify you are human|are you a robot|enable javascript and cookies to continue|ddos-guard|complete the captcha|solve the captcha/i.test(t)) return true;
+  // in any language: a protection service's page — its mark in the address or the markup, and hardly any text or
+  // links of a site around it (a captcha under a contact form is not a wall)
+  const mark = /challenge-platform|cf-chl|ddos-guard|qrator|variti|servicepipe|stormwall|showcaptcha|smartcaptcha/i;
+  const bare = body.trim().length < 600 && document.querySelectorAll('a[href]').length < 8;
+  return bare && (mark.test(location.href) || mark.test(document.documentElement.outerHTML.slice(0, 300000)));
+}
+
+/** A sign-in page (a password field on screen): not a page to show. */
+export function signIn() {
+  return [...document.querySelectorAll('input[type="password"]')].some((el) => el.getClientRects().length > 0 && getComputedStyle(el).visibility !== 'hidden');
 }
 
 // hides consent banners, chat bubbles and modal dialogs for the screenshots only (nothing is clicked or accepted)
@@ -16,7 +27,7 @@ export function hideOverlays() {
     const id = `${el.id} ${typeof el.className === 'string' ? el.className : ''}`;
     const txt = String(el.innerText || '').slice(0, 500);
     const r = el.getBoundingClientRect();
-    const consent = /cookie|куки|consent|gdpr|согласи|персональных данных/i.test(`${txt} ${id}`) && r.height < innerHeight * 0.7;
+    const consent = /cookie|consent|gdpr|ccpa/i.test(`${txt} ${id}`) && r.height < innerHeight * 0.7;
     const chat = /jivo|jdiv|intercom|crisp|tawk|carrot|chatra|livechat|b24-|bitrix|chat-widget|widget-button|callback|whatsapp-button/i.test(id);
     const modal = el.getAttribute('aria-modal') === 'true' || (el.getAttribute('role') === 'dialog' && r.width * r.height > innerWidth * innerHeight * 0.2);
     if (consent || chat || modal) { el.style.setProperty('visibility', 'hidden', 'important'); n++; }

@@ -7,13 +7,14 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
-// the person's words about how the video should feel, in the languages the skill is used in most
-const DYNAMIC = /\b(dynamic|energetic|high[- ]energy|drive|driving|hype|punchy|powerful|intense|aggressive|hard-hitting|fast-paced|rock[- ]?n[- ]?roll|banger)\b|динамич|драйв|мощн|бодр|энергичн|жёстк|жестк|быстр|качов|кача[ею]т|рок-н-ролл/iu;
-const CALM = /\b(calm|soft|gentle|cozy|cosy|relaxed|slow|serene|quiet|premium|luxur\w*)\b|спокойн|нежн|мягк|уютн|премиальн|медленн|плавн|тих/iu;
+// the person's words about how the video should feel, in English: a request in another language is quoted in the
+// card with its English gloss after it (direction.md §1), and the gloss is what is read here
+const DYNAMIC = /\b(dynamic|energetic|high[- ]energy|drive|driving|hype|punchy|powerful|intense|aggressive|hard-hitting|fast|fast-paced|lively|upbeat|snappy|explosive|wow|go all out|rock[- ]?n[- ]?roll|banger)\b/i;
+const CALM = /\b(calm|soft|gentle|tender|cozy|cosy|relaxed|chill|slow|serene|quiet|premium|luxur\w*)\b/i;
 const LEVELS = new Set(['low', 'mid', 'high']);
 // the same patterns as js/main.js: a scene counter or a chapter label is never on screen
-const COUNTER = /^(?:(?:scene|chapter|part|step|shot|ch\.?|сцена|глава|часть|шаг|кадр)\s*)?(\d{1,2})\s*(?:\/|\||⁄|∕|of|из|—|–)\s*(\d{1,2})$/iu;
-const LABEL = /^(?:scene|chapter|part|shot|сцена|глава|часть|кадр)\s*№?\s*\d{1,2}$/iu;
+const COUNTER = /^(?:(?:scene|chapter|part|step|shot|ch\.?)\s*)?(\d{1,2})\s*(?:\/|\||⁄|∕|of|—|–)\s*(\d{1,2})$/iu;
+const LABEL = /^(?:scene|chapter|part|shot)\s*(?:#|no\.?)?\s*\d{1,2}$/iu;
 
 /** The Energy line of the README's direction or sound brief (not the "Energy map"), or null when it is not filled. */
 export function energyLine(readme) {
@@ -25,10 +26,14 @@ export function energyLine(readme) {
  * What the words ask for: 'dynamic', 'calm', 'mixed' (both: "calm, then a blast") or null. When the line quotes the
  * person («…», "…", “…”), only the quotes count — the reasoning around them ("no reason for calm") is not a request.
  */
+const quotesOf = (line) => [...String(line).matchAll(/«([^»]+)»|“([^”]+)”|"([^"]+)"/g)].map((m) => m[1] ?? m[2] ?? m[3]);
+
+/** What to quote back: the person's own words when the line quotes them, else the whole line. */
+export const saidOf = (line) => { const q = quotesOf(line); return q.length ? q.join(' … ') : String(line); };
+
 export function asked(line) {
   if (!line) return null;
-  const quotes = [...String(line).matchAll(/«([^»]+)»|“([^”]+)”|"([^"]+)"/g)].map((m) => m[1] ?? m[2] ?? m[3]).join(' ');
-  const words = quotes || line;
+  const words = quotesOf(line).join(' ') || line;
   const d = DYNAMIC.test(words);
   const c = CALM.test(words);
   return d && c ? 'mixed' : d ? 'dynamic' : c ? 'calm' : null;
@@ -59,22 +64,23 @@ export function checkPlan(TL, { readme = '', copy = '', timelineSrc = '' } = {})
     if (missing.length) add('WARN', 'energy', `no level for ${missing.join(', ')}`);
   }
 
-  // the person's words against the plan: the release promo that asked for «прям динамичную» and got its groove at 20 s
+  // the person's words against the plan: the release promo that asked to be "really dynamic" and got its groove at 20 s
   const line = energyLine(readme);
   const want = asked(line);
+  const said = line ? saidOf(line) : '';
   if (!line) add('WARN', 'asked', 'README.md has no Energy line: write what the person asked for, or why the plan has this shape');
   else if (E && want === 'dynamic') {
     // the groove comes in within the first bar (a pickup); a low scene past 2 bars breaks the promise, 1–2 bars is a
     // long wait worth a second look
     const quiet = scenes.filter((n) => E[n] === 'low' && (S[n][0] > 2 * BAR + 0.01 || S[n][1] - S[n][0] > 2 * BAR + 0.5));
     const slow = scenes.filter((n) => E[n] === 'low' && !quiet.includes(n) && S[n][1] > BAR + 0.5);
-    if (quiet.length) add('FAIL', 'asked', `the words ask for energy («${line}»), but ${quiet.map((n) => `${n} (${fmt(S[n][0])}–${fmt(S[n][1])})`).join(', ')} is planned 'low': keep the groove under every scene after the first bar`);
-    else if (slow.length) add('WARN', 'asked', `the words ask for energy («${line}»), and ${slow.map((n) => `${n} stays 'low' until ${fmt(S[n][1])}`).join(', ')}: a pickup of a bar at most, then the groove (sound-design.md §5)`);
+    if (quiet.length) add('FAIL', 'asked', `the words ask for energy (“${said}”), but ${quiet.map((n) => `${n} (${fmt(S[n][0])}–${fmt(S[n][1])})`).join(', ')} is planned 'low': keep the groove under every scene after the first bar`);
+    else if (slow.length) add('WARN', 'asked', `the words ask for energy (“${said}”), and ${slow.map((n) => `${n} stays 'low' until ${fmt(S[n][1])}`).join(', ')}: a pickup of a bar at most, then the groove (sound-design.md §5)`);
     else add('PASS', 'asked', `energy asked for, and the plan keeps it (${scenes.map((n) => `${n} ${E[n]}`).join(' · ')})`);
   } else if (E && want === 'calm') {
     const loud = scenes.filter((n) => E[n] === 'high');
-    add(loud.length ? 'WARN' : 'PASS', 'asked', loud.length ? `the words ask for calm («${line}»), but ${loud.join(', ')} is planned 'high' — right only if they asked for a lift there` : 'calm asked for, and the plan stays calm');
-  } else add('INFO', 'asked', `«${line}» — ${want === 'mixed' ? 'a shape with both calm and drive: check the plan follows its order' : 'no energy words: the plan comes from the topic and the references'}`);
+    add(loud.length ? 'WARN' : 'PASS', 'asked', loud.length ? `the words ask for calm (“${said}”), but ${loud.join(', ')} is planned 'high' — right only if they asked for a lift there` : 'calm asked for, and the plan stays calm');
+  } else add('INFO', 'asked', `“${line}” — ${want === 'mixed' ? 'a shape with both calm and drive: check the plan follows its order' : 'no energy words: the plan comes from the topic and the references'}`);
 
   // the hook moves in the first second, and something new happens every few seconds
   const times = [...Object.values(CUE), ...names.map((n) => S[n][0]), ...(TL.WHIPS || []).map((w) => w[0])].filter((x) => Number.isFinite(x) && x >= 0 && x <= DUR).sort((a, b) => a - b);

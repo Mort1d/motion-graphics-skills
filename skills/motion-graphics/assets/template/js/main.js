@@ -66,8 +66,8 @@ function checkGlyphs() {
 
 // The video never numbers itself: a scene counter or a chapter label ("01 / 06", "SCENE 03", "step 1 of 4") reads as
 // a template. Found at the same moments, warned below and failed by tools/qa.mjs (it reads window.__lint).
-const COUNTER = /^(?:(?:scene|chapter|part|step|shot|ch\.?|сцена|глава|часть|шаг|кадр)\s*)?(\d{1,2})\s*(?:\/|\||⁄|∕|of|из|—|–)\s*(\d{1,2})$/iu;
-const LABEL = /^(?:scene|chapter|part|shot|сцена|глава|часть|кадр)\s*№?\s*\d{1,2}$/iu;
+const COUNTER = /^(?:(?:scene|chapter|part|step|shot|ch\.?)\s*)?(\d{1,2})\s*(?:\/|\||⁄|∕|of|—|–)\s*(\d{1,2})$/iu;
+const LABEL = /^(?:scene|chapter|part|shot)\s*(?:#|no\.?)?\s*\d{1,2}$/iu;
 window.__lint = [];
 function checkCounters(t) {
   for (const e of stage.querySelectorAll('*')) {

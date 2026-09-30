@@ -16,9 +16,10 @@ turns into a good plan, a vague one into a generic reel that no check can rescue
 
 ## 1. Read everything, in this order
 
-1. **The person's words** win over everything below, in any language: how it should feel («динамично», "calm",
-   "like Apple"), a genre ("phonk", «рок»), a length, a format, where it will run, what to show. Quote them in the
-   direction card; the plan and the checks hold the video to them (`tools/plan-check.mjs` reads the Energy line).
+1. **The person's words** win over everything below, in any language: how it should feel ("dynamic", "calm",
+   "like Apple"), a genre ("phonk", "rock"), a length, a format, where it will run, what to show. Quote them in the
+   direction card — words in another language with their English gloss in quotes after them — and the plan and the
+   checks hold the video to them (`tools/plan-check.mjs` reads the Energy line, in English).
 2. **What they gave** (§2): a site, a repository, an app, screenshots, a recording, photos, a logo, only a name.
 3. **Where it plays** (§3), said or implied: a release post on X, Reels, a site header, a pitch.
 4. **The brand's voice** (§4): how its copy talks, its colours and type, how its own interface moves, who it serves.
@@ -126,7 +127,7 @@ Written into the project README (the template has the fields) before any scene c
 - **Read from**: the person's words (quoted), what they gave, where it plays, the brand's voice.
 - **Concept**: the device and the signature moment; the two concepts not taken, one line each.
 - **Look**: a card from `look-cards.md` and this brand's changes to it; palette roles with hexes; type with sizes.
-- **Energy**: per scene, and where it came from («прям динамичную» → high from bar 1).
+- **Energy**: per scene, and where it came from ("really dynamic" → high from bar 1).
 - **Sound role**: music-led or ui-led, and the genre card that fits both the energy and the mood.
 - **Beat map**: the story table (beats → shot → how it enters and leaves → sound).
 - **Banned**: the anti-generic list (`story-and-motion.md` §9) plus what this brand rules out.
@@ -154,14 +155,14 @@ Made-up briefs, to show how different inputs lead to different films — the rea
 4. **A kids' learning app, screenshots, "for TikTok".** Placement: 9:16, 15–20 s, sound on. Voice: playful.
    Energy: high, bright. Concept: the app's mascot and lesson cards bounce in on the beat, each tap pops; signature:
    a lesson card flips into a medal. Look: playful pop. Sound: ui-led, marimba pop, a pop per card.
-5. **A logistics company, «спокойно, премиально», for a pitch.** Words: calm, premium → mid at most. Placement: a
+5. **A logistics company, "calm, premium", for a pitch.** Words: calm, premium → mid at most. Placement: a
    presentation → silent-safe type. Concept: *data story* — a route draws across a map, real volumes roll; signature:
    the network lights up city by city. Look: data story, dark. Sound: minimal pulse, a tick per digit.
-6. **A Telegram bot selling AI subscriptions, «сделай вау».** Wow → high from bar 1. Input: the bot's avatar and
+6. **A Telegram bot selling AI subscriptions, "make it wow".** Wow → high from bar 1. Input: the bot's avatar and
    description, the tariffs from its messages. Concept: the chat itself — a question, the bot's answer arriving,
    plans flipping on a split-flap board; signature: every model's logo-free name slams in one per beat. Look: neon
    kinetic or glass, from the avatar's colours. Sound: music-led, broken beat, message pops.
-7. **A personal travel reel from photos, «динамично, с переходами вау».** High. The photos are the heroes. Concept:
+7. **A personal travel reel from photos, "dynamic, wow transitions".** High. The photos are the heroes. Concept:
    whip pans between photos on every downbeat, the place names slam in, a map route draws between cities;
    signature: a zoom through one photo's window into the next city. Look: from the photos' own colours, grain.
    Sound: music-led, 120–130 BPM, cuts on downbeats (not every beat).

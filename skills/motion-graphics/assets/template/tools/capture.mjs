@@ -199,7 +199,7 @@ async function openPage({ query = '', label = `${mode}-${process.pid}`, page = '
   const { proc, port, prof } = await launch(label);
   const base = `http://127.0.0.1:${port}`;
   const ver = await (await fetch(`${base}/json/version`)).json();
-  // /json/new cuts its URL at the first «&»: open a blank tab, then navigate.
+  // /json/new cuts its URL at the first “&”: open a blank tab, then navigate.
   const tab = await (await fetch(`${base}/json/new?about:blank`, { method: 'PUT' })).json();
   const errors = [];
   const c = await connect(tab.webSocketDebuggerUrl, (msg) => {

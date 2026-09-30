@@ -30,7 +30,7 @@ fs.mkdirSync(OUT, { recursive: true });
 const rows = [];
 const used = new Set();
 for (const f of files) {
-  const base = path.basename(f).replace(/\.[^.]+$/, '').toLowerCase().replace(/[^a-z0-9а-яё_-]+/gi, '-').replace(/^-+|-+$/g, '') || 'sound';
+  const base = path.basename(f).replace(/\.[^.]+$/, '').toLowerCase().normalize('NFKD').replace(/(\p{Script=Latin})\p{M}+/gu, '$1').normalize('NFC').replace(/[^\p{L}\p{M}\p{N}_-]+/gu, '-').replace(/^-+|-+$/g, '') || 'sound';
   let name = base;
   for (let k = 2; used.has(name); k++) name = `${base}-${k}`;
   used.add(name);

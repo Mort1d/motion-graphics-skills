@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="368" viewBox="0 0 1000 368">
+<rect x="0.5" y="0.5" width="999" height="367" rx="16" fill="#0f1016" stroke="#2a2c38"/>
+<rect x="16" y="16" width="968" height="38" rx="10" fill="#181922"/>
+<circle cx="38" cy="35" r="5.5" fill="#3b3d48"/>
+<circle cx="56" cy="35" r="5.5" fill="#3b3d48"/>
+<circle cx="74" cy="35" r="5.5" fill="#3b3d48"/>
+<text x="94" y="40" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" fill="#9a9da8">SKILL.md · the workflow</text>
+<text x="968" y="40" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" fill="#ff5a36" text-anchor="end" font-weight="700" letter-spacing="1.2">EIGHT STEPS</text>
+<text x="40" y="84" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="11.5" fill="#ff5a36" font-weight="600" letter-spacing="1.4">DECIDED BEFORE ANYTHING IS BUILT</text>
+<text x="40" y="228" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="11.5" fill="#686b77" font-weight="600" letter-spacing="1.4">BUILT, HEARD, JUDGED, RENDERED</text>
+<rect x="40" y="96" width="212" height="104" rx="12" fill="#181922" stroke="#ff5a36" stroke-opacity="0.55"/>
+<circle cx="70" cy="126" r="13" fill="#ff5a36"/>
+<text x="70" y="130.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" fill="#1a0b06" text-anchor="middle" font-weight="700">1</text>
+<text x="92" y="131" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="17" fill="#f4f1ec" font-weight="700">Brief</text>
+<text x="58" y="160" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" fill="#9a9da8">the brand, read from a link</text>
+<rect x="58" y="170" width="153.4" height="21" rx="10.5" fill="none" stroke="#ff5a36" stroke-opacity="0.8"/>
+<text x="134.7" y="184.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" fill="#ff5a36" text-anchor="middle">site-kit · ui-shot</text>
+<path d="M260,143 l6,5 l-6,5" fill="none" stroke="#686b77" stroke-width="2"/>
+<rect x="276" y="96" width="212" height="104" rx="12" fill="#181922" stroke="#ff5a36" stroke-opacity="0.55"/>
+<circle cx="306" cy="126" r="13" fill="#ff5a36"/>
+<text x="306" y="130.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" fill="#1a0b06" text-anchor="middle" font-weight="700">2</text>
+<text x="328" y="131" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="17" fill="#f4f1ec" font-weight="700">References</text>
+<text x="294" y="160" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" fill="#9a9da8">the pace, measured</text>
+<rect x="294" y="170" width="87.7" height="21" rx="10.5" fill="none" stroke="#ff5a36" stroke-opacity="0.8"/>
+<text x="337.9" y="184.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" fill="#ff5a36" text-anchor="middle">ref-sheet</text>
+<path d="M496,143 l6,5 l-6,5" fill="none" stroke="#686b77" stroke-width="2"/>
+<rect x="512" y="96" width="212" height="104" rx="12" fill="#181922" stroke="#ff5a36" stroke-opacity="0.55"/>
+<circle cx="542" cy="126" r="13" fill="#ff5a36"/>
+<text x="542" y="130.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" fill="#1a0b06" text-anchor="middle" font-weight="700">3</text>
+<text x="564" y="131" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="17" fill="#f4f1ec" font-weight="700">Direction</text>
+<text x="530" y="160" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" fill="#9a9da8">three concepts, one look</text>
+<rect x="530" y="170" width="124.2" height="21" rx="10.5" fill="none" stroke="#ff5a36" stroke-opacity="0.8"/>
+<text x="592.1" y="184.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" fill="#ff5a36" text-anchor="middle">direction card</text>
+<path d="M732,143 l6,5 l-6,5" fill="none" stroke="#686b77" stroke-width="2"/>
+<rect x="748" y="96" width="212" height="104" rx="12" fill="#181922" stroke="#ff5a36" stroke-opacity="0.55"/>
+<circle cx="778" cy="126" r="13" fill="#ff5a36"/>
+<text x="778" y="130.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" fill="#1a0b06" text-anchor="middle" font-weight="700">4</text>
+<text x="800" y="131" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="17" fill="#f4f1ec" font-weight="700">Plan check</text>
+<text x="766" y="160" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" fill="#9a9da8">tested against your words</text>
+<rect x="766" y="170" width="95" height="21" rx="10.5" fill="none" stroke="#ff5a36" stroke-opacity="0.8"/>
+<text x="813.5" y="184.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" fill="#ff5a36" text-anchor="middle">plan-check</text>
+<rect x="40" y="240" width="212" height="104" rx="12" fill="#181922" stroke="#2a2c38" stroke-opacity="1"/>
+<circle cx="70" cy="270" r="13" fill="#2c2e3a"/>
+<text x="70" y="274.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" fill="#f4f1ec" text-anchor="middle" font-weight="700">5</text>
+<text x="92" y="275" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="17" fill="#f4f1ec" font-weight="700">Scenes</text>
+<text x="58" y="304" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" fill="#9a9da8">springs, camera, real UI</text>
+<rect x="58" y="314" width="65.8" height="21" rx="10.5" fill="none" stroke="#686b77" stroke-opacity="0.8"/>
+<text x="90.9" y="328.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" fill="#9a9da8" text-anchor="middle">verify</text>
+<path d="M260,287 l6,5 l-6,5" fill="none" stroke="#686b77" stroke-width="2"/>
+<rect x="276" y="240" width="212" height="104" rx="12" fill="#181922" stroke="#2a2c38" stroke-opacity="1"/>
+<circle cx="306" cy="270" r="13" fill="#2c2e3a"/>
+<text x="306" y="274.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" fill="#f4f1ec" text-anchor="middle" font-weight="700">6</text>
+<text x="328" y="275" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="17" fill="#f4f1ec" font-weight="700">Score</text>
+<text x="294" y="304" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" fill="#9a9da8">composed on the same beats</text>
+<rect x="294" y="314" width="102.3" height="21" rx="10.5" fill="none" stroke="#686b77" stroke-opacity="0.8"/>
+<text x="345.2" y="328.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" fill="#9a9da8" text-anchor="middle">audio-check</text>
+<path d="M496,287 l6,5 l-6,5" fill="none" stroke="#686b77" stroke-width="2"/>
+<rect x="512" y="240" width="212" height="104" rx="12" fill="#181922" stroke="#2a2c38" stroke-opacity="1"/>
+<circle cx="542" cy="270" r="13" fill="#2c2e3a"/>
+<text x="542" y="274.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" fill="#f4f1ec" text-anchor="middle" font-weight="700">7</text>
+<text x="564" y="275" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="17" fill="#f4f1ec" font-weight="700">Critique</text>
+<text x="530" y="304" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" fill="#9a9da8">scored, fixed to 8 / 10</text>
+<rect x="530" y="314" width="65.8" height="21" rx="10.5" fill="none" stroke="#686b77" stroke-opacity="0.8"/>
+<text x="562.9" y="328.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" fill="#9a9da8" text-anchor="middle">review</text>
+<path d="M732,287 l6,5 l-6,5" fill="none" stroke="#686b77" stroke-width="2"/>
+<rect x="748" y="240" width="212" height="104" rx="12" fill="#181922" stroke="#2a2c38" stroke-opacity="1"/>
+<circle cx="778" cy="270" r="13" fill="#2c2e3a"/>
+<text x="778" y="274.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" fill="#f4f1ec" text-anchor="middle" font-weight="700">8</text>
+<text x="800" y="275" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="17" fill="#f4f1ec" font-weight="700">Render</text>
+<text x="766" y="304" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13.5" fill="#9a9da8">60 fps · motion blur · QA</text>
+<rect x="766" y="314" width="102.3" height="21" rx="10.5" fill="none" stroke="#686b77" stroke-opacity="0.8"/>
+<text x="817.2" y="328.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" fill="#9a9da8" text-anchor="middle">render · qa</text>
+</svg>

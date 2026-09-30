@@ -90,8 +90,8 @@ words.forEach((wd, i) => {
 Pair with `shakes(t, words.map((w) => w.t0), 14, 0.35)` on the camera layer and an `impact` per word in the score.
 
 Lines under or through text (underlines, strokes that draw, strikethroughs) go from the measured box
-(`getBoundingClientRect()` after fonts load), never from the font size: Cyrillic Д Ц Щ д ц щ у р ф and Latin g j p
-q y hang below the baseline, and an underline placed for Latin capitals cuts through them. Check a still.
+(`getBoundingClientRect()` after fonts load), never from the font size: descenders (g j p q y, and their
+kin in other scripts) hang below the baseline, and an underline placed for capitals cuts through them. Check a still.
 
 ## 3. Per-letter reveal
 

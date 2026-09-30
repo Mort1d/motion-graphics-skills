@@ -1,0 +1,208 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="576" viewBox="0 0 1000 576">
+<rect x="0.5" y="0.5" width="999" height="575" rx="16" fill="#0f1016" stroke="#2a2c38"/>
+<rect x="16" y="16" width="968" height="38" rx="10" fill="#181922"/>
+<circle cx="38" cy="35" r="5.5" fill="#3b3d48"/>
+<circle cx="56" cy="35" r="5.5" fill="#3b3d48"/>
+<circle cx="74" cy="35" r="5.5" fill="#3b3d48"/>
+<text x="94" y="40" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" fill="#9a9da8">references/look-cards.md</text>
+<text x="968" y="40" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" fill="#ff5a36" text-anchor="end" font-weight="700" letter-spacing="1.2">NINE LOOKS · NOT ONE HOUSE STYLE</text>
+<defs><linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e9e4ff"/><stop offset="1" stop-color="#d8f1ff"/></linearGradient><radialGradient id="neon" cx="0.75" cy="0.35" r="0.65"><stop offset="0" stop-color="#ff5a36" stop-opacity="0.4"/><stop offset="1" stop-color="#ff5a36" stop-opacity="0"/></radialGradient></defs>
+<clipPath id="c0"><rect x="32" y="70" width="301.3" height="150" rx="12"/></clipPath><g clip-path="url(#c0)">
+<rect x="32" y="70" width="301.3" height="150" fill="#f4f1ec"/>
+<text x="50" y="97" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="11.5" fill="#16131b" font-weight="700" letter-spacing="1.5" opacity="0.85">1 · PRODUCT FILM</text>
+<text x="50" y="144" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="30" fill="#16131b" font-weight="800">Send it.</text>
+<text x="50" y="174" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="23" fill="#2f6bff" font-weight="800">Get paid.</text>
+<circle cx="58" cy="198" r="7" fill="#f4f1ec" stroke="#16131b" stroke-opacity="0.28"/>
+<circle cx="78" cy="198" r="7" fill="#16131b" stroke="#16131b" stroke-opacity="0.28"/>
+<circle cx="98" cy="198" r="7" fill="#2f6bff" stroke="#16131b" stroke-opacity="0.28"/>
+<circle cx="118" cy="198" r="7" fill="#c9ced8" stroke="#16131b" stroke-opacity="0.28"/>
+</g>
+<rect x="32" y="70" width="301.3" height="150" rx="12" fill="none" stroke="#2a2c38"/>
+<clipPath id="c1"><rect x="349.3" y="70" width="301.3" height="150" rx="12"/></clipPath><g clip-path="url(#c1)">
+<rect x="349.3" y="70" width="301.3" height="150" fill="#0b0d10"/>
+<text x="367.3" y="97" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="11.5" fill="#d7dce2" font-weight="700" letter-spacing="1.5" opacity="0.85">2 · TERMINAL RELEASE</text>
+<text x="367.3" y="144" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="22" fill="#d7dce2" font-weight="700">$ forge ship</text>
+<text x="367.3" y="174" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="13.5" fill="#ff8a3d" font-weight="700">hot reload. no restart.</text>
+<circle cx="375.3" cy="198" r="7" fill="#0b0d10" stroke="#d7dce2" stroke-opacity="0.28"/>
+<circle cx="395.3" cy="198" r="7" fill="#d7dce2" stroke="#d7dce2" stroke-opacity="0.28"/>
+<circle cx="415.3" cy="198" r="7" fill="#ff8a3d" stroke="#d7dce2" stroke-opacity="0.28"/>
+<circle cx="435.3" cy="198" r="7" fill="#3c4450" stroke="#d7dce2" stroke-opacity="0.28"/>
+</g>
+<rect x="349.3" y="70" width="301.3" height="150" rx="12" fill="none" stroke="#2a2c38"/>
+<clipPath id="c2"><rect x="666.7" y="70" width="301.3" height="150" rx="12"/></clipPath><g clip-path="url(#c2)">
+<rect x="666.7" y="70" width="301.3" height="150" fill="url(#glass)"/>
+<rect x="856" y="96" width="92" height="74" rx="20" fill="#ffffff" fill-opacity="0.6" stroke="#ffffff"/><circle cx="902" cy="133" r="15" fill="#7b61ff"/>
+<text x="684.7" y="97" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="11.5" fill="#1d1b2e" font-weight="700" letter-spacing="1.5" opacity="0.85">3 · LIQUID GLASS</text>
+<text x="684.7" y="144" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="30" fill="#1d1b2e" font-weight="700">One tap.</text>
+<text x="684.7" y="174" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="23" fill="#7b61ff" font-weight="700">All of it moves.</text>
+<circle cx="692.7" cy="198" r="7" fill="#e9e4ff" stroke="#1d1b2e" stroke-opacity="0.28"/>
+<circle cx="712.7" cy="198" r="7" fill="#dcf3ff" stroke="#1d1b2e" stroke-opacity="0.28"/>
+<circle cx="732.7" cy="198" r="7" fill="#ffffff" stroke="#1d1b2e" stroke-opacity="0.28"/>
+<circle cx="752.7" cy="198" r="7" fill="#7b61ff" stroke="#1d1b2e" stroke-opacity="0.28"/>
+</g>
+<rect x="666.7" y="70" width="301.3" height="150" rx="12" fill="none" stroke="#2a2c38"/>
+<clipPath id="c3"><rect x="32" y="236" width="301.3" height="150" rx="12"/></clipPath><g clip-path="url(#c3)">
+<rect x="32" y="236" width="301.3" height="150" fill="#0b0b10"/>
+<rect x="32" y="236" width="301.3" height="150" fill="url(#neon)"/>
+<text x="50" y="263" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="11.5" fill="#f7f3ee" font-weight="700" letter-spacing="1.5" opacity="0.85">4 · NEON KINETIC</text>
+<text x="50" y="310" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="30" fill="#f7f3ee" font-weight="900" font-style="italic">MAKE IT</text>
+<text x="50" y="340" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="23" fill="#ff5a36" font-weight="900" font-style="italic">MOVE.</text>
+<circle cx="58" cy="364" r="7" fill="#0b0b10" stroke="#f7f3ee" stroke-opacity="0.28"/>
+<circle cx="78" cy="364" r="7" fill="#f7f3ee" stroke="#f7f3ee" stroke-opacity="0.28"/>
+<circle cx="98" cy="364" r="7" fill="#ff5a36" stroke="#f7f3ee" stroke-opacity="0.28"/>
+<circle cx="118" cy="364" r="7" fill="#ffc24b" stroke="#f7f3ee" stroke-opacity="0.28"/>
+</g>
+<rect x="32" y="236" width="301.3" height="150" rx="12" fill="none" stroke="#2a2c38"/>
+<clipPath id="c4"><rect x="349.3" y="236" width="301.3" height="150" rx="12"/></clipPath><g clip-path="url(#c4)">
+<rect x="349.3" y="236" width="301.3" height="150" fill="#f1e9da"/>
+<circle cx="349.3" cy="236" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="446.3" cy="289" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="543.3" cy="342" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="640.3" cy="245" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="436" cy="298" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="533" cy="351" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="630" cy="254" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="425.7" cy="307" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="522.7" cy="360" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="619.7" cy="263" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="415.3" cy="316" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="512.3" cy="369" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="609.3" cy="272" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="405" cy="325" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="502" cy="378" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="599" cy="281" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="394.7" cy="334" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="491.7" cy="237" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="588.7" cy="290" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="384.3" cy="343" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="481.3" cy="246" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="578.3" cy="299" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="374" cy="352" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="471" cy="255" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="568" cy="308" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="363.7" cy="361" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="460.7" cy="264" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="557.7" cy="317" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="353.3" cy="370" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="450.3" cy="273" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="547.3" cy="326" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="644.3" cy="379" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="440" cy="282" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="537" cy="335" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="634" cy="238" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="429.7" cy="291" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="526.7" cy="344" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="623.7" cy="247" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="419.3" cy="300" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="516.3" cy="353" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="613.3" cy="256" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="409" cy="309" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="506" cy="362" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="603" cy="265" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="398.7" cy="318" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="495.7" cy="371" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="592.7" cy="274" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="388.3" cy="327" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="485.3" cy="380" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="582.3" cy="283" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="378" cy="336" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="475" cy="239" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="572" cy="292" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="367.7" cy="345" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="464.7" cy="248" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="561.7" cy="301" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="357.3" cy="354" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="454.3" cy="257" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="551.3" cy="310" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="648.3" cy="363" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="444" cy="266" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="541" cy="319" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="638" cy="372" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="433.7" cy="275" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="530.7" cy="328" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="627.7" cy="381" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="423.3" cy="284" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="520.3" cy="337" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="617.3" cy="240" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="413" cy="293" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="510" cy="346" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="607" cy="249" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="402.7" cy="302" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="499.7" cy="355" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="596.7" cy="258" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="392.3" cy="311" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="489.3" cy="364" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="586.3" cy="267" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="382" cy="320" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="479" cy="373" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="576" cy="276" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="371.7" cy="329" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="468.7" cy="382" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="565.7" cy="285" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="361.3" cy="338" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="458.3" cy="241" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="555.3" cy="294" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="351" cy="347" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="448" cy="250" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<circle cx="545" cy="303" r="0.8" fill="#8a7b62" fill-opacity="0.35"/>
+<text x="367.3" y="263" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="11.5" fill="#1b1b1b" font-weight="700" letter-spacing="1.5" opacity="0.85">5 · EDITORIAL PRINT</text>
+<text x="367.3" y="310" font-family="Georgia, 'Times New Roman', serif" font-size="30" fill="#1b1b1b" font-weight="700">The Sunday</text>
+<text x="367.3" y="340" font-family="Georgia, 'Times New Roman', serif" font-size="23" fill="#d7263d" font-weight="700" font-style="italic">edition</text>
+<circle cx="375.3" cy="364" r="7" fill="#f1e9da" stroke="#1b1b1b" stroke-opacity="0.28"/>
+<circle cx="395.3" cy="364" r="7" fill="#1b1b1b" stroke="#1b1b1b" stroke-opacity="0.28"/>
+<circle cx="415.3" cy="364" r="7" fill="#d7263d" stroke="#1b1b1b" stroke-opacity="0.28"/>
+<circle cx="435.3" cy="364" r="7" fill="#b9ab92" stroke="#1b1b1b" stroke-opacity="0.28"/>
+</g>
+<rect x="349.3" y="236" width="301.3" height="150" rx="12" fill="none" stroke="#2a2c38"/>
+<clipPath id="c5"><rect x="666.7" y="236" width="301.3" height="150" rx="12"/></clipPath><g clip-path="url(#c5)">
+<rect x="666.7" y="236" width="301.3" height="150" fill="#0d1a2b"/>
+<rect x="850" y="315.5" width="13" height="24.5" rx="2" fill="#2b3a50"/>
+<rect x="870" y="305" width="13" height="35" rx="2" fill="#2b3a50"/>
+<rect x="890" y="310.6" width="13" height="29.4" rx="2" fill="#2b3a50"/>
+<rect x="910" y="293.8" width="13" height="46.2" rx="2" fill="#2b3a50"/>
+<rect x="930" y="273.5" width="13" height="66.5" rx="2" fill="#3ddc97"/>
+<text x="684.7" y="263" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="11.5" fill="#e6edf5" font-weight="700" letter-spacing="1.5" opacity="0.85">6 · DATA STORY</text>
+<text x="684.7" y="310" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="22" fill="#e6edf5" font-weight="700">+312 %</text>
+<text x="684.7" y="340" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="13.5" fill="#3ddc97" font-weight="700">orders a week</text>
+<circle cx="692.7" cy="364" r="7" fill="#0d1a2b" stroke="#e6edf5" stroke-opacity="0.28"/>
+<circle cx="712.7" cy="364" r="7" fill="#e6edf5" stroke="#e6edf5" stroke-opacity="0.28"/>
+<circle cx="732.7" cy="364" r="7" fill="#3ddc97" stroke="#e6edf5" stroke-opacity="0.28"/>
+<circle cx="752.7" cy="364" r="7" fill="#5b6b80" stroke="#e6edf5" stroke-opacity="0.28"/>
+</g>
+<rect x="666.7" y="236" width="301.3" height="150" rx="12" fill="none" stroke="#2a2c38"/>
+<clipPath id="c6"><rect x="32" y="402" width="301.3" height="150" rx="12"/></clipPath><g clip-path="url(#c6)">
+<rect x="32" y="402" width="301.3" height="150" fill="#ffd23f"/>
+<circle cx="289.3" cy="442" r="30" fill="#ff6b9a"/><circle cx="237.3" cy="506" r="22" fill="#3a86ff"/><rect x="271.3" y="486" width="40" height="40" rx="12" fill="#06d6a0"/>
+<text x="50" y="429" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="11.5" fill="#1a1a1a" font-weight="700" letter-spacing="1.5" opacity="0.85">7 · PLAYFUL POP</text>
+<text x="50" y="476" font-family="'Arial Rounded MT Bold', 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="30" fill="#1a1a1a" font-weight="800">Hello,</text>
+<text x="50" y="506" font-family="'Arial Rounded MT Bold', 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="23" fill="#ff4f8b" font-weight="800">snack time!</text>
+<circle cx="58" cy="530" r="7" fill="#ffd23f" stroke="#1a1a1a" stroke-opacity="0.28"/>
+<circle cx="78" cy="530" r="7" fill="#ff6b9a" stroke="#1a1a1a" stroke-opacity="0.28"/>
+<circle cx="98" cy="530" r="7" fill="#3a86ff" stroke="#1a1a1a" stroke-opacity="0.28"/>
+<circle cx="118" cy="530" r="7" fill="#06d6a0" stroke="#1a1a1a" stroke-opacity="0.28"/>
+</g>
+<rect x="32" y="402" width="301.3" height="150" rx="12" fill="none" stroke="#2a2c38"/>
+<clipPath id="c7"><rect x="349.3" y="402" width="301.3" height="150" rx="12"/></clipPath><g clip-path="url(#c7)">
+<rect x="349.3" y="402" width="301.3" height="150" fill="#0a0a0a"/>
+<text x="367.3" y="429" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="11.5" fill="#ede6d6" font-weight="700" letter-spacing="1.5" opacity="0.85">8 · CINEMATIC PREMIUM</text>
+<text x="367.3" y="476" font-family="Georgia, 'Times New Roman', serif" font-size="22" fill="#ede6d6" font-weight="400" letter-spacing="1">M A I S O N</text>
+<text x="367.3" y="506" font-family="Georgia, 'Times New Roman', serif" font-size="14" fill="#c9a96e" font-weight="400" letter-spacing="3">since 1978</text>
+<circle cx="375.3" cy="530" r="7" fill="#0a0a0a" stroke="#ede6d6" stroke-opacity="0.28"/>
+<circle cx="395.3" cy="530" r="7" fill="#ede6d6" stroke="#ede6d6" stroke-opacity="0.28"/>
+<circle cx="415.3" cy="530" r="7" fill="#c9a96e" stroke="#ede6d6" stroke-opacity="0.28"/>
+<circle cx="435.3" cy="530" r="7" fill="#3a3530" stroke="#ede6d6" stroke-opacity="0.28"/>
+</g>
+<rect x="349.3" y="402" width="301.3" height="150" rx="12" fill="none" stroke="#2a2c38"/>
+<clipPath id="c8"><rect x="666.7" y="402" width="301.3" height="150" rx="12"/></clipPath><g clip-path="url(#c8)">
+<rect x="666.7" y="402" width="301.3" height="150" fill="#f5f5f5"/>
+<line x1="853.5" y1="402" x2="853.5" y2="552" stroke="#cfcfcf" stroke-width="1.5"/><line x1="666.7" y1="484.5" x2="968" y2="484.5" stroke="#cfcfcf" stroke-width="1.5"/><rect x="854.5" y="402" width="114.5" height="81.5" fill="#ff3b30"/>
+<text x="684.7" y="429" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="11.5" fill="#111111" font-weight="700" letter-spacing="1.5" opacity="0.85">9 · GRID SYSTEM</text>
+<text x="684.7" y="476" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="30" fill="#111111" font-weight="800">Four ways</text>
+<text x="684.7" y="506" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="23" fill="#ff3b30" font-weight="800">in.</text>
+<circle cx="692.7" cy="530" r="7" fill="#f5f5f5" stroke="#111111" stroke-opacity="0.28"/>
+<circle cx="712.7" cy="530" r="7" fill="#111111" stroke="#111111" stroke-opacity="0.28"/>
+<circle cx="732.7" cy="530" r="7" fill="#ff3b30" stroke="#111111" stroke-opacity="0.28"/>
+<circle cx="752.7" cy="530" r="7" fill="#d9d9d9" stroke="#111111" stroke-opacity="0.28"/>
+</g>
+<rect x="666.7" y="402" width="301.3" height="150" rx="12" fill="none" stroke="#2a2c38"/>
+</svg>

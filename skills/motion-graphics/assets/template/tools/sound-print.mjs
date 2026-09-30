@@ -425,7 +425,7 @@ if (process.argv[1] && real(process.argv[1]) === real(fileURLToPath(import.meta.
     const earlier = opt('in') ? neighbours(path.join(path.resolve(opt('in')), '.none'), [], { cacheDir: cacheHome(ROOT) }).filter((p) => p.label !== 'the template demo score') : [];
     const s = suggest(brand, opt('world'), earlier, { energy: opt('energy') });
     const level = ['', 'calm', 'steady', 'driving'];
-    console.log(`Sound for «${brand}» (${opt('world')}, energy ${s.energy} — ${s.fromWords ? 'from the person\'s words' : 'the topic\'s own: pass --energy when the person said how it should feel'}): a start, not a verdict — the user's words, the references and the edit win.`);
+    console.log(`Sound for “${brand}” (${opt('world')}, energy ${s.energy} — ${s.fromWords ? 'from the person\'s words' : 'the topic\'s own: pass --energy when the person said how it should feel'}): a start, not a verdict — the user's words, the references and the edit win.`);
     s.options.forEach((o, n) => console.log(`  ${n === 0 ? '→' : ' '} card ${String(o.card).padStart(2)} ${o.name} — ${o.family}, ${o.bpm} BPM${o.family === 'half-time' ? ` (feels ${Math.round(o.bpm / 2)})` : ''}, ${o.key}, ${level[o.energy]}${o.family === 'four on the floor' && !WORLDS[opt('world')].club ? '  (only for a club-minded brand)' : ''}`));
     console.log(`  kit character: ${s.kit} (sound-design.md §3) · A.init seed ${s.seed}`);
     if (earlier.length) console.log(`  moved out of the way: ${earlier.length} earlier promo(s) — ${[...new Set(earlier.map(familyOf))].join(', ')}; keys ${[...new Set(earlier.map((p) => p.key))].join(', ')}`);

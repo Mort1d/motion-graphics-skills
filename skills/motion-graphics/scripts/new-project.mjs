@@ -6,7 +6,7 @@
 // stay as they are.
 //
 //   node <skill>/scripts/new-project.mjs <dir> [--name "Brand"] [--format 16:9|9:16|1:1|4:5] [--fps 60] [--bpm 120]
-//                                               [--lang ru] [--force]
+//                                               [--lang xx] [--force]
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
@@ -35,12 +35,9 @@ const fps = Number(opt('fps', 60));
 const bpm = Number(opt('bpm', 120));
 const name = opt('name', 'NOVA');
 const lang = opt('lang', 'en');
-// file-name slug: Cyrillic is transliterated so "Кофейня Зерно" → "kofeynya-zerno-promo", not an empty name
-const CYR = { а: 'a', б: 'b', в: 'v', г: 'g', д: 'd', е: 'e', ё: 'yo', ж: 'zh', з: 'z', и: 'i', й: 'y', к: 'k', л: 'l', м: 'm', н: 'n', о: 'o',
-  п: 'p', р: 'r', с: 's', т: 't', у: 'u', ф: 'f', х: 'kh', ц: 'ts', ч: 'ch', ш: 'sh', щ: 'shch', ъ: '', ы: 'y', ь: '', э: 'e', ю: 'yu', я: 'ya',
-  і: 'i', ї: 'yi', є: 'ye', ґ: 'g' };
-const translit = (s) => [...s.toLowerCase()].map((c) => CYR[c] ?? c).join('');
-const slug = translit(opt('slug', null) || `${name}-promo`).normalize('NFKD').replace(/[^\w-]+/g, '-').replace(/-+/g, '-').replace(/^-+|-+$/g, '') || 'promo';
+// file-name slug in any script: "Café Lumière" → "cafe-lumiere-promo"; a name in another alphabet keeps its letters
+const slug = String(opt('slug', null) || `${name}-promo`).toLowerCase().normalize('NFKD').replace(/(\p{Script=Latin})\p{M}+/gu, '$1').normalize('NFC').replace(/[^\p{L}\p{M}\p{N}_-]+/gu, '-')
+  .replace(/-+/g, '-').replace(/^-+|-+$/g, '') || 'promo';
 
 // the brand kit, the references, the brief and the direction are made first (steps 1–3) and belong here; anything
 // else needs --force
