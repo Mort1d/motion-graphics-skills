@@ -80,8 +80,8 @@ and a kit character for each. It is a start, not a verdict: the user's words, th
 
 **Four on the floor is the trap.** Asked for "dynamic, more energy" — and shown a showreel at 128 BPM — every model
 reaches for it: house at 128, or its neighbours nu-disco at 116 and corporate 4/4 at 110, for a coffee shop, a
-school and a garage alike. That is how one person's promos ended up "about the same everywhere", and in this skill's
-own test runs "not house at 128" alone only moved the videos to nu-disco at 116. Energy is a level, not a genre:
+school and a garage alike — a set of promos made that way sounds like one song, and in this skill's own test runs
+"not house at 128" alone only moved the videos to nu-disco at 116. Energy is a level, not a genre:
 "dynamic" decides how early and how constantly the groove drives (`ENERGY` high from the first bars), while the brand
 still picks the genre — four on the floor stays for a brand that lives in clubs or when the user asks for it. A
 reference sets the energy and the pace of the cuts, never the genre or the tempo of your score.
@@ -278,7 +278,7 @@ Fix, re-render the score (seconds), re-check. Only then render the video.
 ## 12. Never the same twice
 
 The trap: one synth, one habit, and every video ends up house at 120–128 BPM with the same kick on every beat, the
-same off-beat hats and the same pads. Its author hears "about the same everywhere", even with new chords each time.
+same off-beat hats and the same pads. A listener hears one song again, even with new chords each time.
 What a listener recognises first is the **groove** (where kick, snare and hats fall) and the **timbre** (the kit and
 the instruments); then tempo and key; the chords last.
 

@@ -107,9 +107,9 @@ other as the brief allows. Devices that work (breakdowns in `wow-library.md`):
 - one shape that never cuts: a dot grows into a button, the button into a card, the card into the next screen;
 - a smart camera over the real product that follows the cursor and zooms where the work happens;
 - the terminal as a stage: typed statements, real output, the release in its own medium;
-- kinetic statements, one word per beat, each triad paying off a claim ("Pushed. Built. Deployed. Live.");
+- kinetic statements, one word per beat, each triad paying off a claim (three steps of the product's own process);
 - a grid of synchronised mini-scenes, looping;
-- one layout recoloured per mode, theme or genre ("one timeline, any song");
+- one layout recoloured per mode, theme or genre;
 - the brand's own shape as the transition language (a slash, a curve, a letter);
 - a real number counting to its payoff on the drop;
 - a known film's grammar rebuilt with this brand (only when the person names it).
@@ -127,7 +127,7 @@ Written into the project README (the template has the fields) before any scene c
 - **Read from**: the person's words (quoted), what they gave, where it plays, the brand's voice.
 - **Concept**: the device and the signature moment; the two concepts not taken, one line each.
 - **Look**: a card from `look-cards.md` and this brand's changes to it; palette roles with hexes; type with sizes.
-- **Energy**: per scene, and where it came from ("really dynamic" → high from bar 1).
+- **Energy**: per scene, and where it came from ("dynamic, punchy" → high from bar 1).
 - **Sound role**: music-led or ui-led, and the genre card that fits both the energy and the mood.
 - **Beat map**: the story table (beats → shot → how it enters and leaves → sound).
 - **Banned**: the anti-generic list (`story-and-motion.md` §9) plus what this brand rules out.
@@ -138,7 +138,7 @@ A person who pasted a detailed direction of their own gets it to the frame; the 
 
 Made-up briefs, to show how different inputs lead to different films — the reasoning to copy, not the answers.
 
-1. **A GitHub repo of a CLI tool, "a release video, make it really dynamic".** Words: dynamic → high from bar 1.
+1. **A GitHub repo of a CLI tool, "a release video, lots of energy".** Words: energy → high from bar 1.
    Input: a repo → the terminal is the hero; the README's three headline features. Placement: X → 16:9, sound on,
    25–35 s. Voice: developers → clean and precise, not noisy. Concept: *terminal as a stage* — each feature a typed
    statement under real output; signature: the install command types itself and the whole screen assembles around it.
@@ -158,11 +158,11 @@ Made-up briefs, to show how different inputs lead to different films — the rea
 5. **A logistics company, "calm, premium", for a pitch.** Words: calm, premium → mid at most. Placement: a
    presentation → silent-safe type. Concept: *data story* — a route draws across a map, real volumes roll; signature:
    the network lights up city by city. Look: data story, dark. Sound: minimal pulse, a tick per digit.
-6. **A Telegram bot selling AI subscriptions, "make it wow".** Wow → high from bar 1. Input: the bot's avatar and
-   description, the tariffs from its messages. Concept: the chat itself — a question, the bot's answer arriving,
-   plans flipping on a split-flap board; signature: every model's logo-free name slams in one per beat. Look: neon
-   kinetic or glass, from the avatar's colours. Sound: music-led, broken beat, message pops.
-7. **A personal travel reel from photos, "dynamic, wow transitions".** High. The photos are the heroes. Concept:
+6. **A fitness tracker's launch, a product page and app screenshots, "make it explosive".** Explosive → high from
+   bar 1. Concept: a day told by the tracker's own rings — each stat closes its ring on a beat while the day speeds
+   past; signature: every ring snaps shut together on the drop. Look: neon kinetic, from the app's colours. Sound:
+   music-led, broken beat, a tick per stat.
+7. **A personal travel reel from photos, "fast, with bold transitions".** High. The photos are the heroes. Concept:
    whip pans between photos on every downbeat, the place names slam in, a map route draws between cities;
    signature: a zoom through one photo's window into the next city. Look: from the photos' own colours, grain.
    Sound: music-led, 120–130 BPM, cuts on downbeats (not every beat).
@@ -172,9 +172,8 @@ Made-up briefs, to show how different inputs lead to different films — the rea
 
 ## 9. Brief contagion: the defaults every model reaches for
 
-Hundreds of people posted videos from the same one-line showreel prompt, and they came out alike. The prompt's
-ambition is right — it is this skill's bar (SKILL.md); what made the videos alike is everything it left open. Left
-to itself, every model reaches for the same answers: a dark screen with a green or purple glow; a cream canvas with
+Two briefs that ask for the same thing come out alike — not for their ambition, but for everything they leave open.
+Left to itself, every model reaches for the same answers: a dark screen with a green or purple glow; a cream canvas with
 numbered labels ("01 · CREATE"); centred text fading in on a gradient; frames and text in the corners; an invented
 logo; screens that do not exist; beeps "like a microwave"; house at 128 in A minor. The direction above exists to
 replace each of these with a choice made for this brand: every line of the card should be something the last video

@@ -3,9 +3,9 @@
  "evals": [
   {
    "id": 1,
-   "name": "coffee-shop",
-   "prompt": "references: dynamic kinetic type like Apple and Linear videos, glass cards, fast wipes with motion blur (no files, go by the description)\n\nMake a dynamic video from the references, or better, up to 1 minute, for the coffee shop Zerno\n\nmake a dynamic 15-second motion graphics video that shows what an incredible motion designer you are, like it's your showreel for a résumé. go all out.\n\nadd whatever you think it needs, the point is to make it super cool\nwork out all the logic yourself, make it perfect\nmake a video that sells, as many seconds as you think is right, more energy\n\nAbout the coffee shop: Kazan, 1 Example St. Roasted in-house every morning at 7:00. 14 origins — Ethiopia, Colombia, Brazil. Coffee to go in 3 minutes. Breakfast until 12:00. Site zerno-kzn.example\nMost sales happen in the Telegram bot @zerno_example_bot — order ahead, pick up without the queue.",
-   "expected_output": "A 20–45 s 16:9 promo MP4 with an original score (not the demo), a sound brief that picks a genre fitting a warm coffee brand, coffee-world sounds (grinder, steam, cups), only the given facts on screen, the Telegram bot as the main CTA, QA passing.",
+   "name": "bike-shop",
+   "prompt": "References (no files, go by the description): kinetic type like Apple and Linear launch videos, glass cards, fast wipes with motion blur.\n\nMake a promo for Harbor Cycles (harborcycles.example), a bike repair and rental shop. 30–45 seconds, you pick the exact length. Energetic, but it must stay clear what the shop offers.\n\nFacts: same-day repairs; 40 rental bikes, e-bikes included; open 8:00–20:00 every day; a free safety check with every rental; booking online takes a minute.",
+   "expected_output": "A 30–45 s 16:9 promo with an original score, bike-world sounds (freewheel ticks, a bell, a chain), only the given facts on screen, the booking site as the call to action, QA passing.",
    "files": [],
    "assertions": [
     "A final MP4 is delivered in outputs/",
@@ -15,7 +15,6 @@
     "Integrated loudness between -16 and -11 LUFS",
     "True peak at or below -0.5 dBTP",
     "The soundtrack is not the template demo score (fingerprint < 0.75)",
-    "The soundtrack is unlike the owner's six earlier promos (max fingerprint < 0.75)",
     "The soundtrack differs from the other briefs' soundtracks in this configuration (max < 0.75)",
     "The call to action is in the video's source",
     "A sound brief is written (README)",
@@ -26,9 +25,9 @@
   },
   {
    "id": 2,
-   "name": "kids-vertical",
-   "prompt": "Make a vertical 9:16 video for Reels and TikTok, 20–25 seconds, for Karandash, an online drawing school for kids (karandash.example).\nWhat we have: lessons for kids aged 6–12, twice a week for 45 minutes, small groups of up to 6, the first lesson is free, 3000+ students.\nI want it bright and fun, so parents want to sign their kid up. Cheerful music, but not kiddie pop — stylish.\nSign-up is on the site.",
-   "expected_output": "A 20–25 s 1080x1920 promo with text inside the safe area, a playful but stylish original score translated from the user's words, drawing-world sounds (pencil, paper, marker), the site as CTA, QA passing.",
+   "name": "climbing-vertical",
+   "prompt": "Make a vertical 9:16 video for Reels and TikTok, 20–25 seconds, for Summit Climbing (summitclimbing.example), a bouldering gym.\nWhat we have: 120 routes reset every week, beginner classes every evening, the first visit free with a friend, shoes and chalk included, open until 23:00.\nBright and fun, so people want to try it. Upbeat music, stylish, not cheesy. Sign-up is on the site.",
+   "expected_output": "A 20–25 s 1080x1920 promo with text inside the safe area, an upbeat, stylish original score, climbing-world sounds (a chalk clap, a carabiner click, a landing on the mat), the site as the call to action, QA passing.",
    "files": [],
    "assertions": [
     "A final MP4 is delivered in outputs/",
@@ -38,7 +37,6 @@
     "Integrated loudness between -16 and -11 LUFS",
     "True peak at or below -0.5 dBTP",
     "The soundtrack is not the template demo score (fingerprint < 0.75)",
-    "The soundtrack is unlike the owner's six earlier promos (max fingerprint < 0.75)",
     "The soundtrack differs from the other briefs' soundtracks in this configuration (max < 0.75)",
     "The call to action is in the video's source",
     "A sound brief is written (README)",
@@ -49,7 +47,7 @@
   },
   {
    "id": 3,
-   "name": "saas-launch-en",
+   "name": "saas-launch",
    "prompt": "We're launching Pulseboard (pulseboard.example) next week — uptime monitoring for small SaaS teams. Make a 20–30 s launch promo for X and LinkedIn. Facts: checks every 30 seconds from 12 regions; alerts in Slack, Telegram or email in under 10 seconds; public status pages; free plan with 10 monitors. Feel: dark, precise, techy, like Linear or Vercel launch videos. The music should feel techy but not cheesy.",
    "expected_output": "A 20–30 s 16:9 dark, precise launch promo with UI in motion, a techy non-cheesy original score, only the given facts, QA passing.",
    "files": [],
@@ -61,7 +59,6 @@
     "Integrated loudness between -16 and -11 LUFS",
     "True peak at or below -0.5 dBTP",
     "The soundtrack is not the template demo score (fingerprint < 0.75)",
-    "The soundtrack is unlike the owner's six earlier promos (max fingerprint < 0.75)",
     "The soundtrack differs from the other briefs' soundtracks in this configuration (max < 0.75)",
     "The call to action is in the video's source",
     "A sound brief is written (README)",

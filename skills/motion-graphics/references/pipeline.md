@@ -21,7 +21,7 @@
 ```
 index.html, css/fonts.css, css/style.css    the page (brand tokens in style.css)
 js/timeline.mjs    W, H, FPS, BPM, b(), DURATION, S (scene windows), ENERGY (per scene), CUE, WHIPS, COVERS, LOOP — shared with the score
-js/copy.mjs        every word and contact, per language — shared with the score
+js/copy.mjs        every word and contact, per language — shared with the score;  js/lint.mjs  words from elsewhere
 js/engine.js       time: ease, spring, SPRING, track, zoomLog, hash, noise; the DOM: el, set, show, splitChars
 js/kit.js          scene helpers: textBlock, fitFont, slam, whip, rise, camera, roll, scramble, shakes, sparks, speed lines
 js/main.js, js/reel.js, js/i18n.js
@@ -160,11 +160,14 @@ you meant. Four rows read the picture the way a viewer does:
   frame, an element that blinks at a boundary); the times are listed — look at stills there (`tools/pops.mjs
   <video>` runs it alone);
 - `edges` — text cut by the frame at a settled moment of a scene (a long word, a translation, a number that grew);
+- `language` — a word on screen in another script than the video's language (`<html lang>`, from `DEFAULT_LANG` or
+  `?lang=`): copy left from another brief, or the wrong language code (WARN); `demo` — the template demo's own lines
+  or contacts on screen (FAIL);
 - `loop` — only with `LOOP`: the last frame against the first; a visible jump FAILs.
 
 Before any of this, `tools/plan-check.mjs` checks the plan itself (SKILL.md step 4): the energy the person asked
 for against `ENERGY`, the first second, something new every 4 s, the end card's hold, holes between scenes, a scene
-counter in the copy.
+counter in the copy, copy written in another script than its language.
 `tools/audio-check.mjs` checks the score alone (sound-design.md §11) and whether it is new (§12): it writes
 `out/qa/<name>-print.json`, which later projects in the same folder compare against. `node tools/sound-print.mjs
 a.wav --against b.wav dir/` compares any files (it reads mp3/mp4 too; the first analysis of a file is cached).

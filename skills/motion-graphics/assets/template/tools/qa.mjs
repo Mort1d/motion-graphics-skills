@@ -189,6 +189,11 @@ else {
   else add('PASS', 'counters', 'no scene counter or chapter label on screen');
   if (cut.length) add('WARN', 'edges', `${cut.slice(0, 6).map((l) => `"${l.text}" ${l.px} px out at ${l.t} s`).join(', ')}${cut.length > 6 ? ' …' : ''} — text cut by the edge of the frame: fitFont() it or move it inside (a still at that time shows it)`);
   else add('PASS', 'edges', 'no text cut by the edge of the frame at the settled moments of the scenes');
+  const demo = found.filter((l) => l.kind === 'demo');
+  const foreign = found.filter((l) => l.kind === 'script');
+  if (demo.length) add('FAIL', 'demo', `${demo.slice(0, 4).map((l) => `"${l.text}" at ${l.t} s`).join(', ')} — the template demo's words on screen: write the brief's own`);
+  if (foreign.length) add('WARN', 'language', `${foreign.slice(0, 4).map((l) => `"${l.text}" at ${l.t} s`).join(', ')}${foreign.length > 4 ? ' …' : ''} — letters of another script in a video in '${foreign[0].lang}': copy from another brief, or the wrong language (new-project --lang, ?lang=)`);
+  else add('PASS', 'language', 'every word on screen is in the letters of the video\'s language');
 }
 
 // ---- is the soundtrack new? the demo score and the promos next to this project (tools/sound-print.mjs) -------------------

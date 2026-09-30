@@ -102,6 +102,34 @@ function checkOverflow(t) {
   }
 }
 
+// Words from somewhere else: letters of another script than the video's language (<html lang>, set by js/i18n.js)
+// and the template demo's own lines. Found at the same moments, on the text a viewer sees; tools/qa.mjs reports them.
+const { foreignLetters, demoLeft } = await import('./lint.mjs');
+const { BRAND } = await import('./copy.mjs');
+const LANG = document.documentElement.lang || 'en';
+const DEMO = String(BRAND).toUpperCase() === 'NOVA'; // the demo itself
+function checkWords(t) {
+  const seen = new Map(); // an element's opacity times its parents', once per element
+  const opacity = (a) => {
+    if (!a || a === stage) return 1;
+    if (!seen.has(a)) seen.set(a, Number(getComputedStyle(a).opacity) * opacity(a.parentElement));
+    return seen.get(a);
+  };
+  for (const e of stage.querySelectorAll('*')) {
+    let own = '';
+    for (const n of e.childNodes) if (n.nodeType === 3) own += n.textContent;
+    own = own.replace(/\s+/g, ' ').trim();
+    if (!/\p{L}/u.test(own) || !e.getClientRects().length) continue; // no rects: it or a parent is display: none
+    if (getComputedStyle(e).visibility === 'hidden' || opacity(e) < 0.05) continue;
+    // a word split into one span per letter (splitChars) is reported as the word
+    const shown = own.length === 1 && e.parentElement && e.parentElement !== stage ? e.parentElement.textContent.replace(/\s+/g, ' ').trim() : own;
+    const text = shown.slice(0, 40);
+    const at = Math.round(t * 100) / 100;
+    if (foreignLetters(shown, LANG) && !window.__lint.some((l) => l.kind === 'script' && l.text === text)) window.__lint.push({ kind: 'script', text, t: at, lang: LANG });
+    if (!DEMO && demoLeft(shown).length && !window.__lint.some((l) => l.kind === 'demo' && l.text === text)) window.__lint.push({ kind: 'demo', text, t: at });
+  }
+}
+
 window.__samples = (t) => (WHIPS.some(([a, z]) => t >= a && t <= z) ? 16 : 8);
 
 window.__render = async (t, f) => {
@@ -135,13 +163,15 @@ await Promise.all([...document.querySelectorAll('image')].map((im) => new Promis
 const moments = new Set([0]);
 const settled = new Set();
 for (const [a, z] of Object.values(S ?? {})) for (const k of [0.15, 0.5, 0.85]) { moments.add(a + (z - a) * k); if (k > 0.3) settled.add(a + (z - a) * k); }
-for (const t of [...moments].sort((x, y) => x - y)) { nextFrame(); renderFn(t, Math.round(t * FPS)); checkGlyphs(); checkCounters(t); if (settled.has(t)) checkOverflow(t); }
+for (const t of [...moments].sort((x, y) => x - y)) { nextFrame(); renderFn(t, Math.round(t * FPS)); checkGlyphs(); checkCounters(t); checkWords(t); if (settled.has(t)) checkOverflow(t); }
 for (const [family, chars] of glyphGaps) {
   const show = (c) => (/[\p{L}\p{N}\p{P}\p{S}]/u.test(c) ? `"${c}"` : `U+${c.codePointAt(0).toString(16).toUpperCase().padStart(4, '0')}`);
   const list = [...chars].slice(0, 12).map(show).join(' ') + (chars.size > 12 ? ' …' : '');
   console.warn(`[fonts] ${family} has no glyph for ${list} — another font draws it, or a box; use a font that has it, or another character`);
 }
 for (const l of window.__lint.filter((x) => x.kind === 'counter')) console.warn(`[template] a scene counter "${l.text}" at ${l.t} s — the video never numbers its own scenes: remove it (story-and-motion.md §9)`);
+for (const l of window.__lint.filter((x) => x.kind === 'script')) console.warn(`[language] "${l.text}" at ${l.t} s is written in another script than the video's language (${l.lang}) — copy from another brief, or the wrong --lang`);
+for (const l of window.__lint.filter((x) => x.kind === 'demo')) console.warn(`[template] the demo's words "${l.text}" at ${l.t} s — write the brief's own`);
 for (const l of window.__lint.filter((x) => x.kind === 'overflow')) console.warn(`[layout] "${l.text}" is cut ${l.px} px by the edge of the frame at ${l.t} s — fitFont() it, or move it inside`);
 nextFrame();
 renderFn(0, 0);

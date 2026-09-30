@@ -6,6 +6,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { foreignLetters, stringsOf } from '../js/lint.mjs';
 
 // the person's words about how the video should feel, in English: a request in another language is quoted in the
 // card with its English gloss after it (direction.md §1), and the gloss is what is read here
@@ -40,7 +41,7 @@ export function asked(line) {
 }
 
 /** Every check on a plan → [{ level, what, detail }]. TL: the timeline module; readme and copy: file texts. */
-export function checkPlan(TL, { readme = '', copy = '', timelineSrc = '' } = {}) {
+export function checkPlan(TL, { readme = '', copy = '', timelineSrc = '', COPY = null } = {}) {
   const rows = [];
   const add = (level, what, detail) => rows.push({ level, what, detail });
   const S = TL.S || {};
@@ -64,7 +65,7 @@ export function checkPlan(TL, { readme = '', copy = '', timelineSrc = '' } = {})
     if (missing.length) add('WARN', 'energy', `no level for ${missing.join(', ')}`);
   }
 
-  // the person's words against the plan: the release promo that asked to be "really dynamic" and got its groove at 20 s
+  // the person's words against the plan: a release promo that asked for energy got its groove only at 20 s
   const line = energyLine(readme);
   const want = asked(line);
   const said = line ? saidOf(line) : '';
@@ -115,6 +116,12 @@ export function checkPlan(TL, { readme = '', copy = '', timelineSrc = '' } = {})
   const counters = strings.filter((s) => { const m = COUNTER.exec(s); return (m && Number(m[1]) <= Number(m[2]) && Number(m[2]) <= 24) || LABEL.test(s); });
   if (counters.length) add('FAIL', 'counters', `${counters.map((s) => `"${s}"`).join(', ')} in js/copy.mjs — a scene counter reads as a template`);
 
+  // every language's copy in its own letters: words left from another brief show up here, before a render
+  for (const [lang, words] of Object.entries(COPY || {})) {
+    const odd = stringsOf(words).filter((s) => foreignLetters(s, lang));
+    if (odd.length) add('WARN', 'language', `the '${lang}' copy has letters of another script: ${odd.slice(0, 4).map((s) => `"${s}"`).join(', ')}${odd.length > 4 ? ' …' : ''} — words from another brief, or the wrong language code (new-project --lang)`);
+  }
+
   if (TL.LOOP) add('INFO', 'loop', 'LOOP: the last frame folds back into the first (the cursor, the colours, everything) — QA checks the seam');
   if (DUR > 90) add('INFO', 'length', `${DUR.toFixed(0)} s: a long film — plan it in chapters (references/pipeline.md)`);
   else if (DUR > 60) add('WARN', 'length', `${DUR.toFixed(0)} s: longer than most promos hold — right when the person asked for this length; otherwise cut to what the facts need, or plan chapters`);
@@ -125,7 +132,9 @@ if (process.argv[1] && fs.realpathSync(path.resolve(process.argv[1])) === fs.rea
   const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
   const read = (f) => (fs.existsSync(path.join(ROOT, f)) ? fs.readFileSync(path.join(ROOT, f), 'utf8') : '');
   const TL = await import(pathToFileURL(path.join(ROOT, 'js/timeline.mjs')).href);
-  const rows = checkPlan(TL, { readme: read('README.md'), copy: read('js/copy.mjs'), timelineSrc: read('js/timeline.mjs') });
+  let COPY = null;
+  try { ({ COPY } = await import(pathToFileURL(path.join(ROOT, 'js/copy.mjs')).href)); } catch (e) { console.log(`INFO  copy      js/copy.mjs does not load: ${e.message}`); }
+  const rows = checkPlan(TL, { readme: read('README.md'), copy: read('js/copy.mjs'), timelineSrc: read('js/timeline.mjs'), COPY });
   console.log('plan check (js/timeline.mjs, README.md, js/copy.mjs)');
   for (const r of rows) console.log(`${r.level.padEnd(5)} ${r.what.padEnd(9)} ${r.detail}`);
   const fails = rows.filter((r) => r.level === 'FAIL').length;

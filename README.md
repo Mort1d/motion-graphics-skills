@@ -77,11 +77,11 @@ Works with Claude Code, Codex, Cursor, Gemini CLI, OpenCode and any agent that s
 
 ## Use
 
-> Here's our site — a dynamic 20-second promo for X. Go all out.
+> Here's our site — a 20-second launch promo for X, energetic.
 
 > A 6-second logo sting for my channel, logo attached. Heavy, cinematic.
 
-> Clips from our trip, attached — a vertical reel with wow transitions.
+> Clips from a trip, attached — a vertical reel with bold transitions.
 
 You get `out/<name>.mp4` (60 fps, −14 LUFS), covers, a light copy for messengers and a project that re-renders with
 one command. Facts come only from you or your site's public pages; references are studied, never copied.

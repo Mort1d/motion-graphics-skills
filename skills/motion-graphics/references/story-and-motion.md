@@ -14,14 +14,14 @@
 
 ## 1. From brief to concept
 
-1. **One promise.** Compress the business into one sentence a viewer repeats: "parts by VIN in 10 minutes",
-   "flowers on a subscription, never forget a date". Every scene serves it.
+1. **One promise.** Compress the business into one sentence a viewer repeats: "a bike fixed the same day",
+   "every invoice paid on time". Every scene serves it.
 2. **Proof points.** 3–5 facts that make the promise believable: numbers, how it works, real photos, real
    cases, guarantees. Only facts from the brief, the site or the user (brief.md lists the source of each).
 3. **The action.** What the viewer does next and where (a bot, a site, a phone). If sales happen in a Telegram bot,
    the CTA and the end card drive to the bot — not to the site.
 4. **The brand's visual DNA.** Find the brand's own shape and motion and reuse it everywhere: an angle in the logo
-   becomes the wipe (an auto-parts brand's red slash at 23.9° cut every transition); the product's world gives the metaphor
+   becomes the wipe (a slanted stroke in the logo sets the angle of every wipe); the product's world gives the metaphor
    (a car → ignition, tachometer, sparks; flowers → a bloom; a bot → a chat; a marketplace → a cart filling up).
 5. **One signature moment.** The shot people remember: a logo that lights up like headlights, a wall of real
    orders bursting out of a parcel, a split-flap board spelling the offer. Plan it first; build toward it.

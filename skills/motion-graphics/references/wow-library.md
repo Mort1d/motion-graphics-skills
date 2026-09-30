@@ -36,12 +36,12 @@ any product with several interface moments.
 
 **2. The pipeline in four words** (an infrastructure platform's launch; 15 s; 129 BPM; dark). A point of light; three
 claims slam one per beat; the install command types; the logo assembles from pixels; a live pipeline graph with a
-running timer, one word per stage ("Pushed. Built. Deployed. Live."); a count rolls up beside a sphere of app icons; a
+running timer, one word per stage; a count rolls up beside a sphere of app icons; a
 globe with arcs; two benefit flashes (one a split-flap board); an inverted frame; the lockup. A two-second intro, then
 the groove to the end; 76 hits a minute. Fits: developer platforms, infrastructure, any product with a process.
 
 **3. The terminal as a stage** (a command-line tool's major release; 48 s; 112 BPM). The prompt types the tool's name;
-the logo decodes; each feature is a lowercase caption typed at the bottom — "steer it now. or queue it for later." —
+the logo decodes; each feature is a lowercase caption typed at the bottom — two short sentences —
 over the real interface doing exactly that, one accent word per caption; it ends on the rewrite story, real
 repository numbers decoding, and the install command. The groove plays from the first second; 45 hits a minute leave
 time to read. Build: §6 typing, §4 decode. Fits: CLIs, libraries, open source, APIs.
@@ -51,11 +51,11 @@ number rolling, a 3D product burst — swap on downbeats; every frame moves. Fit
 social ads. Build: §15.
 
 **5. One layout, every mode** (a music app's promo; 24 s; 117 BPM). The same card recoloured per genre, each genre with
-its own palette; "One timeline. Any song."; kinetic triads; a 3D bar city on the beat; the app icon; "Drop a song.
-Watch it move." 91 hits a minute. Fits: products with modes, themes, templates, personalisation.
+its own palette; a two-part tagline; kinetic triads; a 3D bar city on the beat; the app icon; a four-word
+invitation. 91 hits a minute. Fits: products with modes, themes, templates, personalisation.
 
 **6. The smart-camera demo** (a screen-capture tool's launch; 58 s; 129 BPM; light, Apple-like). A glass toolbar on a
-blurred wallpaper; short phrases with one blue word ("When you're done / Share with a link"); a cursor does real
+blurred wallpaper; short phrases with one blue word; a cursor does real
 actions while the camera zooms to where the work happens; the result lands in a chat; a pixel dissolve into the
 logo; a two-line promise. Build: §23 (`camera()`, log zoom). Fits: SaaS, tools, any flow of actions.
 

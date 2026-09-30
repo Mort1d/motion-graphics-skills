@@ -4,7 +4,7 @@ description: Creates showreel-grade motion graphics videos entirely from code �
 license: MIT
 compatibility: Needs a local shell with Node.js 22.4+, ffmpeg and ffprobe on PATH, and Chrome, Edge, Chromium or Brave installed. No npm packages or API keys; the network is used only to read the links the user gives (the site, reference posts).
 metadata:
-  version: "1.4.0"
+  version: "1.4.1"
 ---
 
 # Motion graphics
@@ -16,10 +16,9 @@ composed and synthesised for this one video on the same beat grid as the picture
 on the beat. No stock footage or music libraries, no AI video, no npm packages — the person's own clips and photos
 are welcome material.
 
-The bar for every video, whatever it is for, is the prompt that made this genre famous: "make a dynamic motion
-graphics video that shows what an incredible motion designer you are, like it's your showreel for a résumé. Go all
-out." Treat each brief as the piece that opens your own showreel — every frame designed, motion from the first
-frame, nothing filler. That is the effort, not a look: the direction (step 3) still decides the style, the pace and
+The bar for every video, whatever it is for, is a motion designer's showreel: treat each brief as the piece that opens
+your own — every frame designed, motion from the first frame, nothing filler. That is the effort, not a look: the
+direction (step 3) still decides the style, the pace and
 the energy, and a calm request gets a calm film made with the same care. Every number, preset and example in this
 skill is a worked example from a real video, not a mandate — only the rules (the frame contract, facts from the
 person, the loudness targets, the client's protection) are fixed.
@@ -175,7 +174,7 @@ pick a card from `references/look-cards.md`. Then, in this order:
   they sound like). Take the first unless the person's words, the references or the edit point elsewhere.
 - **Write the direction card** (`direction.md` §7) — into the project's README as soon as step 4 has scaffolded it
   (the template has the fields), before any scene: the film in one line; what you read; the concept; the look;
-  `Energy:` per scene with where it came from ("high from bar 1 — asked for “really dynamic”"); the sound's role;
+  `Energy:` per scene with where it came from ("high from bar 1 — asked for “dynamic, punchy”"); the sound's role;
   the beat map — per shot its window in beats, what is on screen, how it **enters** (already moving) and how it
   **leaves** (an accelerating move, a blur ramp, a match cut); the palette as roles with hexes; the type; the hard
   cuts on their beats; the banned list (the anti-generic list — a scene counter and HUD always on it — plus what the
@@ -194,7 +193,7 @@ ends with a worked direction for a fictional brand — the level of detail to re
 ### 4. Scaffold the project, build the brand kit
 
 ```bash
-node <skill>/scripts/new-project.mjs <brand>-video --name "<Brand>" --format 16:9 --bpm <bpm> --lang <en|ru|…>
+node <skill>/scripts/new-project.mjs <brand>-video --name "<Brand>" --format 16:9 --bpm <bpm> --lang <en|es|…>
 ```
 
 It copies a working template (a short demo reel with its own score) around what is already in the folder — a file
@@ -302,7 +301,9 @@ node tools/render.mjs --range 12-18  # after a fix: re-render only the chunks th
 ```
 
 QA runs automatically. No FAIL may remain; read every WARN (a `flash` is a gap of empty frames between scenes, a `pop`
-a single frame unlike both neighbours, `edges` text cut by the frame, `hook` a still opening: look at stills there);
+a single frame unlike both neighbours, `edges` text cut by the frame, `hook` a still opening: look at stills there;
+`language` a word in another script than the video's language, `demo` the template's own words — copy from somewhere
+else);
 open `out/qa/<slug>-sheet.png`. The full render takes 20 seconds to 2 minutes per second of 1080p60 video on 3–4
 workers, depending on how heavy the scenes are — fix what you can in stills first. On a shared machine lower
 `--jobs`.
@@ -367,17 +368,17 @@ The video is done when all of these hold:
   `<video>` — renders differently in each worker and each sub-frame: chunks do not join, the motion blur smears. Use
   `hash(i, seed)`, `noise1` and `ease` from `js/engine.js` instead.
 - **The default sound: house at 120–128 with a kick on every beat, in A minor, with the kit's default voices.** Left
-  alone, every model writes it for every brief; the author of the promos this skill grew from heard "about the same
-  sound everywhere", and it measured so (same groove, same voices). "Dynamic" means the groove drives from the first
+  alone, every model writes it for every brief; promos scored that way sound the same, and they measure so (same
+  groove, same voices). "Dynamic" means the groove drives from the first
   bars, not house. The `unique` check
   in `audio-check` and QA catches it; the fix is another genre card, groove and kit — not a new seed or new chords.
 - **A calm first half after "make it dynamic".** The contrast shape — a quiet intro, a thinner verse, the groove on
-  the reveal — is one plan among others, not the default: a release promo asked to be "really dynamic" got its full
+  the reveal — is one plan among others, not the default: a release promo that asked for energy got its full
   groove at 20 s of 36, in half-time that felt like 70 BPM. The person's words set `ENERGY`, and `audio-check` holds
   the mix to it.
 - **The defaults every model reaches for.** Given nothing, every model makes the same video: a dark screen with a
   green glow, a cream canvas with numbered labels, centred text fading in on a gradient, an invented logo and
-  screens that do not exist. Hundreds of people posted the same one-line showreel prompt and got look-alikes. The
+  screens that do not exist. Two briefs asking for the same thing come out as look-alikes. The
   direction card, a look card and three concepts are the cure (`direction.md` §9).
 - **A number blended by motion blur.** A counter computed from the sample time shows two values at once in a
   blurred frame ("£1,039" over "£939", a value never on the way). Compute text from the frame's own time.
@@ -429,7 +430,7 @@ Load a reference at the step that names it, not all of them upfront.
 | `node <skill>/scripts/ui-shot.mjs <url> --shot "name=<css>" [--click …] [--type …] [--eval …]` | the product's real UI, element by element, on a transparent ground |
 | `node <skill>/scripts/new-project.mjs <dir> --name … --format … --bpm … --lang …` | scaffold + environment check |
 | `node <skill>/scripts/ref-sheet.mjs <files or links…> [--bpm n]` | study references (X / Telegram links fetched) or your draft: pace, hits on the beat, tempo, drops, sheets |
-| `node tools/plan-check.mjs` | the plan before any scene: energy asked vs planned, the first second, pace, the end, counters |
+| `node tools/plan-check.mjs` | the plan before any scene: energy asked vs planned, the first second, pace, the end, counters, copy in another script |
 | `node <skill>/scripts/trace-logo.mjs <image> --out assets/logo` | raster logo → animatable vector shapes |
 | `node <skill>/scripts/palette.mjs <image> [--k 6]` | exact brand colours from a logo or a screenshot |
 | `node tools/capture.mjs sheet / still / review / verify / eval / doctor` | previews, the critique set, the determinism check |

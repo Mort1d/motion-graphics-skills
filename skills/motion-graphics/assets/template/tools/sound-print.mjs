@@ -268,7 +268,7 @@ export function neighbours(root, extra = [], { cacheDir = cacheHome(root) } = {}
   return out;
 }
 
-// calibrated on six promo scores made from one synth kit, which their author heard as "about the same everywhere":
+// calibrated on six promo scores made from one synth kit that sounded alike:
 // the five house-like ones scored 0.74–0.96 with each other, the one in another style 0.56–0.72 with the rest;
 // a copy of a score with new chords stays above 0.85
 export const SAME = 0.85;
