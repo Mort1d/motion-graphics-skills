@@ -300,8 +300,9 @@ async function sheet() {
 
 /**
  * The critique set (SKILL.md step 7): one frame per beat (layout, variety, dead beats), the film at the width of a
- * phone held upright (can it be read?), and 12 consecutive frames through every fast move of WHIPS (pops, overlaps,
- * text that smears during a handoff). Look at all of them as a harsh motion director, not as their proud author.
+ * phone held upright (can it be read?), and 12 consecutive frames through every fast move of WHIPS and across every
+ * scene change (pops, overlaps, a flash, text that smears during a handoff) — the cuts are where a film breaks. Look
+ * at all of them as a harsh motion director, not as their proud author.
  */
 async function review() {
   const dir = flags.out ? path.resolve(flags.out) : path.join(ROOT, 'out/review');
@@ -312,18 +313,21 @@ async function review() {
   for (let t = 0; t < dur - 0.5 / FPS; t += step) beats.push(t);
   const secs = [];
   for (let t = 0.5; t < dur; t += Math.max(1, dur / 32)) secs.push(t);
-  const whips = (TL.WHIPS || []).slice(0, 12);
+  const mids = (TL.WHIPS || []).map(([a, z]) => (a + z) / 2);
+  for (const [a] of Object.values(TL.S || {})) if (a > 0.05 && !mids.some((m) => Math.abs(m - a) < 0.3)) mids.push(a);
+  const cuts = mids.sort((x, y) => x - y).slice(0, 16);
+  if (fs.existsSync(dir)) for (const f of fs.readdirSync(dir)) if (/^strip-.*\.png$/.test(f)) fs.rmSync(path.join(dir, f));
   let { c, close } = await openPage({ query: queryOf(['debug=1']) });
   try {
     await tiles(c, beats, path.join(dir, 'beats.png'), 8, Math.min(0.25, 320 / W));
-    for (const [a, z] of whips) {
-      const f0 = Math.max(0, Math.min(Math.floor(dur * FPS) - 12, Math.round(((a + z) / 2) * FPS) - 6));
-      await tiles(c, Array.from({ length: 12 }, (_, k) => `${f0 + k}f`), path.join(dir, `strip-${a.toFixed(2)}s.png`), 12, 160 / W);
+    for (const m of cuts) {
+      const f0 = Math.max(0, Math.min(Math.floor(dur * FPS) - 12, Math.round(m * FPS) - 6));
+      await tiles(c, Array.from({ length: 12 }, (_, k) => `${f0 + k}f`), path.join(dir, `strip-${m.toFixed(2)}s.png`), 12, 160 / W);
     }
   } finally { await close(); }
   ({ c, close } = await openPage({ query: queryOf([]) })); // the phone view without the time overlay
   try { await tiles(c, secs, path.join(dir, 'phone.png'), 4, 360 / W); } finally { await close(); }
-  console.log(`\nLook at ${path.relative(ROOT, dir)}/beats.png, phone.png${whips.length ? ' and strip-*.png' : ''} as a harsh motion director.`);
+  console.log(`\nLook at ${path.relative(ROOT, dir)}/beats.png, phone.png${cuts.length ? ' and strip-*.png (every fast move and scene change)' : ''} as a harsh motion director.`);
   console.log('Score 1–10: hook in the first 2 s · readable at phone size · motion (eases, springs, no dead frames) · variety (something new every 2–4 s)');
   console.log('· composition (one hero, the frame filled) · brand and data accuracy · sound sync (on the draft with sound). Write the scores and the');
   console.log('three worst problems with their times in REVIEW.md, fix those, run again — until every score is 8 or more.');

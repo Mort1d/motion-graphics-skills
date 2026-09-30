@@ -8,9 +8,13 @@ until every line is 8 or more. The report quotes the last round and "Still to ch
 |---|---|---|---|---|---|---|---|
 | 1 |  |  |  |  |  |  |  |
 
-## Round 1 — the three worst
+## Round 1
 
-1. <time> — <what is wrong> → <the fix>
+Verdict (one line, as a critic would say it to the author):
+
+The three worst — time, what is wrong, the evidence (the frame, the strip, the level), the fix:
+
+1. <time> — <what is wrong> (<evidence>) → <the fix>
 2.
 3.
 

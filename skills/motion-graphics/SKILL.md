@@ -20,7 +20,9 @@ The bar for every video, whatever it is for, is the prompt that made this genre 
 graphics video that shows what an incredible motion designer you are, like it's your showreel for a résumé. Go all
 out." Treat each brief as the piece that opens your own showreel — every frame designed, motion from the first
 frame, nothing filler. That is the effort, not a look: the direction (step 3) still decides the style, the pace and
-the energy, and a calm request gets a calm film made with the same care.
+the energy, and a calm request gets a calm film made with the same care. Every number, preset and example in this
+skill is a worked example from a real video, not a mandate — only the rules (the frame contract, facts from the
+person, the loudness targets, the client's protection) are fixed.
 
 `<skill>` below means the directory that contains this SKILL.md. Run the scripts with `node`; they check their own
 requirements and explain what is missing. In an environment without a shell, Chrome or ffmpeg (a chat-only app), do
@@ -180,7 +182,9 @@ pick a card from `references/look-cards.md`. Then, in this order:
   brand rules out); the **sound brief** with its cue list.
 - **Footage**: when the material is the person's clips or photos, they are the hero (`references/footage.md` §1–§3):
   the hook is the liveliest moment, cuts sit on the downbeats, the drop lands on the best shot, the transitions
-  carry each shot's own motion, and type never covers the subject.
+  carry each shot's own motion, and type never covers the subject. When someone speaks, the sound leads — cuts in
+  the quiet between phrases, the music ducked under the voice, captions from their subtitles (`footage.md`
+  §12–§13).
 - A user who pastes a detailed direction of their own (shots, frames, colours, a banned list) gets it to the frame;
   the skill's defaults fill only what it leaves open.
 
@@ -287,8 +291,10 @@ node tools/render.mjs --draft        # half size, no motion blur, with sound: th
 
 Score 1–10: the hook in the first 2 s · readable at phone size · motion (springs and eases, no dead frames) · variety
 (something new every 2–4 s) · composition (one hero, the frame filled) · brand and data accuracy · sound sync. Write
-the scores and the three worst problems with their times in `REVIEW.md`, fix those, and run it again — until every
-score is 8 or more. Then:
+a one-line verdict, the scores and the three worst problems with their times and evidence (the frame, the strip, the
+level) in `REVIEW.md`, fix those, and run it again — until every score is 8 or more; the strips cover every fast
+move and every scene change, where films break. At the end of a working session add a line to the README's
+Sessions: what was done, decided and left, so the next session starts where this one stopped. Then:
 
 ```bash
 node tools/render.mjs                # full quality → out/<slug>.mp4, -web.mp4, covers, QA

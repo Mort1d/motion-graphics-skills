@@ -76,3 +76,10 @@ node tools/aac.mjs out/*.mp4         # loudness and true peak of each delivery f
 ## Assumptions
 
 - …
+
+## Sessions
+
+<!-- one entry per working session — the next one starts by reading the last: what was done, what was decided and
+why, what is left -->
+
+- …

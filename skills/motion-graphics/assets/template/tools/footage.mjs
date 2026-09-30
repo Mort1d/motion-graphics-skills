@@ -3,8 +3,8 @@
 // the edit. Nothing is uploaded and the originals are never changed.
 //   node tools/footage.mjs scan <files or folders…>
 //        what is in each clip: its shots, how much moves, which way the camera goes, the light, where on a still shot
-//        the picture changes → assets/footage/scan.json and a sheet per clip (a frame every second or two, the time
-//        in its corner). Photos in the folders are listed with their size.
+//        the picture changes, where its sound is quiet (a talking head's clean cut points) → assets/footage/scan.json
+//        and a sheet per clip (a frame every second or two, the time in its corner). Photos are listed with their size.
 //   node tools/footage.mjs cut <clip> <from>-<to> [--name n] [--focus x,y] [--scale 1] [--fps n] [--sound]
 //        the frames of that stretch at the video's size, cover-cropped around the focus (0..1, default the middle),
 //        → assets/footage/<name>/00000.jpg … and its entry in js/footage.data.mjs (js/footage.mjs reads it).
@@ -161,6 +161,24 @@ function analyse(file, info) {
   return shots;
 }
 
+/** Where the clip's own sound is quiet (≥ 0.35 s under −35 dB): between phrases, the cleanest places to cut speech. */
+function soundOf(file, info) {
+  if (!info.sound) return null;
+  const r = spawnSync('ffmpeg', ['-hide_banner', '-nostats', '-i', file, '-vn', '-af', 'silencedetect=n=-35dB:d=0.35', '-f', 'null', '-'], { encoding: 'utf8' });
+  const r2 = (x) => Math.round(x * 100) / 100;
+  const quiet = [];
+  let open = null;
+  for (const line of String(r.stderr || '').split('\n')) {
+    const a = /silence_start: (-?[\d.]+)/.exec(line);
+    if (a) open = Math.max(0, Number(a[1]));
+    const z = /silence_end: ([\d.]+)/.exec(line);
+    if (z && open !== null) { quiet.push([r2(open), r2(Number(z[1]))]); open = null; }
+  }
+  if (open !== null) quiet.push([r2(open), r2(info.dur)]);
+  const q = quiet.reduce((s, [a, z]) => s + (z - a), 0);
+  return { loud: Math.round(100 * Math.max(0, 1 - q / Math.max(info.dur, 1e-6))), quiet };
+}
+
 function sheet(file, info, name) {
   const every = info.dur <= 36 ? 1 : Math.ceil(info.dur / 36);
   const count = Math.max(1, Math.ceil(info.dur / every - 1e-6)); // frames at 0, every, … before the end
@@ -198,8 +216,10 @@ function scan() {
       if (IMAGE.test(f) || info.dur < 0.2) { stills.push({ name, file: f, w: info.w, h: info.h }); continue; }
       const shots = analyse(f, info);
       const sh = sheet(f, info, name);
-      clips.push({ name, file: f, dur: r1(info.dur), fps: Math.round(info.fps * 100) / 100, w: info.w, h: info.h, sound: info.sound, ...(sh || {}), shots });
+      const snd = soundOf(f, info);
+      clips.push({ name, file: f, dur: r1(info.dur), fps: Math.round(info.fps * 100) / 100, w: info.w, h: info.h, sound: info.sound, ...(sh || {}), ...(snd ? { audio: snd } : {}), shots });
       console.log(`\n${name}  ${info.dur.toFixed(1)} s  ${info.w}×${info.h}  ${Math.round(info.fps)} fps${info.sound ? '  sound' : ''}${sh ? `  sheet ${sh.sheet} (a frame every ${sh.every} s${sh.labelled ? ', the second in its corner' : `, ${sh.cols} across`})` : ''}`);
+      if (snd) console.log(`  sound: loud ${snd.loud} % of the time${snd.quiet.length ? `; quiet ≥ 0.35 s at ${snd.quiet.slice(0, 8).map(([a, z]) => `${a}–${z}`).join(', ')}${snd.quiet.length > 8 ? ' …' : ''} s — clean cut points between phrases` : ''}`);
       for (const s of shots) {
         const move = s.camera === 'still' ? 'still' : `camera ${s.camera} ${s.speed} %/s (the picture moves ${s.moves})`;
         const act = s.activity ? `  changes at ${s.activity.slice(0, 3).map((a) => `${a.t} s [${a.box.join(', ')}]`).join(', ')}${s.activity.length > 3 ? ' …' : ''}` : '';
@@ -258,7 +278,7 @@ async function cut() {
   }
 }
 
-export { probe, analyse, shift };
+export { probe, analyse, shift, soundOf };
 
 if (process.argv[1] && fs.realpathSync(path.resolve(process.argv[1])) === fs.realpathSync(fileURLToPath(import.meta.url))) {
   if (mode === 'scan') scan();

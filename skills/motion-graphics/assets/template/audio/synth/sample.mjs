@@ -69,7 +69,8 @@ function load(file) {
 /**
  * Plays a recording at t. o: bus ('fx'), vel (gain, 1 = as recorded), pan, verb, delay, align ('peak' — its loudest
  * moment lands on t — or 'start'), rate (1 = as recorded; 0.9–1.1 varies a sound repeated many times), from (s into
- * the file), dur (s to play), fade (s of fade-out at the end of dur).
+ * the file), dur (s to play), fade (s of fade-out at the end of dur), fadeIn (s at the start — 10 ms by default when
+ * `from` cuts into the recording, so the cut does not click).
  */
 export function sample(t, file, o = {}) {
   const s = load(file);
@@ -80,12 +81,13 @@ export function sample(t, file, o = {}) {
   const w = writer(o.bus || 'fx', { pan: o.pan, verb: o.verb ?? 0, delay: o.delay, gain: o.vel ?? 1 });
   const i0 = at(t - lead);
   const fadeN = (o.fade ?? (o.dur ? 0.01 : 0)) * s.rate;
+  const fadeInN = (o.fadeIn ?? (from > 0 ? 0.01 : 0)) * s.rate;
   for (let k = 0; ; k++) {
     const p = from + k * rate;
     if (p >= end - 1) break;
     const j = Math.floor(p);
     const f = p - j;
-    const g = fadeN > 0 && end - p < fadeN ? (end - p) / fadeN : 1;
+    const g = (fadeN > 0 && end - p < fadeN ? (end - p) / fadeN : 1) * (fadeInN > 0 && p - from < fadeInN ? (p - from) / fadeInN : 1);
     w(i0 + k, (s.L[j] + (s.L[j + 1] - s.L[j]) * f) * g, (s.R[j] + (s.R[j + 1] - s.R[j]) * f) * g);
   }
 }

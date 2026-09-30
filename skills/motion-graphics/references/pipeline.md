@@ -27,7 +27,7 @@ js/kit.js          scene helpers: textBlock, fitFont, slam, whip, rise, camera, 
 js/main.js, js/reel.js, js/i18n.js
 js/scenes/*.js     one file per scene: build(ctx) → (t, frame) => void; SCENES in reel.js lists them in order
 js/screen.js       the WebGL footage screen (created on first use);  js/footage.mjs  frames and speed ramps;
-                   js/footage.data.mjs  the cuts (written by tools/footage.mjs)
+                   js/footage.data.mjs  the cuts (written by tools/footage.mjs);  js/captions.mjs  SRT / VTT → chunks
 audio/score.mjs    this video's score;  audio/synth/  the synth library;  audio/kit/  recorded sounds + KIT.md (tools/kit.mjs)
 tools/             capture, render, qa, plan-check, pops, audio-check, energy, sound-print (+ demo-print.json), kit,
                    footage, cutdown, aac, export-timeline (all .mjs)

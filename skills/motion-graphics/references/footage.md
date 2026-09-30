@@ -12,8 +12,9 @@
 9. Surfaces, grids, a screen in the screen
 10. Screen recordings: the camera goes where the work happens
 11. Photos
-12. Sound from the clips
-13. Traps
+12. Sound from the clips, and people speaking
+13. Captions
+14. Traps
 
 ## 1. When the material is footage
 
@@ -200,14 +201,58 @@ push (z 1 → 1.08 over its time), a drift towards the subject, or a parallax of
 beat read as a reel, not a slideshow. A photo wall, a split-flap of places, a map with pins between them:
 `scene-cookbook.md`.
 
-## 12. Sound from the clips
+## 12. Sound from the clips, and people speaking
 
 `cut --sound` keeps the stretch's own sound — waves, a crowd, an engine — as a brand-world sound: `sample(t,
 'audio/kit/<name>.wav', { align: 'start', vel: 0.5 })` under the music at 1× shots. A ramped shot's natural sound would
-run at the wrong speed: give it designed sounds instead (a whoosh on the whip, an impact on the punch). The person's
-words in a clip (a toast, a guide) can carry the edit: cut the picture to the speech and let the music duck under it.
+run at the wrong speed: give it designed sounds instead (a whoosh on the whip, an impact on the punch).
 
-## 13. Traps
+When someone speaks — a founder to camera, a testimonial, a guide, a toast — the sound leads and the picture
+follows:
+
+- **Cut where it is quiet.** The scan lists each clip's quiet stretches (≥ 0.35 s): those are the clean cuts between
+  phrases. 0.15–0.35 s works after a look at the frames; anything shorter is inside a phrase. Never inside a word.
+- **Pad every cut** 30–200 ms around the kept words — tight for a punchy reel, loose for a calm film — and keep a
+  laugh or a reaction after a punchline: it is part of the beat.
+- **Filler and dead air go** ("um", false starts, the pause before a retake); the best take of each line wins, in
+  the story's order, not the recording's.
+- **The music ducks 12–15 dB under the voice** and comes back up in the gaps; it steps out before the end card
+  instead of fading under the call to action.
+- **An animation lands on its word**: start its reveal that many seconds before the word it illustrates, so the
+  landing frame and the word coincide.
+
+## 13. Captions
+
+Most feeds play muted: a video with speech carries its words on screen. The words come from the person — an SRT or
+VTT (a phone's or an editor's export, a transcription they made) or word timings as JSON; this skill does not
+transcribe (a local speech-to-text tool is used only when it is already installed and the person agrees).
+
+```js
+import { el, set, clamp } from '../engine.js';
+import { S } from '../timeline.mjs';
+import { CUTS } from '../footage.mjs';
+import { wordsOf, chunks, shift, at } from '../captions.mjs';
+// build (it may be async): the clip's subtitles, moved to the film's time — the cut 'talk' plays at 1× from S.talk[0]
+const subs = await (await fetch('assets/footage/talk.srt')).text();
+const caps = shift(chunks(wordsOf(subs), { max: 2, upper: true }), S.talk[0] - CUTS.talk.from);
+const box = el('div', 'caption', ctx.stage);            // CSS: z-index above every scene; the heavy display face
+// frame:
+const c = at(caps, t);
+box.innerHTML = c ? c.words.map((w) => `<span class="${t >= w.start ? 'on' : ''}">${w.w.toUpperCase()}</span>`).join(' ') : '';
+set(box, { y: 0, s: c ? 1 + 0.08 * (1 - clamp((t - c.start) / 0.12)) : 1, o: c ? 1 : 0 });   // a small pop per chunk
+```
+
+- One or two words at a time for a reel, four to seven for a calm film; a chunk never flashes for less than a third
+  of a second (`chunks` grows it instead).
+- The word being said lights up in the accent colour; the others stay white with a dark outline or shadow.
+- Inside the safe area of the platform: in 9:16 above the bottom ~320 px and below the top ~220 px; never over the
+  speaker's mouth.
+- Captions paint over everything — footage, type, stickers: nothing may cover them. Escape the words if the text
+  can hold `<` or `&`.
+- A shot played at another speed moves its words with the ramp: map each word's time through the inverse of the
+  ramp, or keep speaking shots at 1×.
+
+## 14. Traps
 
 - **An image drawn but not listed in `needs`** is not decoded yet: that frame is empty (QA `flash` or `pops`). List
   every url a frame draws — the echo's too.
